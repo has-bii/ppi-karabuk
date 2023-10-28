@@ -15,32 +15,85 @@ enum Role {
   ADMIN
 }
 
-model User {
-  id         String  @id @default(uuid())
-  name       String  @db.VarChar(255)
-  email      String  @unique
-  isVerified Boolean @default(false) @map("is_verified")
-  password   String
-  role       Role
+enum TokenType {
+  AUTH
+  FORGOT
+  VERIFY
+}
 
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+enum NavListType {
+  DROPDOWN
+  ITEM
+}
+
+model User {
+  id              String  @id @default(uuid())
+  name            String  @db.VarChar(255)
+  email           String  @unique @db.VarChar(255)
+  studentId       String  @unique @db.VarChar(10)
+  kimlikId        String  @unique @db.VarChar(11)
+  role            Role    @default(USER)
+  isVerified      Boolean @default(false)
+  isEmailVerified Boolean @default(false)
+  password        String
+
+  createdAt DateTime @default(now()) @db.Timestamptz()
+  updatedAt DateTime @updatedAt @db.Timestamptz()
 
   // Relations
-  tokens Token[]
+  tokens         Token[]
+  verifyRequests VerifyRequest[]
 
+  @@unique([email, studentId, kimlikId])
   @@map("users")
 }
 
 model Token {
-  id         BigInt   @id @default(autoincrement())
-  value      String   @db.VarChar(255)
-  expireDate DateTime @map("expire_date") @db.Timestamptz()
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  id         BigInt    @id @default(autoincrement())
+  userId     String
+  type       TokenType
+  value      String    @unique @db.VarChar(255)
+  expireDate DateTime  @db.Timestamptz()
+  createdAt  DateTime  @default(now()) @db.Timestamptz()
 
   // Relation
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  user User @relation(fields: [userId], references: [id])
 
   @@map("tokens")
+}
+
+model VerifyRequest {
+  id     BigInt @id @default(autoincrement())
+  userId String
+  img    String
+
+  // Relation
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("verify_requests")
+}
+
+model NavList {
+  id       Int         @id @default(autoincrement())
+  name     String      @db.VarChar(255)
+  type     NavListType @default(ITEM)
+  isActive Boolean     @default(false)
+  url      String?     @db.VarChar(255)
+
+  // Relation
+  navItems NavItem[]
+
+  @@map("nav_lists")
+}
+
+model NavItem {
+  id       Int     @id @default(autoincrement())
+  navId    Int
+  isActive Boolean @default(false)
+  url      String  @db.VarChar(255)
+
+  // Relation
+  navList NavList @relation(fields: [navId], references: [id])
+
+  @@map("nav_items")
 }
