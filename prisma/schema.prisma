@@ -36,6 +36,7 @@ model User {
   isVerified      Boolean @default(false)
   isEmailVerified Boolean @default(false)
   password        String
+  img             String? @db.VarChar(255)
 
   createdAt DateTime @default(now()) @db.Timestamptz()
   updatedAt DateTime @updatedAt @db.Timestamptz()
@@ -73,27 +74,17 @@ model VerifyRequest {
   @@map("verify_requests")
 }
 
-model NavList {
-  id       Int         @id @default(autoincrement())
-  name     String      @db.VarChar(255)
-  type     NavListType @default(ITEM)
-  isActive Boolean     @default(false)
-  url      String?     @db.VarChar(255)
+model Nav {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  type      NavListType
+  isActive  Boolean     @default(false)
+  url       String?     @db.VarChar(255)
+  navlistId Int?
 
   // Relation
-  navItems NavItem[]
+  navlist  Nav?  @relation("NavlistNavitems", fields: [navlistId], references: [id])
+  navitems Nav[] @relation("NavlistNavitems")
 
   @@map("nav_lists")
-}
-
-model NavItem {
-  id       Int     @id @default(autoincrement())
-  navId    Int
-  isActive Boolean @default(false)
-  url      String  @db.VarChar(255)
-
-  // Relation
-  navList NavList @relation(fields: [navId], references: [id])
-
-  @@map("nav_items")
 }

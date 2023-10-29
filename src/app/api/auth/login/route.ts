@@ -1,3 +1,4 @@
+import { AuthBody } from "@/app/types/global"
 import prisma from "@/lib/prisma"
 import findUserRecord from "@/utils/findUserRecord"
 import getSecretKey from "@/utils/getSecretKey"
@@ -7,13 +8,7 @@ import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
   try {
-    if (req.method !== "POST") return Response.json({ message: "Invalid method!" }, { status: 400 })
-
-    const formData = await req.formData()
-    const email = formData.get("email")?.toString().toLowerCase()
-    const studentId = formData.get("studentId")?.toString()
-    const kimlikId = formData.get("kimlikId")?.toString()
-    const password = formData.get("password")?.toString()
+    const { email, studentId, kimlikId, password }: AuthBody = await req.json()
 
     if (!email && !studentId && !kimlikId)
       return Response.json(
@@ -24,7 +19,7 @@ export async function POST(req: Request) {
     if (!password) return Response.json({ message: "Password is required!" }, { status: 400 })
 
     // Find User Record
-    const user = await findUserRecord(email, studentId, kimlikId)
+    const user = await findUserRecord(email?.toLowerCase(), studentId, kimlikId)
 
     if (!user) return Response.json({ message: "User does not exist!" }, { status: 404 })
 

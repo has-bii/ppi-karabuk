@@ -14,16 +14,6 @@ export default async function getUser(req: NextRequest) {
 
     const user = await prisma.user.findUnique({
       where: { id: jwtPayload.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        studentId: true,
-        kimlikId: true,
-        isVerified: true,
-        isEmailVerified: true,
-      },
     })
 
     if (!user) throw new Error("Unauthorized. User has been removed!")

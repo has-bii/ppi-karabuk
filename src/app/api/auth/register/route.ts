@@ -1,16 +1,10 @@
+import { AuthBody } from "@/app/types/global"
 import prisma from "@/lib/prisma"
 import bcrypt from "bcrypt"
 
 export async function POST(req: Request) {
   try {
-    if (req.method !== "POST") return Response.json({ message: "Invalid method!" }, { status: 400 })
-
-    const formData = await req.formData()
-    const name = formData.get("name")?.toString().toLowerCase()
-    const email = formData.get("email")?.toString().toLowerCase()
-    const studentId = formData.get("studentId")?.toString()
-    const kimlikId = formData.get("kimlikId")?.toString()
-    const password = formData.get("password")?.toString()
+    const { name, email, studentId, kimlikId, password }: AuthBody = await req.json()
 
     if (!name || !email || !studentId || !kimlikId || !password)
       return Response.json(
@@ -19,7 +13,7 @@ export async function POST(req: Request) {
       )
 
     // Check Exists record
-    const checkEmail = await prisma.user.findUnique({ where: { email: email } })
+    const checkEmail = await prisma.user.findUnique({ where: { email: email.toLowerCase() } })
 
     if (checkEmail)
       return Response.json({ message: "Email is already registered!" }, { status: 409 })
@@ -37,8 +31,8 @@ export async function POST(req: Request) {
 
     await prisma.user.create({
       data: {
-        name: name,
-        email: email,
+        name: name.toLowerCase(),
+        email: email.toLowerCase(),
         studentId: studentId,
         kimlikId: kimlikId,
         password: bcrypt.hashSync(password, 12),
