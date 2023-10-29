@@ -46,6 +46,8 @@ export default function HeroImage() {
         <FontAwesomeIcon icon={faAngleLeft} className="text-white" size="2xl" />
       </button>
       <AliceCarousel
+        autoPlay
+        autoPlayInterval={3000}
         autoHeight
         infinite
         mouseTracking
