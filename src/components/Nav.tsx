@@ -9,7 +9,9 @@ export default function Nav() {
 
         <Navlist />
 
-        <button className="button hidden lg:block">login</button>
+        <button className="button hidden lg:block" disabled>
+          login
+        </button>
       </div>
     </nav>
   )

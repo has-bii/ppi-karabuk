@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "next": "14.0.0",
     "react": "^18",
+    "react-alice-carousel": "^2.8.0",
     "react-dom": "^18",
     "zod": "^3.22.4",
     "zod-form-data": "^2.0.2"

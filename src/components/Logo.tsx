@@ -1,9 +1,10 @@
 import Image from "next/image"
 import logoppi from "../../public/icon.png"
+import Link from "next/link"
 
 export default function Logo() {
   return (
-    <button className="inline-flex gap-2 items-center">
+    <Link href="/" className="inline-flex gap-2 items-center">
       <Image
         src={logoppi}
         width="50"
@@ -20,6 +21,6 @@ export default function Logo() {
         <span className="block">PPI</span>
         <span className="block">Karabuk</span>
       </div>
-    </button>
+    </Link>
   )
 }
