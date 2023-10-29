@@ -2,26 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+nav.nav-container {
+  @apply w-screen border-b border-black;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  > div.nav {
+    @apply container py-4 flex flex-row justify-between px-4 lg:px-0 items-center;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.navlist-container {
+  .navlist {
+    @apply text-white lg:text-black uppercase font-bold flex lg:flex-row lg:gap-20 lg:static lg:h-fit lg:items-center lg:bg-transparent lg:px-0 lg:pt-0 px-8 pt-8 bg-black h-screen fixed top-0 -right-full flex-col gap-4 z-10 items-end transition-all duration-300 ease-in;
+
+    &.active {
+      @apply right-0;
+    }
+
+    & > li {
+      @apply hover:underline hover:underline-offset-4;
+
+      a.active {
+        @apply underline-offset-4 underline;
+      }
+    }
+  }
+}
+
+button.button {
+  @apply px-4 py-2 bg-black text-white capitalize h-fit;
+
+  &.white {
+    @apply bg-white text-black;
+  }
 }

@@ -1,4 +1,4 @@
-import { AuthBody } from "@/app/types/global"
+import { AuthBody } from "@/app/types"
 import prisma from "@/lib/prisma"
 import findUserRecord from "@/utils/findUserRecord"
 import getSecretKey from "@/utils/getSecretKey"
