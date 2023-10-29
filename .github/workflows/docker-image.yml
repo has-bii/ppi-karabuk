@@ -52,7 +52,7 @@ jobs:
                   key: ${{ secrets.SSH_KEY }}
                   port: ${{ secrets.SSH_PORT }}
                   script: |
-                      cd ${{ secrets.PATH }} && docker compose down && docker image rm hasbii/ppit-fe:latest || true  && docker compose up -d
+                      cd ${{ secrets.PATH }} && docker compose down && docker image rm hasbii/ppi-karabuk:latest || true  && docker compose up -d
 
     migration:
             runs-on: ubuntu-latest
