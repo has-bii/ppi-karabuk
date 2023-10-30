@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h2 {
+    @apply font-bold text-black text-center text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-8 lg:mb-12;
+  }
+}
+
+.section {
+  @apply py-8 md:py-12 lg:py-16;
+}
+
 nav.nav-container {
-  @apply w-screen border-b-2 border-black;
+  @apply border-b-2 border-black overflow-hidden;
 
   > div.nav {
     @apply container py-4 flex flex-row justify-between px-4 lg:px-0 items-center;
@@ -31,7 +41,11 @@ nav.nav-container {
 .button {
   @apply px-4 py-2 bg-black text-white capitalize h-fit border border-black disabled:hover:bg-slate-500 disabled:cursor-not-allowed disabled:hover:border-slate-500;
 
-  &.white {
-    @apply bg-white text-black border border-black disabled:hover:bg-slate-300 disabled:cursor-not-allowed disabled:hover:text-white;
+  &.btn-white {
+    @apply bg-white text-black border-[3px] border-black disabled:hover:bg-slate-300 disabled:cursor-not-allowed disabled:hover:text-white;
+  }
+
+  &.btn-big {
+    @apply px-6 py-2 text-xl;
   }
 }

@@ -1,4 +1,4 @@
-import { AuthBody } from "@/app/types"
+import { AuthBody } from "@/types"
 import prisma from "@/lib/prisma"
 import bcrypt from "bcrypt"
 

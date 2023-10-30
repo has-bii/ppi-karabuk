@@ -1,5 +1,7 @@
 import { Metadata } from "next"
 import HeroImage from "@/components/HeroImage"
+import Instagram from "@/components/Instagram"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "PPI Karabuk | Home",
@@ -7,9 +9,10 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
-      <section className="flex flex-col lg:flex-row divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-black lg:h-[38rem] border-b-2 border-black">
-        <div className="self-center block w-full px-12 py-12 lg:py-0 lg:w-3/5">
+    <>
+      {/* Hero Start */}
+      <section className="flex flex-wrap divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-black lg:h-[38rem] border-b-2 border-black">
+        <div className="self-center block flex-1 w-2/5 px-12 py-12 lg:py-0">
           <h1 className="mb-5 text-4xl font-light text-center lg:text-left">
             <span className="block font-extrabold text-red-900 lg:text-6xl">
               &quot;PPI Karabük&quot;
@@ -23,7 +26,7 @@ export default function Home() {
             <button className="button" disabled>
               Daftar kuliah
             </button>
-            <button className="button white" disabled>
+            <button className="button btn-white font-bold" disabled>
               Tentang kami
             </button>
           </div>
@@ -31,6 +34,19 @@ export default function Home() {
 
         <HeroImage />
       </section>
-    </main>
+      {/* Hero End */}
+
+      {/* Instagram Section */}
+      <section className="section flex flex-col justify-center items-center">
+        <h2>Instagram</h2>
+        <Instagram />
+        <Link
+          href="https://www.instagram.com/ppikarabuk/"
+          className="button btn-white w-fit btn-big font-bold mt-8"
+        >
+          Open Instagram
+        </Link>
+      </section>
+    </>
   )
 }

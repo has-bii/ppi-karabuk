@@ -6,10 +6,10 @@ export default function LandingPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <section>
+    <main>
       <Nav />
 
       {children}
-    </section>
+    </main>
   )
 }
