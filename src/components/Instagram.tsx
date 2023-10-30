@@ -29,7 +29,7 @@ export default function Instagram() {
   return (
     <div className="container relative">
       <button
-        className="absolute -left-8 top-1/2 -translate-y-1/2 z-10"
+        className="absolute -left-8 top-1/2 -translate-y-1/2 z-10 hidden md:block"
         onClick={(e) => carousel?.current?.slidePrev(e)}
       >
         <FontAwesomeIcon icon={faAngleLeft} className="text-black" size="2xl" />
@@ -45,7 +45,7 @@ export default function Instagram() {
         ref={carousel}
       />
       <button
-        className="absolute -right-8 top-1/2 -translate-y-1/2 z-10"
+        className="absolute -right-8 top-1/2 -translate-y-1/2 z-10 hidden md:block"
         onClick={(e) => carousel?.current?.slideNext(e)}
       >
         <FontAwesomeIcon icon={faAngleRight} className="text-black" size="2xl" />
