@@ -42,6 +42,7 @@ export default function Home() {
         <Instagram />
         <Link
           href="https://www.instagram.com/ppikarabuk/"
+          target="_blank"
           className="button btn-white w-fit btn-big font-bold mt-8"
         >
           Open Instagram
