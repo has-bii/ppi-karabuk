@@ -8,6 +8,8 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useRef, useState } from "react"
 import { InstagramData } from "@/types"
 import axios from "axios"
+import Link from "next/link"
+import Video from "./Video"
 
 export default function Instagram() {
   const carousel = useRef<AliceCarousel>(null)
@@ -55,23 +57,51 @@ export default function Instagram() {
 }
 
 function RenderImage(data: InstagramData[]) {
-  return data.map((item, index) => (
-    <div key={index} className="w-80 h-96 px-2 relative group">
-      <div className="relative w-full h-full overflow-hidden border-2 border-black">
-        <Image
+  if (data.length === 0)
+    return Array(10)
+      .fill("")
+      .map((item, index) => (
+        <div
           key={index}
-          src={item.media_type === "VIDEO" ? item.thumbnail_url : item.media_url}
-          alt=""
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ objectFit: "cover", objectPosition: "center" }}
-          className="group-hover:scale-110 transition-transform duration-300 ease-out"
-        />
+          className="w-[24rem] h-[30rem] md:w-[20rem] md:h-[25rem] px-2 relative group"
+        >
+          <div className="w-full h-full border-2 border-black bg-black"></div>
+        </div>
+      ))
+  else
+    return data.map((item, index) => (
+      <div
+        key={index}
+        className="w-[24rem] h-[30rem] md:w-[20rem] md:h-[25rem] px-2 relative group"
+      >
+        <div className="relative w-full h-full overflow-hidden border-2 border-black bg-black">
+          {item.media_type === "VIDEO" ? (
+            <Video media_url={item.media_url} thumbnail_url={item.thumbnail_url} />
+          ) : (
+            <Image
+              key={index}
+              src={item.media_url}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              className="group-hover:scale-110 transition-transform duration-300 ease-out"
+            />
+          )}
+        </div>
+        <div className="absolute transition-[bottom] duration-200 ease-out -bottom-full group-hover:bottom-4 left-1/2 -translate-x-1/2 w-5/6 h-fit px-4 py-2 border-2 border-black bg-white">
+          <p className="text-black text-justify whitespace-pre font-semibold line-clamp-4">
+            {item.caption}
+          </p>
+          <Link
+            href={item.permalink}
+            target="_blank"
+            className="text-blue-500 font-semibold underline"
+          >
+            Open on Instagram
+          </Link>
+        </div>
       </div>
-      <div className="absolute transition-[bottom] duration-200 ease-out -bottom-full group-hover:bottom-4 left-1/2 -translate-x-1/2 w-5/6 h-fit px-4 py-2 border-2 border-black bg-white">
-        <pre className="text-black font-semibold line-clamp-4">{item.caption}</pre>
-      </div>
-    </div>
-  ))
+    ))
 }

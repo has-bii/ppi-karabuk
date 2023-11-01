@@ -1,12 +1,18 @@
 import Image from "next/image"
 import logoppi from "../../public/icon.png"
+import logoppiwhite from "../../public/logo_white.png"
 import Link from "next/link"
 
-export default function Logo() {
+type Props = {
+  color?: "black" | "white"
+  className?: string
+}
+
+export default function Logo({ color = "black", className = "" }: Props) {
   return (
-    <Link href="/" className="inline-flex gap-2 items-center">
+    <Link href="/" className={`inline-flex gap-2 items-center ${className}`}>
       <Image
-        src={logoppi}
+        src={color === "black" ? logoppi : logoppiwhite}
         width="50"
         height="50"
         alt="Logo PPI Karabuk"

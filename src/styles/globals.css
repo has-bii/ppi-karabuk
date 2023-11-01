@@ -8,7 +8,7 @@
   }
 }
 
-.section {
+.spacing {
   @apply py-8 md:py-12 lg:py-16;
 }
 
@@ -39,13 +39,13 @@ nav.nav-container {
 }
 
 .button {
-  @apply px-4 py-2 bg-black text-white capitalize h-fit border border-black disabled:hover:bg-slate-500 disabled:cursor-not-allowed disabled:hover:border-slate-500;
+  @apply px-4 py-2 bg-black text-white capitalize h-fit border-2 border-black disabled:hover:bg-slate-500 disabled:cursor-not-allowed disabled:hover:border-slate-500;
 
   &.btn-white {
-    @apply bg-white text-black border-[3px] border-black disabled:hover:bg-slate-300 disabled:cursor-not-allowed disabled:hover:text-white;
+    @apply bg-white text-black font-semibold border-black disabled:hover:bg-slate-300 disabled:cursor-not-allowed disabled:hover:text-white;
   }
 
   &.btn-big {
-    @apply px-6 py-2 text-xl;
+    @apply px-6 py-2 text-xl border-[3px] font-bold;
   }
 }

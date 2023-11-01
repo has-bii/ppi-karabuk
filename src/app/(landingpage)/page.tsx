@@ -26,7 +26,7 @@ export default function Home() {
             <button className="button" disabled>
               Daftar kuliah
             </button>
-            <button className="button btn-white font-bold" disabled>
+            <button className="button btn-white" disabled>
               Tentang kami
             </button>
           </div>
@@ -37,7 +37,7 @@ export default function Home() {
       {/* Hero End */}
 
       {/* Instagram Section */}
-      <section className="section flex flex-col justify-center items-center">
+      <section className="section flex flex-col justify-center items-center spacing">
         <h2>Instagram</h2>
         <Instagram />
         <Link
