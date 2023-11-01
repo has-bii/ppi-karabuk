@@ -68,4 +68,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            docker exec Restoku npx prisma migrate deploy
+            docker exec PPI-Karabuk npx prisma migrate deploy
