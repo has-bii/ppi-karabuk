@@ -16,17 +16,29 @@ export async function POST(req: Request) {
         { status: 400 }
       )
 
-    if (!password) return Response.json({ message: "Password is required!" }, { status: 400 })
+    if (!password)
+      return Response.json(
+        { message: "Password is required!", error: { password: "Password is required!" } },
+        { status: 400 }
+      )
 
     // Find User Record
     const user = await findUserRecord(email?.toLowerCase(), studentId, kimlikId)
 
-    if (!user) return Response.json({ message: "User does not exist!" }, { status: 404 })
+    if (!user)
+      return Response.json(
+        { message: "User does not exist!", error: { email: "User does not exist!" } },
+        { status: 404 }
+      )
 
     // Check Password
     const checkPW = bcrypt.compareSync(password, user.password)
 
-    if (!checkPW) return Response.json({ message: "Invalid password!" }, { status: 401 })
+    if (!checkPW)
+      return Response.json(
+        { message: "Invalid password!", error: { password: "Invalid password!" } },
+        { status: 401 }
+      )
 
     const token = jwt.sign({ id: user.id, name: user.name }, await getSecretKey(), {
       algorithm: "HS256",

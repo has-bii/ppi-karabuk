@@ -1,3 +1,4 @@
+import Link from "next/link"
 import Logo from "./Logo"
 import Navlist from "./Navlist"
 
@@ -9,9 +10,9 @@ export default function Nav() {
 
         <Navlist />
 
-        <button className="button hidden lg:block" disabled>
+        <Link href="/auth" className="button hidden lg:block">
           login
-        </button>
+        </Link>
       </div>
     </nav>
   )

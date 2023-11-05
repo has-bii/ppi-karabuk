@@ -11,7 +11,10 @@ import Link from "next/link"
 function renderNavdata(data: Nav, pathName: string) {
   if (data.type === "ITEM")
     return (
-      <Link href={data.url as string} className={pathName === data.url ? "active" : ""}>
+      <Link
+        href={data.url as string}
+        className={`nav-item ${pathName === data.url ? "active" : ""}`}
+      >
         {data.name}
       </Link>
     )
@@ -53,7 +56,7 @@ export default function Navlist() {
           </button>
         </li>
         <li>
-          <Link href="/" className={pathName === "/" ? "active" : ""}>
+          <Link href="/" className={`nav-item ${pathName === "/" ? "active" : ""}`}>
             home
           </Link>
         </li>
@@ -65,7 +68,9 @@ export default function Navlist() {
           navdata.map((data, index) => <li key={index}>{renderNavdata(data, pathName)}</li>)
         )}
         <li className="mt-auto mb-4 block lg:hidden">
-          <button className="button white">login</button>
+          <Link href="/auth" className="button white">
+            login
+          </Link>
         </li>
       </ul>
     </div>

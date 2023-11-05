@@ -16,17 +16,35 @@ export async function POST(req: Request) {
     const checkEmail = await prisma.user.findUnique({ where: { email: email.toLowerCase() } })
 
     if (checkEmail)
-      return Response.json({ message: "Email is already registered!" }, { status: 409 })
+      return Response.json(
+        {
+          message: "Email is already registered!",
+          error: { email: "Email is already registered!" },
+        },
+        { status: 409 }
+      )
 
     const checkStudentId = await prisma.user.findUnique({ where: { studentId: studentId } })
 
     if (checkStudentId)
-      return Response.json({ message: "Student ID is already registered!" }, { status: 409 })
+      return Response.json(
+        {
+          message: "Student ID is already registered!",
+          error: { studentId: "Student ID is already registered!" },
+        },
+        { status: 409 }
+      )
 
     const checkKimlikId = await prisma.user.findUnique({ where: { kimlikId: kimlikId } })
 
     if (checkKimlikId)
-      return Response.json({ message: "Kimlik ID is already registered!" }, { status: 409 })
+      return Response.json(
+        {
+          message: "Kimlik ID is already registered!",
+          error: { kimlikId: "Kimlik ID is already registered!" },
+        },
+        { status: 409 }
+      )
     // End
 
     await prisma.user.create({

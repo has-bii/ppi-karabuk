@@ -6,6 +6,56 @@
   h2 {
     @apply font-bold text-black text-center text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-8 lg:mb-12;
   }
+
+  h3 {
+    @apply font-bold text-black text-center text-xl md:text-2xl lg:text-3xl mb-2 md:mb-6 lg:mb-10;
+  }
+
+  input {
+    @apply focus:outline-none;
+  }
+}
+
+@layer components {
+  .toast-container {
+    @apply fixed px-4 lg:px-0 top-4 lg:top-6 lg:right-6 z-40 flex flex-col gap-2;
+  }
+
+  .toast-container > .toast-item {
+    @apply inline-flex items-center border gap-4 px-4 py-2 first-letter:uppercase rounded-xl shadow-md;
+  }
+
+  .toast-item > p {
+    @apply lg:max-w-sm text-sm lg:text-base;
+  }
+
+  .toast-item.success {
+    @apply bg-green-100 border-green-200 shadow-green-500/10 text-green-400;
+  }
+
+  .toast-item.normal {
+    @apply bg-sky-100 border-sky-200 shadow-sky-500/10 text-sky-400;
+  }
+
+  .toast-item.danger {
+    @apply bg-yellow-100 border-yellow-200 shadow-yellow-500/10 text-yellow-500;
+  }
+
+  .toast-item.error {
+    @apply bg-red-100 border-red-200 shadow-red-500/10 text-red-400;
+  }
+
+  .auth-card {
+    @apply border-4 border-black p-6 w-96;
+
+    .header {
+      @apply capitalize text-4xl font-bold text-center mb-2;
+    }
+
+    .description {
+      @apply text-sm text-center pb-2 text-slate-600;
+    }
+  }
 }
 
 .spacing {
@@ -28,10 +78,10 @@ nav.nav-container {
       @apply right-0;
     }
 
-    & > li {
+    & > li > a.nav-item {
       @apply hover:underline hover:underline-offset-4;
 
-      a.active {
+      &.active {
         @apply underline-offset-4 underline;
       }
     }
@@ -39,7 +89,7 @@ nav.nav-container {
 }
 
 .button {
-  @apply px-4 py-2 bg-black text-white capitalize h-fit border-2 border-black disabled:hover:bg-slate-500 disabled:cursor-not-allowed disabled:hover:border-slate-500;
+  @apply px-4 py-2 bg-black hover:bg-white text-white hover:text-black capitalize h-fit border-2 border-black disabled:hover:bg-gray-300 disabled:hover:text-slate-500 disabled:cursor-not-allowed disabled:hover:border-slate-500 transition-colors duration-300 ease-out;
 
   &.btn-white {
     @apply bg-white text-black font-semibold border-black disabled:hover:bg-slate-300 disabled:cursor-not-allowed disabled:hover:text-white;

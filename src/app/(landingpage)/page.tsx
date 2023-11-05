@@ -4,7 +4,7 @@ import Instagram from "@/components/Instagram"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "PPI Karabuk | Home",
+  title: "Home | PPI Karabuk",
 }
 
 export default function Home() {
