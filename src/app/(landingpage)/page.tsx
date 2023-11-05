@@ -37,7 +37,7 @@ export default function Home() {
       {/* Hero End */}
 
       {/* Instagram Section */}
-      <section className="section flex flex-col justify-center items-center spacing">
+      <section className="section flex flex-col justify-center items-center spacing overflow-hidden">
         <h2>Instagram</h2>
         <Instagram />
         <Link
