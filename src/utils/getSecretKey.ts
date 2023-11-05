@@ -1,22 +1,36 @@
 import fs from "fs"
 import crypto from "crypto"
 
-const SECRET_KEY_PATH = "key/secret_key.text"
-
 export default async function getSecretKey() {
   try {
-    if (!fs.existsSync(SECRET_KEY_PATH)) {
-      const secretKey = crypto.randomBytes(32).toString("hex")
-      fs.writeFileSync(SECRET_KEY_PATH, secretKey, "utf-8")
-      console.log("Secret Key generated successfully")
-      return secretKey
+    const MARKER = "JWT_SECRET="
+
+    const JWT_SECRET = process.env.JWT_SECRET
+
+    if (JWT_SECRET === undefined || JWT_SECRET.length === 0) {
+      let secret = crypto.randomBytes(32).toString("hex")
+
+      const data = fs.readFileSync(".env", "utf-8")
+
+      let markerIndex = data.indexOf(MARKER)
+
+      const updatedContent =
+        data.slice(0, markerIndex === -1 ? data.length : markerIndex + MARKER.length) +
+        `${
+          markerIndex === -1
+            ? `${data[data.length - 1] !== "\n" ? "\n" + MARKER : MARKER}` + secret
+            : secret
+        }` +
+        data.slice(markerIndex === -1 ? data.length : markerIndex + MARKER.length)
+
+      fs.writeFileSync(".env", updatedContent, "utf-8")
+
+      console.log("JWT Secret has been created.")
+
+      return secret
     }
 
-    const secretKey = fs.readFileSync(SECRET_KEY_PATH, "utf-8")
-
-    if (secretKey.length > 0) return secretKey
-
-    throw new Error("secret_key.txt is empty!")
+    return JWT_SECRET
   } catch (error) {
     console.log("Failed to generate Secret Key!", error)
 

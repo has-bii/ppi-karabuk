@@ -1,0 +1,23 @@
+version: "3"
+services:
+  PPI-Karabuk:
+    container_name: PPI-Karabuk
+    image: hasbii/ppi-karabuk:latest
+    restart: always
+    ports:
+      - 84:3000
+    volumes:
+      - ./data/key:/app/key
+      - ./public/images/profiles:/app/public/images/profiles
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      LONG_LIVED_TOKEN: ${LONG_LIVED_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - db-network
+
+networks:
+  db-network:
+    external: true
+    name: db-network
