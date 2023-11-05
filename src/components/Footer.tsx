@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="bg-black text-white py-4 md:py-6 lg:py-8">
       <section className="container flex flex-col gap-4 items-center">
         {/* <Logo color="white" className="mb-10" /> */}
-        <div className="flex flex-col md:flex-row w-full justify-between">
+        <div className="flex flex-col md:flex-row w-full items-center md:justify-between">
           <p className="text-sm text-white/60 font-light">
             © 2023 PPI Karabük. All rights reserved.
           </p>
