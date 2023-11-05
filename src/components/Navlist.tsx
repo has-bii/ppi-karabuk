@@ -30,6 +30,8 @@ export default function Navlist() {
       const res = await axios.get<{ message: string; data: Nav[] }>("/api/nav/fetch")
 
       setNavdata(res.data.data)
+
+      setLoading(false)
     } catch (error) {
       return null
     }
@@ -38,10 +40,6 @@ export default function Navlist() {
   useEffect(() => {
     fetchNavdata()
   }, [])
-
-  useEffect(() => {
-    if (navdata.length > 0) setLoading(false)
-  }, [navdata])
 
   return (
     <div className="navlist-container">
@@ -53,6 +51,11 @@ export default function Navlist() {
           <button onClick={() => setShowNav(false)}>
             <FontAwesomeIcon icon={faXmark} size="xl" />
           </button>
+        </li>
+        <li>
+          <Link href="/" className={pathName === "/" ? "active" : ""}>
+            home
+          </Link>
         </li>
         {loading ? (
           <li>
