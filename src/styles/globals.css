@@ -11,6 +11,10 @@
     @apply font-bold text-black text-center text-xl md:text-2xl lg:text-3xl mb-2 md:mb-6 lg:mb-10;
   }
 
+  h4 {
+    @apply font-semibold text-black text-lg;
+  }
+
   input {
     @apply focus:outline-none;
   }

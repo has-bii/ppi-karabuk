@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react"
 import { InstagramData } from "@/types"
 import axios from "axios"
 import Link from "next/link"
-import Video from "./Video"
+import Video from "@/components/LandingPage/Video"
 
 export default function Instagram() {
   const carousel = useRef<AliceCarousel>(null)

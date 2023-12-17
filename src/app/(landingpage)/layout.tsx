@@ -7,7 +7,7 @@ export default function LandingPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <main>
+    <main className="min-h-screen flex flex-col">
       <Nav />
 
       {children}

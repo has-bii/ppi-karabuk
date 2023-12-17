@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "/v/**",
       },
+      {
+        protocol: "https",
+        hostname: "blog.ppi-karabuk.com",
+        port: "",
+        pathname: "/uploads/**",
+      },
     ],
   },
 }
