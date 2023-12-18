@@ -42,7 +42,9 @@ export default function Home() {
       {/* Latest News */}
       <section className="section spacing">
         <div className="container px-4">
-          <h2 className="text-left">Latest News</h2>
+          <h2 className="text-left hover:underline">
+            <Link href="/article">Latest Article</Link>
+          </h2>
           <LatestNews />
         </div>
       </section>

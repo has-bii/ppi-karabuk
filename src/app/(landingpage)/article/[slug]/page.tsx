@@ -1,6 +1,7 @@
 import axiosBlog from "@/lib/axiosBlog"
 import { ILatestNews } from "@/types"
 import getDate from "@/utils/getDate"
+import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import qs from "qs"
@@ -127,4 +128,23 @@ export async function generateStaticParams() {
   return posts.data.data.map((post) => ({
     slug: post.attributes.slug,
   }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata> {
+  const data = await getData(params.slug)
+
+  return {
+    title: "Article | PPI Karabuk",
+    description: data?.attributes.excerpt,
+    openGraph: {
+      title: data?.attributes.title,
+      url: "www.ppi-karabuk.com",
+      description: data?.attributes.excerpt,
+      images: data?.attributes.hero.data.attributes.formats.thumbnail.url,
+    },
+  }
 }

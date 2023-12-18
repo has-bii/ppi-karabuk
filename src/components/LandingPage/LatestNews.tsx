@@ -3,7 +3,6 @@
 import axiosBlog from "@/lib/axiosBlog"
 import { ILatestNews } from "@/types"
 import getDate from "@/utils/getDate"
-import axios from "axios"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -15,7 +14,7 @@ export default function LatestNews() {
   async function fetchData() {
     try {
       const res = await axiosBlog.get<ILatestNews>(
-        `/blogs?populate=*&pagination[pageSize]=10&pagination[page]=${
+        `/blogs?populate=*&pagination[pageSize]=8&pagination[page]=${
           data === null ? 1 : data.meta.pagination.page
         }`
       )
@@ -37,7 +36,7 @@ export default function LatestNews() {
       ) : (
         data?.data.map((item, index) => (
           <Link
-            href={`/news/${item.attributes.slug}`}
+            href={`/article/${item.attributes.slug}`}
             key={index}
             className="w-full h-fit flex flex-col"
           >
@@ -58,8 +57,8 @@ export default function LatestNews() {
               {item.attributes.type.data.attributes.name}
             </p>
             <h4 className="text-left line-clamp-1 font-bold">{item.attributes.title}</h4>
-            <p className="text-justify line-clamp-6">{item.attributes.excerpt}</p>
-            <p className="pt-2 text-neutral-400 font-light">
+            <p className="text-justify text-neutral-400 line-clamp-6">{item.attributes.excerpt}</p>
+            <p className="pt-2 text-neutral-400 font-light text-sm">
               {`${getDate(item.attributes.publishedAt)} by `}
               <span className="font-semibold text-black">
                 {item.attributes.author.data.attributes.firstname}
