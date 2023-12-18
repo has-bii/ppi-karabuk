@@ -144,7 +144,7 @@ export async function generateMetadata({
       title: data?.attributes.title,
       url: "www.ppi-karabuk.com",
       description: data?.attributes.excerpt,
-      images: data?.attributes.hero.data.attributes.formats.thumbnail.url,
+      images: `${process.env.NEXT_PUBLIC_BLOG_API}${data?.attributes.hero.data.attributes.formats.thumbnail.url}`,
     },
   }
 }
