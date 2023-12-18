@@ -25,6 +25,7 @@
     "react": "^18",
     "react-alice-carousel": "^2.8.0",
     "react-dom": "^18",
+    "sharp": "^0.33.1",
     "zod": "^3.22.4",
     "zod-form-data": "^2.0.2"
   },

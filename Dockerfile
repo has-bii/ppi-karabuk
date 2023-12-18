@@ -4,6 +4,8 @@ COPY package*.json ./
 RUN npm install 
 COPY . .
 RUN npx prisma generate
+ENV NEXT_PUBLIC_BLOG_TOKEN=${NEXT_PUBLIC_BLOG_TOKEN}
+ENV NEXT_PUBLIC_BLOG_API=${NEXT_PUBLIC_BLOG_API}
 RUN npm run build
 
 FROM node:18-alpine
