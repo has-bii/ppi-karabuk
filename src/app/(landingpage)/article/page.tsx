@@ -24,7 +24,9 @@ export default function Page() {
 
   async function fetchData() {
     try {
-      const res = await axiosBlog.get<ILatestNews>("/blogs?" + qs.stringify(query))
+      const res = await axiosBlog.get<ILatestNews>(
+        "/blogs?" + qs.stringify(query, { encodeValuesOnly: true })
+      )
 
       if (res.data) {
         setData(res.data)
@@ -107,9 +109,9 @@ export default function Page() {
           {/* Main end */}
         </div>
         <div className="w-full lg:w-1/4">
-          <h3 className="text-left mb-4">Latest News</h3>
+          <h3 className="text-left mb-4">Popular Articles</h3>
           <div className="flex flex-col gap-2">
-            <LatestNews />
+            <PopularNews />
           </div>
         </div>
       </div>
@@ -122,21 +124,21 @@ function LoadingNews() {
 
   return data.map((e, index) => (
     <div key={index} className="flex flex-col lg:flex-row gap-4 py-4 animate-pulse">
-      <div className="aspect-video h-48 bg-neutral-400"></div>
+      <div className="aspect-video h-48 bg-neutral-200"></div>
       <div className="flex w-full gap-1 flex-col">
-        <div className="h-4 w-1/2 bg-neutral-400"></div>
-        <div className="w-full h-8 bg-neutral-400"></div>
-        <div className="h-6 w-full bg-neutral-400"></div>
-        <div className="h-6 w-full bg-neutral-400"></div>
-        <div className="h-6 w-full bg-neutral-400"></div>
-        <div className="h-6 w-full bg-neutral-400"></div>
-        <div className="mt-auto h-3 w-1/5 bg-neutral-400"></div>
+        <div className="h-4 w-1/2 bg-neutral-200"></div>
+        <div className="w-full h-8 bg-neutral-200"></div>
+        <div className="h-6 w-full bg-neutral-200"></div>
+        <div className="h-6 w-full bg-neutral-200"></div>
+        <div className="h-6 w-full bg-neutral-200"></div>
+        <div className="h-6 w-full bg-neutral-200"></div>
+        <div className="mt-auto h-3 w-1/5 bg-neutral-200"></div>
       </div>
     </div>
   ))
 }
 
-function LoadingLatestNews() {
+function LoadingPopularNews() {
   return (
     <>
       <div className="w-full h-48 bg-neutral-200 animate-pulse"></div>
@@ -145,14 +147,14 @@ function LoadingLatestNews() {
   )
 }
 
-function LatestNews() {
+function PopularNews() {
   const [data, setData] = useState<NewsDataAttributes[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   async function fetchData() {
     try {
       const res = await axiosBlog.get<ILatestNews>(
-        "/blogs?populate=*&pagination[pageSize]=3&pagination[page]=1"
+        "/blogs?populate=*&pagination[pageSize]=3&pagination[page]=1&sort=visited:desc"
       )
 
       if (res.data) {
@@ -166,7 +168,7 @@ function LatestNews() {
     fetchData()
   }, [])
 
-  if (loading) return <LoadingLatestNews />
+  if (loading) return <LoadingPopularNews />
 
   return (
     <>
