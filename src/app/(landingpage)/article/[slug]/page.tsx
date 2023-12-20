@@ -155,6 +155,7 @@ export async function generateMetadata({
 
   return {
     title: "Article | PPI Karabuk",
+    metadataBase: new URL(process.env.BASE_URL || "http://localhost:3000/"),
     description: data?.attributes.excerpt,
     openGraph: {
       title: data?.attributes.title,
