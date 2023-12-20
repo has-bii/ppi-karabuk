@@ -1,6 +1,6 @@
 "use client"
 
-import axiosBlog from "@/lib/axiosBlog"
+import { axiosBlog } from "@/lib/axiosBlog"
 import { ILatestNews, NewsDataAttributes } from "@/types"
 import getDate from "@/utils/getDate"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"

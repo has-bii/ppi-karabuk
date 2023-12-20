@@ -1,6 +1,6 @@
 "use client"
 
-import axiosBlog from "@/lib/axiosBlog"
+import { axiosBlog } from "@/lib/axiosBlog"
 import { ILatestNews } from "@/types"
 import getDate from "@/utils/getDate"
 import Image from "next/image"

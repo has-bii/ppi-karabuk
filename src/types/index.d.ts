@@ -157,6 +157,7 @@ interface NewsDataAttributes {
     createdAt: string
     updatedAt: string
     publishedAt: string
+    visited: null | string
     hero: NewsHero
     type: {
       data: {

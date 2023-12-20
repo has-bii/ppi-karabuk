@@ -1,4 +1,4 @@
-import axiosBlog from "@/lib/axiosBlog"
+import { axiosBlog, axiosBlogUpdate } from "@/lib/axiosBlog"
 import { ILatestNews } from "@/types"
 import getDate from "@/utils/getDate"
 import { Metadata } from "next"
@@ -11,11 +11,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   if (data === undefined)
     return (
-      <section className="container">
+      <section className="container my-auto">
         <h1>Article not found!</h1>
       </section>
     )
-  else
+  else {
+    sendVisited(data.id, data.attributes.visited)
+
     return (
       <section className="container spacing text-center">
         <p className="text-sm uppercase font-semibold text-neutral-400 mb-4">
@@ -94,6 +96,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
       </section>
     )
+  }
 }
 
 async function getData(slug: string) {
@@ -113,6 +116,19 @@ async function getData(slug: string) {
   if (res.data.data.length === 0) return undefined
 
   return res.data.data[0]
+}
+
+async function sendVisited(id: number, visited: string | null) {
+  let updatedVisited = visited
+
+  if (updatedVisited === null) updatedVisited = "1"
+  else updatedVisited = (parseInt(updatedVisited) + 1).toString()
+
+  axiosBlogUpdate.put("/blogs/" + id, {
+    data: {
+      visited: updatedVisited,
+    },
+  })
 }
 
 export async function generateStaticParams() {
