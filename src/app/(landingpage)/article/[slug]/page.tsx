@@ -5,6 +5,9 @@ import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import qs from "qs"
+import { cache } from "react"
+
+export const revalidate = 3600 // revalidate the data at most every hour
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getData(params.slug)
@@ -16,7 +19,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       </section>
     )
   else {
-    sendVisited(data.id, data.attributes.visited)
+    updateBlogVisited(data.id, data.attributes.visited)
 
     return (
       <section className="container spacing text-center">
@@ -99,26 +102,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 }
 
-async function getData(slug: string) {
-  const query = qs.stringify({
-    populate: "*",
-    pagination: {
-      pageSize: 1,
-    },
-    filters: {
-      slug: {
-        $eq: slug,
-      },
-    },
-  })
-  const res = await axiosBlog.get<ILatestNews>(`/blogs?${query}`)
-
-  if (res.data.data.length === 0) return undefined
-
-  return res.data.data[0]
-}
-
-async function sendVisited(id: number, visited: string | null) {
+async function updateBlogVisited(id: number, visited: string | null) {
   let updatedVisited = visited
 
   if (updatedVisited === null) updatedVisited = "1"
@@ -131,20 +115,29 @@ async function sendVisited(id: number, visited: string | null) {
   })
 }
 
-export async function generateStaticParams() {
-  const query = qs.stringify({
-    populate: "*",
-    pagination: {
-      pageSize: 25,
-      pagination: 1,
+const getData = cache(async (slug: string) => {
+  const query = qs.stringify(
+    {
+      populate: "*",
+      pagination: {
+        pageSize: 1,
+      },
+      filters: {
+        slug: {
+          $eq: slug,
+        },
+      },
     },
-  })
-  const posts = await axiosBlog.get<ILatestNews>(`/blogs?${query}`)
+    {
+      encodeValuesOnly: true,
+    }
+  )
+  const res = await axiosBlog.get<ILatestNews>(`/blogs?${query}`)
 
-  return posts.data.data.map((post) => ({
-    slug: post.attributes.slug,
-  }))
-}
+  if (res.data.data.length === 0) return undefined
+
+  return res.data.data[0]
+})
 
 export async function generateMetadata({
   params,
