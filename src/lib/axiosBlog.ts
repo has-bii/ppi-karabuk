@@ -8,7 +8,7 @@ const axiosBlog = axios.create({
 
 const axiosBlogUpdate = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BLOG_API}/api`,
-  headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_UPDATE_BLOG_TOKEN}` },
+  headers: { Authorization: `Bearer ${process.env.UPDATE_BLOG_TOKEN}` },
   timeout: 10000,
 })
 
