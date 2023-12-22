@@ -56,11 +56,10 @@ interface ITag {
 
 export default function Page() {
   const params = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
-  const [m, setM] = useState<boolean>(true)
   const [data, setData] = useState<ILatestNews | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [m, setM] = useState<boolean>(true)
+  const [TO, setTO] = useState<NodeJS.Timeout | null>(null)
   const [title, setTitle] = useState<string>(params.get("title") || "")
   const [category, setCategory] = useState<string>(params.get("category") || "")
   const [tags, setTags] = useState<string[]>(params.getAll("tags") || [])
@@ -96,33 +95,21 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchData()
+    if (TO !== null) clearTimeout(TO)
+
+    if (m) {
+      fetchData()
+      setM(false)
+    } else
+      setTO(
+        setTimeout(() => {
+          fetchData()
+        }, 1500)
+      )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    if (m) setM(false)
-    else {
-      const _query = []
-
-      if (title) _query.push("title=" + title)
-      if (tags.length > 0) tags.forEach((value) => _query.push("tags=" + value))
-      if (category) _query.push("category=" + category)
-      if (type) _query.push("type=" + type)
-
-      router.replace(pathname + `${_query.length > 0 ? "?" : ""}${_query.join("&")}`, {
-        scroll: false,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, tags, category, type])
+  }, [title, category, tags, type])
 
   function addQuery(query: Query) {
-    const title = params.get("title")
-    const type = params.get("type")
-    const category = params.get("category")
-    const tags = params.getAll("tags")
-
     const and: (ITitle | ICategory | ITag | IType)[] = []
 
     if (title) and.push({ title: { $containsi: title } })
@@ -131,7 +118,7 @@ export default function Page() {
 
     if (category) and.push({ category: { name: category } })
 
-    if (tags) and.push({ tags: { name: { $in: tags } } })
+    if (tags.length > 0) and.push({ tags: { name: { $in: tags } } })
 
     if (and.length > 0) query.filters.$and = and
   }
