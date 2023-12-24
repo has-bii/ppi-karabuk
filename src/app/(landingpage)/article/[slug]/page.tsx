@@ -1,5 +1,6 @@
+import RenderContent from "@/components/Article/RenderContent"
 import { axiosBlog, axiosBlogUpdate } from "@/lib/axiosBlog"
-import { ILatestNews } from "@/types"
+import { Blog, ResBlog } from "@/types/blog"
 import getDate from "@/utils/getDate"
 import { Metadata } from "next"
 import Image from "next/image"
@@ -22,7 +23,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     updateBlogVisited(data.id, data.attributes.visited)
 
     return (
-      <section className="container spacing text-center">
+      <section className="container px-0 spacing text-center">
         <p className="text-sm uppercase font-semibold text-neutral-400 mb-4">
           <span className="text-red-400">{data.attributes.category.data.attributes.name}</span>
           {` | `}
@@ -46,16 +47,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
 
         <div className="w-full px-4 md:px-0 md:w-[768px] mx-auto text-justify text-neutral-600">
-          {data.attributes.content.map((item, index) => {
-            if (item.type === "paragraph")
-              return (
-                <p key={index} className="py-2">
-                  {item.children.map((it, index) => {
-                    if (it.type === "text") return it.text
-                  })}
-                </p>
-              )
-          })}
+          <RenderContent contents={data.attributes.content} />
 
           <p className="text-left font-semibold capitalize">
             Author:&nbsp;
@@ -115,7 +107,7 @@ async function updateBlogVisited(id: number, visited: string | null) {
   })
 }
 
-const getData = cache(async (slug: string) => {
+const getData = cache(async (slug: string): Promise<Blog | undefined> => {
   const query = qs.stringify(
     {
       populate: "*",
@@ -132,7 +124,7 @@ const getData = cache(async (slug: string) => {
       encodeValuesOnly: true,
     }
   )
-  const res = await axiosBlog.get<ILatestNews>(`/blogs?${query}`)
+  const res = await axiosBlog.get<ResBlog>(`/blogs?${query}`)
 
   if (res.data.data.length === 0) return undefined
 

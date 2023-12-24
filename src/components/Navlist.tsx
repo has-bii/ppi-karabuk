@@ -27,7 +27,10 @@ export default function Navlist() {
           </Link>
         </li>
         <li>
-          <Link href="/article" className={`nav-item ${pathName === "/article" ? "active" : ""}`}>
+          <Link
+            href="/article"
+            className={`nav-item ${pathName.startsWith("/article") ? "active" : ""}`}
+          >
             article
           </Link>
         </li>
