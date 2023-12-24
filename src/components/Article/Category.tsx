@@ -1,5 +1,5 @@
 import { axiosBlog } from "@/lib/axiosBlog"
-import React, { Dispatch, SetStateAction, Suspense, useEffect, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { useQuery } from "react-query"
 
 type Props = {
@@ -38,6 +38,22 @@ export default function Category({ setCategory, category }: Props) {
         .then((res) => res.data.data)
         .catch((error) => error)
   )
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleOutsideClick(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        // Clicked outside the dropdown, so close it
+        setSelect(false)
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick)
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick)
+    }
+  }, [ref])
 
   if (isLoading)
     return (
@@ -55,9 +71,10 @@ export default function Category({ setCategory, category }: Props) {
   if (data)
     return (
       <div
+        ref={ref}
         className="bg-black text-white px-4 py-2 relative hover:cursor-pointer w-full lg:w-fit text-center"
         onClick={() => {
-          setSelect(!select)
+          setSelect(true)
         }}
       >
         <span>{category || "Category"}</span>
