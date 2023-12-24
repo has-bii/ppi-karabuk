@@ -5,6 +5,7 @@ const config: Config = {
   theme: {
     container: {
       center: true,
+      padding: "2rem",
     },
     extend: {
       colors: {

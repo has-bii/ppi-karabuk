@@ -29,7 +29,7 @@ export default function Instagram() {
     fetch()
   }, [])
   return (
-    <div className="container relative">
+    <div className="container px-0 lg:px-4 relative">
       <button
         className="absolute -left-8 top-1/2 -translate-y-1/2 z-10 hidden md:block"
         onClick={(e) => carousel?.current?.slidePrev(e)}

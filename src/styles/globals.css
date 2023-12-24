@@ -74,7 +74,7 @@ nav.nav-container {
   @apply border-b-2 border-black overflow-hidden;
 
   > div.nav {
-    @apply container py-4 flex flex-row justify-between px-4 lg:px-0 items-center;
+    @apply container py-4 flex flex-row justify-between items-center;
   }
 }
 

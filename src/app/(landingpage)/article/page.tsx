@@ -124,7 +124,7 @@ export default function Page() {
   }
 
   return (
-    <section className="container spacing px-4 md:px-0">
+    <section className="container spacing">
       <h1>Pojok Tulisan</h1>
       <div className="flex flex-col lg:flex-row gap-16">
         <div className="w-full lg:w-3/4">
