@@ -1,14 +1,15 @@
-import { AuthBody } from "@/types"
 import prisma from "@/lib/prisma"
+import { AuthBody, AuthResponse } from "@/types/auth"
 import bcrypt from "bcrypt"
+import { NextResponse } from "next/server"
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<NextResponse<AuthResponse>> {
   try {
     const { name, email, studentId, kimlikId, password }: AuthBody = await req.json()
 
     if (!name || !email || !studentId || !kimlikId || !password)
-      return Response.json(
-        { message: "Name, email, student id, kimlik id and password are required!" },
+      return NextResponse.json(
+        { message: "Name, email, student id, kimlik id and password are required!", status: "ok" },
         { status: 400 }
       )
 
@@ -16,10 +17,10 @@ export async function POST(req: Request) {
     const checkEmail = await prisma.user.findUnique({ where: { email: email.toLowerCase() } })
 
     if (checkEmail)
-      return Response.json(
+      return NextResponse.json(
         {
           message: "Email is already registered!",
-          error: { email: "Email is already registered!" },
+          status: "error",
         },
         { status: 409 }
       )
@@ -27,10 +28,10 @@ export async function POST(req: Request) {
     const checkStudentId = await prisma.user.findUnique({ where: { studentId: studentId } })
 
     if (checkStudentId)
-      return Response.json(
+      return NextResponse.json(
         {
           message: "Student ID is already registered!",
-          error: { studentId: "Student ID is already registered!" },
+          status: "error",
         },
         { status: 409 }
       )
@@ -38,10 +39,10 @@ export async function POST(req: Request) {
     const checkKimlikId = await prisma.user.findUnique({ where: { kimlikId: kimlikId } })
 
     if (checkKimlikId)
-      return Response.json(
+      return NextResponse.json(
         {
           message: "Kimlik ID is already registered!",
-          error: { kimlikId: "Kimlik ID is already registered!" },
+          status: "error",
         },
         { status: 409 }
       )
@@ -57,9 +58,12 @@ export async function POST(req: Request) {
       },
     })
 
-    return Response.json({ message: "User has been registered successfully." }, { status: 200 })
+    return NextResponse.json(
+      { message: "User has been registered successfully.", status: "ok" },
+      { status: 200 }
+    )
   } catch (error) {
     console.error("Error at /api/auth/register route: ", error)
-    return Response.json({ message: "Internal server error" }, { status: 500 })
+    return NextResponse.json({ message: "Internal server error", status: "error" }, { status: 500 })
   }
 }
