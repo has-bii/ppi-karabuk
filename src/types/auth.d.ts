@@ -6,9 +6,31 @@ type AuthBody = {
   password?: string
 }
 
-type AuthResponse = {
-  status: "ok" | "error"
-  message: string
+type AuthResponse<T = {}> =
+  | {
+      status: "ok"
+      message: string
+    }
+  | {
+      status: "error"
+      message: string
+      error: T
+    }
+
+type AuthLoginErrorResponse = {
+  email?: string
+  password?: string
 }
 
-export { AuthBody, AuthResponse }
+type AuthRegisterErrorResponse = {
+  studentID?: string
+  kimlikID?: string
+}
+
+type AuthInput = {
+  label: string
+  value: string
+  validation: { status: "ok" | "error" | null; text: string }
+}
+
+export { AuthBody, AuthResponse, AuthInput, AuthLoginErrorResponse, AuthRegisterErrorResponse }

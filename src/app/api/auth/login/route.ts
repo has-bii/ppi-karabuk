@@ -1,24 +1,34 @@
-import { AuthBody } from "@/types"
 import prisma from "@/lib/prisma"
 import findUserRecord from "@/utils/findUserRecord"
 import getSecretKey from "@/utils/getSecretKey"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { NextResponse } from "next/server"
+import { AuthBody, AuthLoginErrorResponse, AuthResponse } from "@/types/auth"
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request
+): Promise<NextResponse<AuthResponse<AuthLoginErrorResponse>>> {
   try {
     const { email, studentId, kimlikId, password }: AuthBody = await req.json()
 
     if (!email && !studentId && !kimlikId)
-      return Response.json(
-        { message: "Either an email, student ID, or a kimlik ID is required!" },
+      return NextResponse.json(
+        {
+          message: "Either an email, student ID, or a kimlik ID is required!",
+          status: "error",
+          error: {},
+        },
         { status: 400 }
       )
 
     if (!password)
-      return Response.json(
-        { message: "Password is required!", error: { password: "Password is required!" } },
+      return NextResponse.json(
+        {
+          message: "Password is required!",
+          status: "error",
+          error: { password: "Password is required!" },
+        },
         { status: 400 }
       )
 
@@ -26,8 +36,12 @@ export async function POST(req: Request) {
     const user = await findUserRecord(email?.toLowerCase(), studentId, kimlikId)
 
     if (!user)
-      return Response.json(
-        { message: "User does not exist!", error: { email: "User does not exist!" } },
+      return NextResponse.json(
+        {
+          message: "Email is not registered!",
+          status: "error",
+          error: { email: "Email is not registered!" },
+        },
         { status: 404 }
       )
 
@@ -35,8 +49,8 @@ export async function POST(req: Request) {
     const checkPW = bcrypt.compareSync(password, user.password)
 
     if (!checkPW)
-      return Response.json(
-        { message: "Invalid password!", error: { password: "Invalid password!" } },
+      return NextResponse.json(
+        { message: "Invalid password!", status: "error", error: { password: "Invalid password!" } },
         { status: 401 }
       )
 
@@ -54,18 +68,28 @@ export async function POST(req: Request) {
       },
     })
 
-    const response = NextResponse.json({ message: "Login successful" }, { status: 200 })
+    const response: AuthResponse<{}> = {
+      message: "Login successful",
+      status: "ok",
+    }
 
-    response.cookies.set("user_token", token, {
+    const jsonResponse = NextResponse.json(response, {
+      status: 200,
+    })
+
+    jsonResponse.cookies.set("user_token", token, {
       sameSite: "strict",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       secure: true,
       httpOnly: true,
     })
 
-    return response
+    return jsonResponse
   } catch (error) {
     console.error("Error at /api/auth/login route: ", error)
-    return Response.json({ message: "Internal server error" }, { status: 500 })
+    return NextResponse.json(
+      { message: "Internal server error", status: "error", error: {} },
+      { status: 500 }
+    )
   }
 }

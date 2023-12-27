@@ -54,7 +54,7 @@
   }
 
   .auth-card {
-    @apply border-4 border-black p-6 w-96;
+    @apply border-4 border-black p-6 w-96 overflow-hidden flex flex-col;
 
     .header {
       @apply capitalize text-4xl font-bold text-center mb-2;
