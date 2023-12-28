@@ -82,13 +82,13 @@ export default function Register() {
           if (data.error.kimlikID)
             setKimlikID((prev) => ({
               ...prev,
-              validation: { status: "error", text: data.error.kimlikID || "" },
+              validation: { status: "error", text: data.message },
             }))
 
           if (data.error.studentID)
             setStudentID((prev) => ({
               ...prev,
-              validation: { status: "error", text: data.error.kimlikID || "" },
+              validation: { status: "error", text: data.message },
             }))
         }
       })
@@ -179,7 +179,7 @@ export default function Register() {
           ...prev,
           validation: { status: "ok", text: "" },
         }))
-  }, [password2.value, password])
+  }, [password2.value, password.value])
 
   const buttonHandler = (): boolean => {
     if (step === 1)

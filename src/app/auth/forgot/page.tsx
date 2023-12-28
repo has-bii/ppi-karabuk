@@ -2,17 +2,16 @@
 
 import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
-import { AuthInput } from "@/types/auth"
+import { AuthForgotErrorResponse, AuthInput, AuthResponse } from "@/types/auth"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import axios from "axios"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 
 export default function Forgot() {
   const [loading, setLoading] = useState<boolean>(false)
   const { pushToast } = useToast()
-  const router = useRouter()
 
   const [email, setEmail] = useState<AuthInput>({
     label: "email",
@@ -27,6 +26,34 @@ export default function Forgot() {
 
   async function submitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    setLoading(true)
+
+    await axios
+      .post<AuthResponse>("/api/auth/forgot", {
+        email: email.value,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          pushToast(res.data.message, "success")
+        }
+      })
+      .catch(({ response }) => {
+        const { data }: { data: AuthResponse<AuthForgotErrorResponse> } = response
+
+        if (data.status === "error") {
+          pushToast(data.message, "error")
+
+          if (data.error.email)
+            setEmail((prev) => ({
+              ...prev,
+              validation: { status: "error", text: data.message },
+            }))
+        }
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   useEffect(() => {

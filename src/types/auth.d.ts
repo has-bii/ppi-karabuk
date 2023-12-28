@@ -27,10 +27,27 @@ type AuthRegisterErrorResponse = {
   kimlikID?: string
 }
 
+type AuthForgotErrorResponse = {
+  email?: string
+}
+
+type AuthResetErrorResponse = {
+  token?: string
+  password?: string
+}
+
 type AuthInput = {
   label: string
   value: string
   validation: { status: "ok" | "error" | null; text: string }
 }
 
-export { AuthBody, AuthResponse, AuthInput, AuthLoginErrorResponse, AuthRegisterErrorResponse }
+export {
+  AuthBody,
+  AuthResponse,
+  AuthInput,
+  AuthLoginErrorResponse,
+  AuthRegisterErrorResponse,
+  AuthForgotErrorResponse,
+  AuthResetErrorResponse,
+}
