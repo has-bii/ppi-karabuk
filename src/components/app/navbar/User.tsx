@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import dummy from "../../../../public/images/profiles/dummy-pp.png"
+import dummy from "@/images/dummy-pp.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useRef, useState } from "react"

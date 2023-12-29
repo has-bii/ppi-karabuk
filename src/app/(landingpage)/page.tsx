@@ -3,7 +3,7 @@ import HeroImage from "@/components/LandingPage/HeroImage"
 import Instagram from "@/components/LandingPage/Instagram"
 import Link from "next/link"
 import Image from "next/image"
-import Phone from "../../../public/images/attributes/phone.png"
+import Phone from "@/images/attributes/phone.png"
 import LatestNews from "@/components/LandingPage/LatestNews"
 
 export const metadata: Metadata = {
