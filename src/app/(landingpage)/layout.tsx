@@ -1,5 +1,5 @@
-import Footer from "@/components/Footer"
-import Nav from "@/components/Nav"
+import Footer from "@/components/LandingPage/Footer"
+import Nav from "@/components/LandingPage/Nav"
 
 export default function LandingPageLayout({
   children, // will be a page or nested layout

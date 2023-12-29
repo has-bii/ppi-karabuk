@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Logo from "./Logo"
 import { faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons"
 import Link from "next/link"
 
