@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     if (user.role !== "ADMIN") return Response.json({ message: "Request denied!" }, { status: 403 })
 
-    const { name, type, isActive, url, navlistId }: Nav = await request.json()
+    const { name, type, isActive, url, navlistId, role }: Nav = await request.json()
 
     if (!name) return Response.json({ message: "Name is required!" }, { status: 400 })
 
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       return Response.json({ message: "URL is required if the type is ITEM!" }, { status: 400 })
 
     const navlistRecord = await prisma.nav.create({
-      data: { name, isActive, type, url, navlistId },
+      data: { name, isActive, type, url, navlistId, role },
     })
 
     return Response.json(

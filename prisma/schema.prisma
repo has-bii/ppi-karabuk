@@ -12,6 +12,7 @@ datasource db {
 
 enum Role {
   USER
+  STUDENT
   ADMIN
 }
 
@@ -77,6 +78,7 @@ model VerifyRequest {
 model Nav {
   id        Int         @id @default(autoincrement())
   name      String      @db.VarChar(255)
+  role      Role        @default(USER)
   type      NavListType
   isActive  Boolean     @default(false)
   url       String?     @db.VarChar(255)
