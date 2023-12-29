@@ -32,13 +32,23 @@ export async function POST(
       )
 
     // Check available Token
-    const checkToken = await prisma.token.findFirst({where: {type: 'FORGOT', userId: checkEmail.id, createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000)}}})
+    const checkToken = await prisma.token.findFirst({
+      where: {
+        type: "FORGOT",
+        userId: checkEmail.id,
+        createdAt: { gte: new Date(Date.now() - 5 * 60 * 1000) },
+      },
+    })
 
     if (checkToken !== null)
-    return NextResponse.json(
-      { message: "Reset code has been already sent. Please try after 24 hours.", status: "error", error: {} },
-      { status: 409 }
-    )
+      return NextResponse.json(
+        {
+          message: "Reset code has been already sent. Please try after 5 minutes.",
+          status: "error",
+          error: {},
+        },
+        { status: 409 }
+      )
 
     // Generate Token
     const token = jwt.sign({ id: checkEmail.id, name: checkEmail.name }, await getSecretKey(), {
@@ -51,7 +61,7 @@ export async function POST(
         userId: checkEmail.id,
         type: "FORGOT",
         value: token,
-        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        expireDate: new Date(Date.now() + 5 * 60 * 1000),
       },
     })
 
@@ -59,7 +69,7 @@ export async function POST(
       throw new Error("Failed to send email!")
 
     return NextResponse.json(
-      { message: "Reset code has been sent.", status: "ok" },
+      { message: "Reset code has been sent to your email.", status: "ok" },
       { status: 200 }
     )
   } catch (error) {

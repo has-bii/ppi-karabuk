@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma"
 
 export default async function getUser(req: NextRequest) {
   try {
-    const token = req.cookies.get("user_token")?.value
+    const token = req.cookies.get("ppik_user_token")?.value
 
     if (!token) throw new Error("Unauthorized. Sign in first!")
 

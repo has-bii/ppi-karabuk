@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
     if (excludePaths.some((path) => request.nextUrl.pathname.startsWith(path)))
       return NextResponse.next()
 
-    const cookie = request.cookies.has("user_token")
+    const cookie = request.cookies.has("ppik_user_token")
 
     if (!cookie)
       return NextResponse.json({ message: "Unauthorized. Login first!" }, { status: 403 })
@@ -17,13 +17,13 @@ export function middleware(request: NextRequest) {
 
   // Check isLogged in Auth Pages
   if (request.nextUrl.pathname.startsWith("/auth")) {
-    const cookie = request.cookies.has("user_token")
+    const cookie = request.cookies.has("ppik_user_token")
 
     if (cookie) return NextResponse.redirect(new URL("/app", request.url))
   }
 
   if (request.nextUrl.pathname.startsWith("/app")) {
-    const cookie = request.cookies.has("user_token")
+    const cookie = request.cookies.has("ppik_user_token")
 
     if (!cookie) return NextResponse.redirect(new URL("/auth", request.url))
   }

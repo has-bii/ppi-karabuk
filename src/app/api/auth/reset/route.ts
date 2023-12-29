@@ -37,6 +37,9 @@ export async function POST(
         { status: 409 }
       )
 
+    // delete token
+    await prisma.token.delete({ where: { value: token } })
+
     await prisma.user.update({
       where: { id: checkToken.userId },
       data: { password: bcrypt.hashSync(password, 12) },

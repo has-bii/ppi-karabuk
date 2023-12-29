@@ -92,7 +92,7 @@ export async function POST(
       status: 200,
     })
 
-    jsonResponse.cookies.set("user_token", token, {
+    jsonResponse.cookies.set("ppik_user_token", token, {
       sameSite: "strict",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       secure: true,
