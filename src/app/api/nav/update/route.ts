@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import getUser from "@/utils/getUser"
+import getUser from "@/utils/api/getUser"
 import { Nav } from "@prisma/client"
 import { NextRequest } from "next/server"
 

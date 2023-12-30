@@ -3,6 +3,9 @@ import Logo from "../../Logo"
 import NavListApp from "./NavListApp"
 import User from "./User"
 import prisma from "@/lib/prisma"
+import { UserProps } from "@/types/user"
+
+export const fetchCache = "force-no-store"
 
 export default async function Navbar({ user }: UserProps) {
   const navs: Nav[] = await fetchData(user.role)

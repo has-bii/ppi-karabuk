@@ -1,16 +1,26 @@
-import getUser from "@/utils/getUser"
-import { NextRequest } from "next/server"
+import { UserFetchResponse } from "@/types/user"
+import getUser from "@/utils/api/getUser"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function GET(req: NextRequest) {
+export const dynamic = "force-dynamic"
+
+export async function GET(req: NextRequest): Promise<NextResponse<UserFetchResponse>> {
   try {
     const user = await getUser(req)
 
-    return Response.json(
-      { message: "Fetch successful.", data: { id: user.id, name: user.name } },
+    return NextResponse.json(
+      {
+        message: "Fetch successful.",
+        status: "ok",
+        data: { id: user.id, img: user.img, name: user.name, role: user.role },
+      },
       { status: 200 }
     )
   } catch (error) {
     console.error("Error while fetching user: ", error)
-    return Response.json({ message: "Internal server error" }, { status: 500 })
+    return NextResponse.json(
+      { message: "Internal server error", status: "error", error: {} },
+      { status: 500 }
+    )
   }
 }

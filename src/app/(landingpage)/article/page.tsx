@@ -1,19 +1,21 @@
 "use client"
 
 import { axiosBlog } from "@/lib/axiosBlog"
-import { ILatestNews, NewsDataAttributes } from "@/types"
-import getDate from "@/utils/getDate"
+import { ILatestNews } from "@/types"
+import getDate from "@/utils/api/getDate"
 import { faCircleNotch, faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import qs from "qs"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import Category from "@/components/Article/Category"
 import Type from "@/components/Article/Type"
 import Tags from "@/components/Article/Tags"
 import PopularNews from "@/components/Article/PopularNews"
+
+export const dynamic = "force-dynamic"
 
 interface Query {
   populate: "*"

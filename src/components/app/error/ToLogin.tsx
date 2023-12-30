@@ -1,16 +1,16 @@
 "use client"
 
-import deleteUserToken from "@/utils/serverActions/deleteUserToken"
-import { useRouter } from "next/navigation"
+import deleteUserToken from "@/utils/auth/serverActions/deleteUserToken"
+// import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function ToLogin() {
-  const router = useRouter()
+  // const router = useRouter()
 
   useEffect(() => {
     deleteUserToken()
 
-    router.replace("/auth")
+    // router.replace("/auth")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

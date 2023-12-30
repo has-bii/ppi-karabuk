@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma"
-import findUserRecord from "@/utils/findUserRecord"
-import getSecretKey from "@/utils/getSecretKey"
+import findUserRecord from "@/utils/api/findUserRecord"
+import getSecretKey from "@/utils/api/getSecretKey"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { NextResponse } from "next/server"

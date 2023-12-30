@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma"
-import generateFileName from "@/utils/generateFileName"
-import getUser from "@/utils/getUser"
+import generateFileName from "@/utils/api/generateFileName"
+import getUser from "@/utils/api/getUser"
 import { existsSync, unlinkSync, writeFileSync } from "fs"
 import { NextRequest } from "next/server"
 import { zfd } from "zod-form-data"

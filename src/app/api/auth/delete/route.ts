@@ -1,4 +1,4 @@
-import getUser from "@/utils/getUser"
+import getUser from "@/utils/api/getUser"
 import { NextRequest } from "next/server"
 import bcrypt from "bcrypt"
 import prisma from "@/lib/prisma"

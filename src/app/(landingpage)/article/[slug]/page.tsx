@@ -1,7 +1,7 @@
 import RenderContent from "@/components/Article/RenderContent"
 import { axiosBlog, axiosBlogUpdate } from "@/lib/axiosBlog"
 import { Blog, ResBlog } from "@/types/blog"
-import getDate from "@/utils/getDate"
+import getDate from "@/utils/api/getDate"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"

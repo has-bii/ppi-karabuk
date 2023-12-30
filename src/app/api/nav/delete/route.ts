@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import getUser from "@/utils/getUser"
+import getUser from "@/utils/api/getUser"
 import { NextRequest } from "next/server"
 
 export async function DELETE(request: NextRequest) {

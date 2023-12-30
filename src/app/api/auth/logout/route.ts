@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma"
 import { AuthResponse } from "@/types/auth"
-import getUser from "@/utils/getUser"
+import getUser from "@/utils/api/getUser"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest): Promise<NextResponse<AuthResponse>> {

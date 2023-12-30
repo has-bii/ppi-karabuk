@@ -3,7 +3,7 @@ import sendEmail from "@/lib/sendEmail"
 import { AuthForgotErrorResponse, AuthResponse } from "@/types/auth"
 import { NextResponse } from "next/server"
 import jwt from "jsonwebtoken"
-import getSecretKey from "@/utils/getSecretKey"
+import getSecretKey from "@/utils/api/getSecretKey"
 import resetPasswordTemplate from "@/template/resetPasswordTemplate"
 
 export async function POST(

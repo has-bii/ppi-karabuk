@@ -1,6 +1,6 @@
 import { axiosBlog } from "@/lib/axiosBlog"
 import { ILatestNews, NewsDataAttributes } from "@/types"
-import getDate from "@/utils/getDate"
+import getDate from "@/utils/api/getDate"
 import Image from "next/image"
 import Link from "next/link"
 import { useQuery } from "react-query"

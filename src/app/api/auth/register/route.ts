@@ -3,7 +3,7 @@ import { AuthBody, AuthRegisterErrorResponse, AuthResponse } from "@/types/auth"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { NextResponse } from "next/server"
-import getSecretKey from "@/utils/getSecretKey"
+import getSecretKey from "@/utils/api/getSecretKey"
 
 export async function POST(
   req: Request
