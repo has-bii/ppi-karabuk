@@ -9,6 +9,7 @@ import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { AuthResponse } from "@/types/auth"
+import { UserProps } from "@/types/user"
 
 export default function User({ user }: UserProps) {
   const [show, setShow] = useState<boolean>(false)
