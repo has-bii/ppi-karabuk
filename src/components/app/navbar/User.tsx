@@ -7,9 +7,8 @@ import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useRef, useState } from "react"
 import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
-import axios from "axios"
-import { AuthResponse } from "@/types/auth"
 import { UserProps } from "@/types/user"
+import logout from "@/utils/auth/serverActions/logout"
 
 export default function User({ user }: UserProps) {
   const [show, setShow] = useState<boolean>(false)
@@ -17,23 +16,10 @@ export default function User({ user }: UserProps) {
   const router = useRouter()
   const ref = useRef<HTMLDivElement>(null)
 
-  async function logout() {
+  async function _logout() {
     pushToast("Logging out...", "normal")
 
-    await axios
-      .post<AuthResponse>("/api/auth/logout")
-      .then((res) => {
-        const { data } = res
-
-        if (data.status === "ok") pushToast(data.message, "success")
-
-        router.push("/auth")
-      })
-      .catch(({ response }) => {
-        const { data }: { data: AuthResponse } = response
-
-        if (data.status === "error") pushToast(data.message, "error")
-      })
+    logout()
   }
 
   useEffect(() => {
@@ -68,18 +54,18 @@ export default function User({ user }: UserProps) {
             <button
               className="w-full inline-flex gap-2 items-center px-4 py-2 hover:bg-black hover:text-white"
               onClick={() => {
-                router.push("/app/profile")
+                router.push("/app/settings")
                 setShow(false)
               }}
             >
               <FontAwesomeIcon icon={faUser} />
-              <span>Profile</span>
+              <span>Settings</span>
             </button>
           </li>
           <li>
             <button
               className="w-full inline-flex gap-2 items-center px-4 py-2 hover:bg-black hover:text-white"
-              onClick={() => logout()}
+              onClick={() => _logout()}
             >
               <FontAwesomeIcon icon={faRightFromBracket} />
               <span>Logout</span>

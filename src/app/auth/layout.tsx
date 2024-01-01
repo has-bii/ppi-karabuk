@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: "Login | PPI Karabuk",
 }
 
+export const dynamic = "force-dynamic"
+
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <main className="min-h-screen relative">

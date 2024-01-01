@@ -1,7 +1,7 @@
 import Navbar from "@/components/app/navbar/Navbar"
-import type { Metadata } from "next"
-import ToLogin from "@/components/app/error/ToLogin"
 import { getUser } from "@/utils/auth/getUser"
+import { redirect } from "next/navigation"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "App | PPI Karabuk",
@@ -15,12 +15,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const user = await getUser()
 
   if (!user) {
-    return (
-      <main className="relative h-screen w-screen">
-        <ToLogin />
-        {children}
-      </main>
-    )
+    redirect("/auth")
   }
 
   return (

@@ -3,15 +3,17 @@
 import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
 import { AuthInput, AuthLoginErrorResponse, AuthResponse } from "@/types/auth"
+import login from "@/utils/auth/serverActions/login"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, useState } from "react"
 
 export default function Login() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { pushToast } = useToast()
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<AuthInput>({
@@ -30,41 +32,38 @@ export default function Login() {
 
     setLoading(true)
 
-    await axios
-      .post<AuthResponse>("/api/auth/login", {
-        email: email.value,
-        password: password.value,
-      })
+    login({ email: email.value, password: password.value })
       .then((res) => {
-        if (res.data.status === "ok") {
-          pushToast(res.data.message, "success")
-          router.push("/app")
+        if (res.status === "ok") {
+          pushToast(res.message, "success")
+          const callbackUrl = searchParams.get("callbackUrl")
+
+          if (callbackUrl) router.replace(callbackUrl)
+          else router.push("/app")
         }
-      })
-      .catch(({ response }) => {
-        const { data }: { data: AuthResponse<AuthLoginErrorResponse> } = response
 
-        if (data.status === "error") {
-          pushToast(data.message, "error")
-
-          if (data.error.email)
+        if (res.status === "error") {
+          if (res.error.email)
             setEmail((prev) => ({
               ...prev,
-              validation: { status: "error", text: data.error.email || "" },
+              validation: { status: "error", text: res.error.email as string },
             }))
 
-          if (data.error.password)
+          if (res.error.password)
             setPassword((prev) => ({
               ...prev,
-              validation: { status: "error", text: data.error.password || "" },
+              validation: { status: "error", text: res.error.password as string },
             }))
+
+          pushToast(res.message, "error")
         }
+      })
+      .catch((err) => {
+        pushToast("Internal server error", "danger")
       })
       .finally(() => {
         setLoading(false)
       })
-
-    setLoading(false)
   }
 
   const isEmpty = (email: string, password: string) => {

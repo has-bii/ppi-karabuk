@@ -1,12 +1,11 @@
+import getSecretKey from "@/utils/api/getSecretKey"
 import { cookies } from "next/headers"
 import prisma from "@/lib/prisma"
 import jwt from "jsonwebtoken"
-import getSecretKey from "@/utils/api/getSecretKey"
-import { cache } from "react"
 
-export const getUser = cache(async () => {
+export const getUser = async () => {
   try {
-    const token = cookies().get("ppik_user_token")
+    const token = cookies().get("ppik_user")
 
     if (!token) throw new Error("Unauthorized. Sign in first!")
 
@@ -32,12 +31,10 @@ export const getUser = cache(async () => {
 
     if (tokenRecord.expireDate < new Date()) throw new Error("Token is expired!")
 
-    console.log("USER: ", user)
-
     return user
   } catch (error) {
     console.log("Error while getting user:\n", error)
 
     return null
   }
-})
+}

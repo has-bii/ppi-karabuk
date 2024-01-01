@@ -20,9 +20,9 @@ export default async function Navbar({ user }: UserProps) {
   )
 }
 
-async function fetchData(role: Role): Promise<Nav[]> {
+async function fetchData(role: Role[]): Promise<Nav[]> {
   const navs = await prisma.nav.findMany({
-    where: { isActive: true, role, navlistId: { equals: null } },
+    where: { isActive: true, role: { in: role }, navlistId: { equals: null } },
     include: { navitems: { where: { isActive: true } } },
   })
 

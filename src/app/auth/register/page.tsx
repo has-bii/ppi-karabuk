@@ -6,6 +6,7 @@ import { AuthInput, AuthRegisterErrorResponse, AuthResponse } from "@/types/auth
 import checkEmail from "@/utils/auth/serverActions/checkEmail"
 import checkKimlik from "@/utils/auth/serverActions/checkKimlik"
 import checkStudentID from "@/utils/auth/serverActions/checkStudentID"
+import register from "@/utils/auth/serverActions/register"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
@@ -59,38 +60,20 @@ export default function Register() {
 
     setLoading(true)
 
-    await axios
-      .post<AuthResponse>("/api/auth/register", {
-        name: name.value,
-        email: email.value,
-        studentId: studentID.value,
-        kimlikId: kimlikID.value,
-        password: password.value,
-      })
+    register({
+      name: name.value,
+      email: email.value,
+      studentID: studentID.value,
+      kimlikID: kimlikID.value,
+      password: password.value,
+    })
       .then((res) => {
-        if (res.data.status === "ok") {
-          pushToast(res.data.message, "success")
-          router.push("/app")
-        }
+        if (res.status === "error") pushToast(res.message, "error")
+
+        pushToast(res.message, "success")
       })
-      .catch(({ response }) => {
-        const { data }: { data: AuthResponse<AuthRegisterErrorResponse> } = response
-
-        if (data.status === "error") {
-          pushToast(data.message, "error")
-
-          if (data.error.kimlikID)
-            setKimlikID((prev) => ({
-              ...prev,
-              validation: { status: "error", text: data.message },
-            }))
-
-          if (data.error.studentID)
-            setStudentID((prev) => ({
-              ...prev,
-              validation: { status: "error", text: data.message },
-            }))
-        }
+      .catch((err) => {
+        pushToast("Internal server error", "danger")
       })
       .finally(() => {
         setLoading(false)

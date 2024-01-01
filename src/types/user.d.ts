@@ -4,7 +4,7 @@ type UserProps = {
   user: {
     id: string
     name: string
-    role: Role
+    role: Role[]
     img: string | null
   }
 }
@@ -16,7 +16,7 @@ type UserFetchResponse =
       data: {
         id: string
         name: string
-        role: Role
+        role: Role[]
         img: string | null
       }
     }

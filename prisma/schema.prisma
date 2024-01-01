@@ -28,16 +28,16 @@ enum NavListType {
 }
 
 model User {
-  id              String  @id @default(uuid())
-  name            String  @db.VarChar(255)
-  email           String  @unique @db.VarChar(255)
-  studentId       String  @unique @db.VarChar(10)
-  kimlikId        String  @unique @db.VarChar(11)
-  role            Role    @default(USER)
-  isVerified      Boolean @default(false)
-  isEmailVerified Boolean @default(false)
-  password        String
-  img             String? @db.VarChar(255)
+  id            String    @id @default(uuid())
+  name          String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  studentId     String    @unique @db.VarChar(10)
+  kimlikId      String    @unique @db.VarChar(11)
+  role          Role[]    @default([USER])
+  isVerified    DateTime? @db.Timestamptz()
+  emailVerified DateTime? @db.Timestamptz()
+  password      String
+  img           String?   @db.VarChar(255)
 
   createdAt DateTime @default(now()) @db.Timestamptz()
   updatedAt DateTime @updatedAt @db.Timestamptz()

@@ -9,6 +9,7 @@ import { useToast } from "@/context/ToastContext"
 import axios from "axios"
 import { AuthResponse } from "@/types/auth"
 import { useRouter } from "next/navigation"
+import logout from "@/utils/auth/serverActions/logout"
 
 type Props = {
   navs: Nav[]
@@ -19,23 +20,10 @@ export default function NavListApp({ navs }: Props) {
   const { pushToast } = useToast()
   const router = useRouter()
 
-  async function logout() {
+  async function logout_() {
     pushToast("Logging out...", "normal")
 
-    await axios
-      .post<AuthResponse>("/api/auth/logout")
-      .then((res) => {
-        const { data } = res
-
-        if (data.status === "ok") pushToast(data.message, "success")
-
-        router.push("/auth")
-      })
-      .catch(({ response }) => {
-        const { data }: { data: AuthResponse } = response
-
-        if (data.status === "error") pushToast(data.message, "error")
-      })
+    logout()
   }
 
   return (
@@ -53,7 +41,7 @@ export default function NavListApp({ navs }: Props) {
             <FontAwesomeIcon icon={faXmark} size="xl" />
           </button>
 
-          <button className="text-white w-fit inline-flex gap-2" onClick={() => logout()}>
+          <button className="text-white w-fit inline-flex gap-2" onClick={() => logout_()}>
             <FontAwesomeIcon icon={faRightFromBracket} size="xl" />
             <span>Logout</span>
           </button>
@@ -67,7 +55,7 @@ export default function NavListApp({ navs }: Props) {
 
         <NavItem name="Dashboard" url={"/app"} type="ITEM" setShow={setShow} />
         <NavItem name="Verify" url={"/app/verify"} type="ITEM" setShow={setShow} />
-        <NavItem name="Profile" url={"/app/profile"} type="ITEM" setShow={setShow} />
+        <NavItem name="Settings" url={"/app/settings"} type="ITEM" setShow={setShow} />
         {navs.map((nav, i) => (
           <NavItem key={i} url={nav.url || ""} name={nav.name} type={nav.type} setShow={setShow} />
         ))}
