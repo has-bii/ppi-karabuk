@@ -1,15 +1,6 @@
 FROM node:18-alpine AS build
 WORKDIR /app
 
-# Define build-time environment variables
-ARG NEXT_PUBLIC_BLOG_TOKEN
-ARG NEXT_PUBLIC_BLOG_API
-
-# Set environment variables for the build process
-ENV NEXT_PUBLIC_BLOG_TOKEN=${NEXT_PUBLIC_BLOG_TOKEN}
-ENV NEXT_PUBLIC_BLOG_API=${NEXT_PUBLIC_BLOG_API}
-
-
 COPY package*.json ./
 RUN npm install 
 COPY . .
