@@ -7,10 +7,14 @@ import { UserProps } from "@/types/user"
 
 export const fetchCache = "force-no-store"
 
-export default async function Navbar({ user }: UserProps) {
+type Props = {
+  user: UserProps
+}
+
+export default async function Navbar({ user }: Props) {
   const navs: Nav[] = await fetchData(user.role)
   return (
-    <nav className="w-full flex flex-row items-center gap-14">
+    <nav className="w-full flex flex-row items-center gap-14 px-4 py-4 lg:px-8 lg:py-4 border-b bg-white drop-shadow z-20">
       <div className="hidden lg:block">
         <Logo />
       </div>

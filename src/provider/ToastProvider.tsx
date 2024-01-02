@@ -1,9 +1,9 @@
 "use client"
 
-import Toast from "@/components/Toast"
-import { ToastContext } from "@/context/ToastContext"
-import { ToastData, ToastStatus } from "@/types"
 import { ReactNode, useEffect, useState } from "react"
+import { ToastData, ToastStatus } from "@/types/toast"
+import { ToastContext } from "@/context/ToastContext"
+import Toast from "@/components/Toast"
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastData[]>([])

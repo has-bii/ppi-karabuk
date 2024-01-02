@@ -3,12 +3,10 @@ import { Metadata } from "next"
 import { ReactNode } from "react"
 
 export const metadata: Metadata = {
-  title: "AUTH | PPI Karabuk",
+  title: "Error | PPI Karabuk",
 }
 
-export const dynamic = "force-dynamic"
-
-export default function AuthLayout({ children }: { children: ReactNode }) {
+export default function ErrorLayout({ children }: { children: ReactNode }) {
   return (
     <main className="min-h-screen relative">
       <Navigator />

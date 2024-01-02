@@ -2,12 +2,15 @@
 
 import prisma from "@/lib/prisma"
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
 
 export default async function logout() {
-  prisma.token.delete({ where: { value: cookies().get("ppik_user")?.value as string } })
+  const token = cookies().get("ppik_user")?.value
+
+  if (token)
+    prisma.token
+      .delete({ where: { value: token } })
+      .then()
+      .catch()
 
   cookies().delete("ppik_user")
-
-  redirect("/auth")
 }

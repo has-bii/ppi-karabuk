@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation"
 import { UserProps } from "@/types/user"
 import logout from "@/utils/auth/serverActions/logout"
 
-export default function User({ user }: UserProps) {
+export default function User({ user }: { user: UserProps }) {
   const [show, setShow] = useState<boolean>(false)
   const { pushToast } = useToast()
   const router = useRouter()
@@ -19,7 +19,7 @@ export default function User({ user }: UserProps) {
   async function _logout() {
     pushToast("Logging out...", "normal")
 
-    logout()
+    logout().then(() => router.push("/auth"))
   }
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function User({ user }: UserProps) {
   }, [ref])
 
   return (
-    <div ref={ref} className="ml-auto inline-flex gap-2 items-center relative">
+    <div ref={ref} className="ml-auto inline-flex gap-2 items-center relative ">
       <div className="capitalize font-semibold text-xl hidden md:block">
         {user.name.split(" ").slice(0, 2).join(" ")}
       </div>

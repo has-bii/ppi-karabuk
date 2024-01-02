@@ -5,12 +5,12 @@ import jwt from "jsonwebtoken"
 
 export const getUser = async () => {
   try {
-    const token = cookies().get("ppik_user")
+    const token = cookies().get("ppik_user")?.value
 
-    if (!token) throw new Error("Unauthorized. Sign in first!")
+    if (!token) return null
 
     // Verifying token
-    const jwtPayload: any | null = jwt.verify(token.value, await getSecretKey(), (err, decoded) => {
+    const jwtPayload: any | null = jwt.verify(token, await getSecretKey(), (err, decoded) => {
       if (err) return null
 
       return decoded
@@ -23,13 +23,13 @@ export const getUser = async () => {
       select: { id: true, name: true, role: true, img: true },
     })
 
-    if (!user) throw new Error("Unauthorized. User has been removed!")
+    if (!user) return null
 
-    const tokenRecord = await prisma.token.findUnique({ where: { value: token.value } })
+    const tokenRecord = await prisma.token.findUnique({ where: { value: token } })
 
-    if (!tokenRecord) throw new Error("Token is invalid!")
+    if (!tokenRecord) return null
 
-    if (tokenRecord.expireDate < new Date()) throw new Error("Token is expired!")
+    if (tokenRecord.expireDate < new Date()) return null
 
     return user
   } catch (error) {

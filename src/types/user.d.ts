@@ -1,12 +1,10 @@
 import { Role } from "@prisma/client"
 
 type UserProps = {
-  user: {
-    id: string
-    name: string
-    role: Role[]
-    img: string | null
-  }
+  id: string
+  name: string
+  role: Role[]
+  img: string | null
 }
 
 type UserFetchResponse =

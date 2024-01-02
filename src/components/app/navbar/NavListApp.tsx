@@ -23,16 +23,16 @@ export default function NavListApp({ navs }: Props) {
   async function logout_() {
     pushToast("Logging out...", "normal")
 
-    logout()
+    logout().then(() => router.push("/auth"))
   }
 
   return (
-    <section className="">
+    <section className="z-30">
       <button className="block lg:hidden text-black" onClick={() => setShow(true)}>
         <FontAwesomeIcon icon={faBars} size="xl" />
       </button>
       <div
-        className={`flex flex-col lg:flex-row p-8 lg:p-0 gap-2 lg:gap-6 fixed lg:static lg:h-full lg:w-fit h-screen w-screen bg-black lg:bg-white text-white lg:text-black top-0 z-10 transition-[left] duration-200 ease-in ${
+        className={`flex flex-col lg:flex-row p-8 lg:p-0 gap-2 lg:gap-6 fixed lg:static lg:h-full lg:w-fit h-screen w-screen bg-black lg:bg-white text-white lg:text-black top-0 transition-[left] duration-200 ease-in ${
           show ? "left-0" : "-left-full"
         }`}
       >

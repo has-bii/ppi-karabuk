@@ -1,3 +1,4 @@
+import { TokenType } from "@prisma/client"
 import nodemailer from "nodemailer"
 import { MailOptions } from "nodemailer/lib/json-transport"
 
@@ -5,8 +6,8 @@ export default function sendEmail(
   receiver: string,
   subject: string,
   text: string,
-  type: "RECOVERY" | "VERIFY"
-): boolean {
+  type: TokenType
+) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -15,23 +16,18 @@ export default function sendEmail(
     },
   })
 
-  const mailOptions : MailOptions = {
+  const mailOptions: MailOptions = {
     from: process.env.EMAIL,
     to: receiver,
     subject: subject,
     html: text,
   }
 
-  let response: boolean = false
-
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error)
     } else {
-      response = true
       console.log(`${type} email has been sent: ${info.response}`)
     }
   })
-
-  return response
 }

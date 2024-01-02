@@ -54,8 +54,7 @@ export default async function forgot({
       },
     })
 
-    if (sendEmail(email, "Recover Account", resetPasswordTemplate(token), "RECOVERY"))
-      throw new Error("Failed to send email!")
+    sendEmail(email, "Recover Account", resetPasswordTemplate(token), "FORGOT")
 
     return { message: "Reset code has been sent to your email.", status: "ok" }
   } catch (error) {
