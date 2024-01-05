@@ -40,6 +40,7 @@ jobs:
           build-args: |
             NEXT_PUBLIC_BLOG_TOKEN=${{secrets.NEXT_PUBLIC_BLOG_TOKEN}}
             NEXT_PUBLIC_BLOG_API=${{secrets.NEXT_PUBLIC_BLOG_API}}
+            NEXT_PUBLIC_IMG_PROVIDER_URL=${{secrets.NEXT_PUBLIC_IMG_PROVIDER_URL}}
 
   deploy:
     runs-on: ubuntu-latest
