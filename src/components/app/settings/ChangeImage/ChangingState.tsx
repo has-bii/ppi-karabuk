@@ -86,7 +86,13 @@ export default function ChangingState({ userImage, setLocation }: ChangingStateP
       {/* Image */}
       <div className="relative overflow-hidden rounded-md aspect-square w-full bg-black">
         <Image
-          src={imageSrc ? imageHelper(imageSrc) : dummy}
+          src={
+            imageSrc === null
+              ? dummy
+              : imageSrc.startsWith("/images")
+              ? imageHelper(imageSrc)
+              : imageSrc
+          }
           className="object-cover"
           fill
           sizes="30vw"
