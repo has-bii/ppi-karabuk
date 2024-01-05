@@ -9,6 +9,7 @@ import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
 import { UserProps } from "@/types/user"
 import logout from "@/utils/auth/serverActions/logout"
+import imageHelper from "@/utils/imageHelper"
 
 export default function User({ user }: { user: UserProps }) {
   const [show, setShow] = useState<boolean>(false)
@@ -46,7 +47,13 @@ export default function User({ user }: { user: UserProps }) {
         className="h-10 w-10 relative rounded-full overflow-hidden hover:cursor-pointer"
         onClick={() => setShow(!show)}
       >
-        <Image src={user.img || dummy} alt="" fill sizes="10vw" className="object-cover" />
+        <Image
+          src={user.img ? imageHelper(user.img) : dummy}
+          alt=""
+          fill
+          sizes="10vw"
+          className="object-cover"
+        />
       </div>
       {show && (
         <ul className="absolute top-12 right-0 w-fit h-fit bg-white rounded-md border border-black divide-y divide-black overflow-hidden">

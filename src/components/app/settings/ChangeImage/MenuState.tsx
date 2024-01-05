@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { Dispatch, SetStateAction } from "react"
 import dummy from "@/images/dummy-pp.png"
 import Image from "next/image"
+import imageHelper from "@/utils/imageHelper"
 
 type MenuStateType = {
   userImage: string | null
@@ -15,7 +16,7 @@ export default function MenuState({ userImage, setLocation }: MenuStateType) {
       {/* Image */}
       <div className="relative overflow-hidden rounded-md aspect-square w-full bg-black">
         <Image
-          src={userImage ? userImage : dummy}
+          src={userImage ? imageHelper(userImage) : dummy}
           fill
           sizes="30vw"
           className="object-cover"

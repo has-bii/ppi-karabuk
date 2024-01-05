@@ -15,6 +15,12 @@ const nextConfig = {
         port: "",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "img.ppi-karabuk.com",
+        port: "",
+        pathname: "/images/**",
+      },
     ],
   },
 }

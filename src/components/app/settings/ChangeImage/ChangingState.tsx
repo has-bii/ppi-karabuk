@@ -3,6 +3,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react"
 import { useToast } from "@/context/ToastContext"
 import dummy from "@/images/dummy-pp.png"
 import Image from "next/image"
+import imageHelper from "@/utils/imageHelper"
 
 type ChangingStateProps = {
   userImage: string | null
@@ -85,7 +86,7 @@ export default function ChangingState({ userImage, setLocation }: ChangingStateP
       {/* Image */}
       <div className="relative overflow-hidden rounded-md aspect-square w-full bg-black">
         <Image
-          src={imageSrc ? imageSrc : dummy}
+          src={imageSrc ? imageHelper(imageSrc) : dummy}
           className="object-cover"
           fill
           sizes="30vw"
