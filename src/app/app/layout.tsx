@@ -1,8 +1,8 @@
 import Navbar from "@/components/app/navbar/Navbar"
 import { getUser } from "@/utils/auth/getUser"
 import { redirect } from "next/navigation"
-import type { Metadata } from "next"
 import { UserProps } from "@/types/user"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "App | PPI Karabuk",
@@ -20,13 +20,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <main className="flex flex-col h-screen w-screen">
+    <main className="flex flex-col min-h-screen min-w-screen overflow-x-hidden scrollbar-thin bg-gray-50">
       <Navbar user={user} />
-      <div className="h-full w-full bg-gray-50 flex z-0">
-        <div className="container bg-white p-8 rounded-xl border my-14 drop-shadow z-0 overflow-hidden">
-          {children}
-        </div>
-      </div>
+      {children}
     </main>
   )
 }

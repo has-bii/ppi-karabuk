@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('USER', 'STUDENT', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "TokenType" AS ENUM ('AUTH', 'FORGOT', 'VERIFY');
+CREATE TYPE "TokenType" AS ENUM ('AUTH', 'FORGOT', 'VERIFY', 'EMAIL');
 
 -- CreateEnum
 CREATE TYPE "NavListType" AS ENUM ('DROPDOWN', 'ITEM');
@@ -15,8 +15,8 @@ CREATE TABLE "users" (
     "studentId" VARCHAR(10) NOT NULL,
     "kimlikId" VARCHAR(11) NOT NULL,
     "role" "Role"[] DEFAULT ARRAY['USER']::"Role"[],
-    "isVerified" TIMESTAMP(3),
-    "emailVerified" TIMESTAMP(3),
+    "isVerified" TIMESTAMPTZ,
+    "emailVerified" TIMESTAMPTZ,
     "password" TEXT NOT NULL,
     "img" VARCHAR(255),
     "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,

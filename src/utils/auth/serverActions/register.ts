@@ -7,6 +7,8 @@ import { randomUUID } from "crypto"
 import prisma from "@/lib/prisma"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import sendEmail from "@/lib/sendEmail"
+import verificationEmailTemplate from "@/template/verificationEmailTemplate"
 
 type RegisterPayload = {
   name: string
@@ -55,7 +57,25 @@ export default async function register({
       httpOnly: true,
     })
 
-    return { status: "ok", message: "User has been registered successfully" }
+    const code = randomUUID()
+
+    const tokenEmailVerification = await prisma.token.create({
+      data: {
+        type: "EMAIL",
+        value: code,
+        expireDate: new Date(Date.now() + 5 * 60 * 60 * 1000),
+        userId: user.id,
+      },
+    })
+
+    sendEmail(
+      email,
+      "Verification Email",
+      verificationEmailTemplate(tokenEmailVerification.value),
+      "EMAIL"
+    )
+
+    return { status: "success", message: "User has been registered successfully" }
   } catch (error) {
     console.log("Internal server error. Failed to Register User: ", error)
     return { message: "Internal server error", status: "error", error: {} }

@@ -8,7 +8,7 @@ type AuthBody = {
 
 type AuthResponse<T = {}> =
   | {
-      status: "ok"
+      status: "success"
       message: string
     }
   | {

@@ -56,7 +56,7 @@ export default async function forgot({
 
     sendEmail(email, "Recover Account", resetPasswordTemplate(token), "FORGOT")
 
-    return { message: "Reset code has been sent to your email.", status: "ok" }
+    return { message: "Reset code has been sent to your email.", status: "success" }
   } catch (error) {
     console.log("Internal server error. Failed to Forgot password: ", error)
     return { message: "Internal server error", status: "error", error: {} }

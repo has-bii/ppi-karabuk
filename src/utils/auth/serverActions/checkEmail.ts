@@ -9,7 +9,7 @@ export default async function checkEmail(email: string): Promise<AuthResponse> {
 
     if (_email) return { status: "error", message: "Email is already in use.", error: {} }
 
-    return { status: "ok", message: "Email is available." }
+    return { status: "success", message: "Email is available." }
   } catch (error) {
     console.error("Failed to check email!\n", error)
     return { status: "error", message: "Internal server error!", error: {} }

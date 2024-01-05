@@ -6,8 +6,6 @@ import { Nav } from "@prisma/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faRightFromBracket, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useToast } from "@/context/ToastContext"
-import axios from "axios"
-import { AuthResponse } from "@/types/auth"
 import { useRouter } from "next/navigation"
 import logout from "@/utils/auth/serverActions/logout"
 
@@ -32,8 +30,8 @@ export default function NavListApp({ navs }: Props) {
         <FontAwesomeIcon icon={faBars} size="xl" />
       </button>
       <div
-        className={`flex flex-col lg:flex-row p-8 lg:p-0 gap-2 lg:gap-6 fixed lg:static lg:h-full lg:w-fit h-screen w-screen bg-black lg:bg-white text-white lg:text-black top-0 transition-[left] duration-200 ease-in ${
-          show ? "left-0" : "-left-full"
+        className={`flex flex-col lg:flex-row p-8 lg:p-0 gap-2 lg:gap-6 fixed lg:static lg:h-full lg:w-fit h-screen w-screen bg-black lg:bg-white text-white lg:text-black top-0 transition-[right] duration-200 ease-in ${
+          show ? "right-0" : "right-full"
         }`}
       >
         <div className="lg:hidden inline-flex justify-between gap-4">
@@ -53,11 +51,16 @@ export default function NavListApp({ navs }: Props) {
           </h1>
         </div>
 
-        <NavItem name="Dashboard" url={"/app"} type="ITEM" setShow={setShow} />
-        <NavItem name="Verify" url={"/app/verify"} type="ITEM" setShow={setShow} />
-        <NavItem name="Settings" url={"/app/settings"} type="ITEM" setShow={setShow} />
+        <NavItem name="Dashboard" url="" type="ITEM" setShow={setShow} />
+        <NavItem name="Settings" url="/settings/profile" type="ITEM" setShow={setShow} />
         {navs.map((nav, i) => (
-          <NavItem key={i} url={nav.url || ""} name={nav.name} type={nav.type} setShow={setShow} />
+          <NavItem
+            key={i}
+            url={nav.url as string}
+            name={nav.name}
+            type={nav.type}
+            setShow={setShow}
+          />
         ))}
       </div>
     </section>

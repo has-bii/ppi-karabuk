@@ -2,11 +2,10 @@
 
 import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
-import { AuthInput, AuthLoginErrorResponse, AuthResponse } from "@/types/auth"
+import { AuthInput } from "@/types/auth"
 import login from "@/utils/auth/serverActions/login"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "axios"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, useState } from "react"
@@ -34,7 +33,7 @@ export default function Login() {
 
     login({ email: email.value, password: password.value })
       .then((res) => {
-        if (res.status === "ok") {
+        if (res.status === "success") {
           pushToast(res.message, "success")
           const callbackUrl = searchParams.get("callbackUrl")
 

@@ -57,7 +57,7 @@ export default async function login({
       httpOnly: true,
     })
 
-    return { status: "ok", message: "Logged successfully" }
+    return { status: "success", message: "Logged successfully" }
   } catch (error) {
     console.log("Internal server error. Failed to Login: ", error)
     return { message: "Internal server error", status: "error", error: {} }

@@ -9,7 +9,7 @@ export default async function checkKimlik(kimlikID: string): Promise<AuthRespons
 
     if (checkKimlikID) return { status: "error", message: "Kimlik is already in use.", error: {} }
 
-    return { status: "ok", message: "Kimlik is available." }
+    return { status: "success", message: "Kimlik is available." }
   } catch (error) {
     console.error("Failed to check TC Kimlik!\n", error)
     return { status: "error", message: "Internal server error!", error: {} }

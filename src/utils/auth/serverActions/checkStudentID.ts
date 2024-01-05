@@ -10,7 +10,7 @@ export default async function checkStudentID(studentID: string): Promise<AuthRes
     if (checkStudentID)
       return { status: "error", message: "Student ID is already in use.", error: {} }
 
-    return { status: "ok", message: "Student ID is available." }
+    return { status: "success", message: "Student ID is available." }
   } catch (error) {
     console.error("Failed to check Student ID!\n", error)
     return { status: "error", message: "Internal server error!", error: {} }

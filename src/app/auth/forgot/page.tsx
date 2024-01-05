@@ -34,7 +34,7 @@ export default function Forgot() {
         email: email.value,
       })
       .then((res) => {
-        if (res.data.status === "ok") {
+        if (res.data.status === "success") {
           pushToast(res.data.message, "success")
         }
       })

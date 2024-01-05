@@ -1,36 +1,39 @@
-import { NavSideType } from "@/app/app/settings/page"
-import React from "react"
-import NavItem from "./NavItem"
+"use client"
 
-type Props = {
-  navLocation: NavSideType
-  setNavLocation: React.Dispatch<React.SetStateAction<NavSideType>>
-}
+import React from "react"
+import { usePathname, useRouter } from "next/navigation"
 
 export type NavItemType = {
-  name: NavSideType
+  name: string
   text: string
 }
 
 const items: NavItemType[] = [
-  { name: "PROFILE", text: "profile" },
-  { name: "ACTIVATE", text: "activate" },
-  { name: "PASSWORD", text: "change password" },
+  { name: "profile", text: "profile" },
+  { name: "activate", text: "activate" },
+  { name: "password", text: "change password" },
 ]
 
-export default function NavSide({ navLocation, setNavLocation }: Props) {
+export default function NavSide() {
+  const pathname = usePathname()
+  const router = useRouter()
   return (
-    <aside className="w-fit h-full">
-      <ul className="pr-8 flex flex-col gap-2">
+    <aside className="lg:w-fit w-full h-full">
+      <ul className="pr-8 flex flex-row lg:flex-col gap-2 mb-4 overflow-x-auto scrollbar-none snap-x">
+        {/* NavItem */}
         {items.map((item, index) => (
-          <NavItem
-            key={index}
-            name={item.name}
-            text={item.text}
-            navLocation={navLocation}
-            setNavLocation={setNavLocation}
-          />
+          <li key={index} className="snap-start w-fit lg:w-full">
+            <div
+              className={`capitalize w-full whitespace-nowrap rounded-md px-3 py-1.5 hover:cursor-pointer text-neutral-800 ${
+                pathname.includes(item.name) ? "bg-neutral-100" : ""
+              }`}
+              onClick={() => router.push("/app/settings/" + item.name)}
+            >
+              {item.text}
+            </div>
+          </li>
         ))}
+        {/* NavItem End */}
       </ul>
     </aside>
   )

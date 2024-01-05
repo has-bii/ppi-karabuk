@@ -43,7 +43,9 @@ export default async function updateUserData({
         if (typeof e.meta?.target === "object")
           return {
             status: "error",
-            message: (e.meta.target as string[]).join(", ").toUpperCase() + " already in use!",
+            message:
+              (e.meta.target as string[]).join(", ").toUpperCase().replace("ID", " ID") +
+              " already in use!",
           }
     }
 

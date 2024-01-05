@@ -2,14 +2,13 @@
 
 import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
-import { AuthInput, AuthRegisterErrorResponse, AuthResponse } from "@/types/auth"
+import { AuthInput } from "@/types/auth"
 import checkEmail from "@/utils/auth/serverActions/checkEmail"
 import checkKimlik from "@/utils/auth/serverActions/checkKimlik"
 import checkStudentID from "@/utils/auth/serverActions/checkStudentID"
 import register from "@/utils/auth/serverActions/register"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
@@ -68,9 +67,11 @@ export default function Register() {
       password: password.value,
     })
       .then((res) => {
-        if (res.status === "error") pushToast(res.message, "error")
-
-        pushToast(res.message, "success")
+        pushToast(res.message, res.status)
+        if (res.status === "success") {
+          pushToast("Please check your email to verify email", "normal")
+          router.push("/app")
+        }
       })
       .catch((err) => {
         pushToast("Internal server error", "danger")
@@ -99,15 +100,21 @@ export default function Register() {
 
   useEffect(() => {
     if (studentID.value.length >= 10)
-      checkStudentID(studentID.value).then((res: AuthResponse) => {
-        setStudentID((prev) => ({ ...prev, validation: { status: res.status, text: res.message } }))
+      checkStudentID(studentID.value).then((res) => {
+        setStudentID((prev) => ({
+          ...prev,
+          validation: { status: res.status === "success" ? "ok" : "error", text: res.message },
+        }))
       })
   }, [studentID.value])
 
   useEffect(() => {
     if (kimlikID.value.length >= 11)
-      checkKimlik(kimlikID.value).then((res: AuthResponse) => {
-        setKimlikID((prev) => ({ ...prev, validation: { status: res.status, text: res.message } }))
+      checkKimlik(kimlikID.value).then((res) => {
+        setKimlikID((prev) => ({
+          ...prev,
+          validation: { status: res.status === "success" ? "ok" : "error", text: res.message },
+        }))
       })
   }, [kimlikID.value])
 
@@ -115,8 +122,11 @@ export default function Register() {
     if (email.value)
       if (checkEmailRegex(email.value)) {
         setEmail((prev) => ({ ...prev, validation: { status: null, text: "" } }))
-        checkEmail(email.value).then((res: AuthResponse) => {
-          setEmail((prev) => ({ ...prev, validation: { status: res.status, text: res.message } }))
+        checkEmail(email.value).then((res) => {
+          setEmail((prev) => ({
+            ...prev,
+            validation: { status: res.status === "success" ? "ok" : "error", text: res.message },
+          }))
         })
       } else {
         setEmail((prev) => ({ ...prev, validation: { status: "error", text: "Invalid email!" } }))

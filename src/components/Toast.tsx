@@ -5,29 +5,29 @@ import ToastIcon from "@/components/ToastIcon"
 type ToastStatus = "danger" | "error" | "normal" | "success"
 
 type ToastData = {
-    message: string
-    status: ToastStatus
+  message: string
+  status: ToastStatus
 }
 
 type Props = {
-    toasts: ToastData[]
-    delToast: (toast: ToastData) => void
+  toasts: ToastData[]
+  delToast: (toast: ToastData) => void
 }
 
 export default function Toast({ toasts, delToast }: Props) {
-    return (
-        <div className="toast-container">
-            {toasts.map((toast, id) => (
-                <div key={id} className={`toast-item ${toast.status}`}>
-                    <ToastIcon status={toast.status} />
+  return (
+    <div className="toast-container">
+      {toasts.map((toast, id) => (
+        <div key={id} className={`toast-item ${toast.status}`}>
+          <ToastIcon status={toast.status} />
 
-                    <p>{toast.message}</p>
+          <p>{toast.message}</p>
 
-                    <button onClick={() => delToast(toast)}>
-                        <FontAwesomeIcon icon={faXmark} />
-                    </button>
-                </div>
-            ))}
+          <button className="ml-auto" onClick={() => delToast(toast)}>
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
         </div>
-    )
+      ))}
+    </div>
+  )
 }

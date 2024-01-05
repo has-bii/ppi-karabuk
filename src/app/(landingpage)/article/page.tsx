@@ -16,6 +16,7 @@ import Tags from "@/components/Article/Tags"
 import PopularNews from "@/components/Article/PopularNews"
 
 export const dynamic = "force-dynamic"
+export const dynamicParams = true
 
 interface Query {
   populate: "*"

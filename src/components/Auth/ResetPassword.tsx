@@ -35,7 +35,7 @@ export default function ResetPassword({ token }: { token: string }) {
         token: token,
       })
       .then((res) => {
-        if (res.data.status === "ok") {
+        if (res.data.status === "success") {
           pushToast(res.data.message, "success")
           router.push("/auth")
         }

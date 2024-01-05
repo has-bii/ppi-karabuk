@@ -1,11 +1,11 @@
-import { config } from "@fortawesome/fontawesome-svg-core"
-import "@fortawesome/fontawesome-svg-core/styles.css"
-config.autoAddCss = false
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "@/styles/globals.css"
-import { ToastProvider } from "@/provider/ToastProvider"
 import ReactQueryProvider from "@/provider/ReactQueryProvider"
+import { config } from "@fortawesome/fontawesome-svg-core"
+import { ToastProvider } from "@/provider/ToastProvider"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { Inter } from "next/font/google"
+import type { Metadata } from "next"
+import "@/styles/globals.css"
+config.autoAddCss = false
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -18,7 +18,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={
+          inter.className +
+          " scrollbar-thin scrollbar-track-black/20 scrollbar-thumb-black/70 active:scrollbar-thumb-black"
+        }
+      >
         <ReactQueryProvider>
           <ToastProvider>{children}</ToastProvider>
         </ReactQueryProvider>
