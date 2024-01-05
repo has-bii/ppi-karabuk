@@ -16,6 +16,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       NEXT_PUBLIC_BLOG_TOKEN: ${NEXT_PUBLIC_BLOG_TOKEN}
       NEXT_PUBLIC_BLOG_API: ${NEXT_PUBLIC_BLOG_API}
+      NODE_ENV: production
     networks:
       - db-network
 
