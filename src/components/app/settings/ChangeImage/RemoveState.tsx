@@ -31,7 +31,7 @@ export default function RemoveState({ setLocation }: Props) {
   return (
     <div className="flex flex-col items-center">
       {/* Image */}
-      <div className="relative rounded-full overflow-hidden aspect-square w-48 bg-black mb-4">
+      <div className="relative rounded-full overflow-hidden aspect-square w-48 bg-black mb-4 opacity-25">
         <Image
           src={dummy}
           className="object-cover"
@@ -43,10 +43,10 @@ export default function RemoveState({ setLocation }: Props) {
         />
       </div>
 
-      <div className="text-center text-2xl font-semibold mb-0 text-slate-800    ">
+      <div className="text-center text-2xl font-semibold mb-0 text-neutral-400    ">
         Remove profile picture?
       </div>
-      <div className="text-center text-slate-500 mb-4">
+      <div className="text-center text-neutral-300 mb-4">
         Your previous picture will be removed,
         <br /> and this image will be used instead.
       </div>

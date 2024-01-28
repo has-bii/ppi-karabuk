@@ -18,7 +18,7 @@ export default function ChangeImage({ userImage, modal, setModal }: Props) {
   return (
     <Modal title="change profile image" show={modal} setShow={setModal}>
       {location === "MENU" && <MenuState userImage={userImage} setLocation={setLocation} />}
-      {location === "CHANGE" && <ChangingState userImage={userImage} setLocation={setLocation} />}
+      {location === "CHANGE" && <ChangingState setLocation={setLocation} />}
       {location === "REMOVE" && <RemoveState setLocation={setLocation} />}
     </Modal>
   )

@@ -4,14 +4,15 @@ import { useToast } from "@/context/ToastContext"
 import dummy from "@/images/dummy-pp.png"
 import Image from "next/image"
 import imageHelper from "@/utils/imageHelper"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
 
 type ChangingStateProps = {
-  userImage: string | null
   setLocation: Dispatch<SetStateAction<"MENU" | "CHANGE" | "REMOVE">>
 }
 
-export default function ChangingState({ userImage, setLocation }: ChangingStateProps) {
-  const [imageSrc, setImageSrc] = useState<string | null>(userImage)
+export default function ChangingState({ setLocation }: ChangingStateProps) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -24,13 +25,13 @@ export default function ChangingState({ userImage, setLocation }: ChangingStateP
 
   function uploadFileHandler(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files === null) {
-      setImageSrc(userImage)
+      setImageSrc(null)
       setFile(null)
       return undefined
     }
 
     if (e.target.files.length === 0) {
-      setImageSrc(userImage)
+      setImageSrc(null)
       setFile(null)
       return undefined
     }
@@ -40,7 +41,7 @@ export default function ChangingState({ userImage, setLocation }: ChangingStateP
     if (file.size > 2 * 1024 * 1024) {
       pushToast("Max size is 5MB", "danger")
       setFile(null)
-      setImageSrc(userImage)
+      setImageSrc(null)
       return undefined
     }
 
@@ -59,7 +60,7 @@ export default function ChangingState({ userImage, setLocation }: ChangingStateP
     } else {
       pushToast("Invalid file type!", "danger")
       setFile(null)
-      setImageSrc(userImage)
+      setImageSrc(null)
     }
   }
 
@@ -84,58 +85,65 @@ export default function ChangingState({ userImage, setLocation }: ChangingStateP
   return (
     <div className="flex flex-col gap-4 items-center">
       {/* Image */}
-      <div className="relative overflow-hidden rounded-md aspect-square w-full bg-black">
-        <Image
-          src={
-            imageSrc === null
-              ? dummy
-              : imageSrc.startsWith("/images")
-              ? imageHelper(imageSrc)
-              : imageSrc
-          }
-          className="object-cover"
-          fill
-          sizes="30vw"
-          quality={100}
-          priority
-          alt=""
-        />
-      </div>
+
+      {imageSrc !== null ? (
+        <div className="relative overflow-hidden rounded-md aspect-square w-full bg-black">
+          <Image
+            src={imageSrc}
+            className="object-cover"
+            fill
+            sizes="30vw"
+            quality={100}
+            priority
+            alt=""
+          />
+        </div>
+      ) : (
+        <div className="w-full py-8 flex flex-col gap-2 justify-center items-center">
+          <FontAwesomeIcon icon={faCloudArrowUp} size="4x" className="text-neutral-300" />
+          <p className="text-neutral-300">File format: JPG / JPEG / PNG</p>
+          <label
+            htmlFor="file-image"
+            className="px-4 py-2 rounded-md bg-sky-300 text-white mt-2 hover:cursor-pointer"
+          >
+            Choose File
+          </label>
+          <p className="text-neutral-300 text-sm">Max size: 2MB</p>
+        </div>
+      )}
 
       {/* Buttons */}
-      <div className="inline-flex items-center gap-4 w-full">
-        <div>
-          <input
-            ref={inputRef}
-            type="file"
-            name="file-image"
-            id="file-image"
-            accept="image/jpg,image/jpeg,image/png"
-            onChange={uploadFileHandler}
-            className="file:bg-black file:border-0 file:px-3 file:py-1.5 file:rounded-lg file:text-white file:mr-4 text-neutral-600 file:hover:cursor-pointer"
-          />
-          {file !== null ? (
-            <button
-              type="button"
-              onClick={() => {
-                updateHandler(file)
-              }}
-              disabled={loading}
-              className="mt-2 w-full text-center capitalize rounded-md bg-sky-400 text-white font-medium px-3 py-1.5"
-            >
-              save
-            </button>
-          ) : (
-            ""
-          )}
+      <div className="inline-flex items-center gap-2 w-full">
+        <input
+          ref={inputRef}
+          type="file"
+          name="file-image"
+          id="file-image"
+          accept="image/jpg,image/jpeg,image/png"
+          onChange={uploadFileHandler}
+          className="hidden"
+        />
+        {file !== null ? (
           <button
             type="button"
-            className="mt-2 w-full text-center capitalize rounded-md border text-sky-400 font-medium px-3 py-1.5"
-            onClick={() => setLocation("MENU")}
+            onClick={() => {
+              updateHandler(file)
+            }}
+            disabled={loading}
+            className="mt-2 w-full text-center capitalize rounded-md bg-sky-400 text-white font-medium px-3 py-1.5"
           >
-            back
+            save
           </button>
-        </div>
+        ) : (
+          ""
+        )}
+        <button
+          type="button"
+          className="mt-2 w-full text-center capitalize rounded-md border text-sky-400 font-medium px-3 py-1.5"
+          onClick={() => setLocation("MENU")}
+        >
+          back
+        </button>
       </div>
     </div>
   )
