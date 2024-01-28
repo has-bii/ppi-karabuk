@@ -1,12 +1,11 @@
 import RenderContent from "@/components/Article/RenderContent"
-import { axiosBlog, axiosBlogUpdate } from "@/lib/axiosBlog"
+import { axiosBlogUpdate } from "@/lib/axiosBlog"
 import { Blog, ResBlog } from "@/types/blog"
 import getDate from "@/utils/api/getDate"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import qs from "qs"
-import { cache } from "react"
 
 export const revalidate = 3600 // revalidate the data at most every hour
 
@@ -107,7 +106,7 @@ async function updateBlogVisited(id: number, visited: string | null) {
   })
 }
 
-const getData = cache(async (slug: string): Promise<Blog | undefined> => {
+async function getData(slug: string): Promise<Blog | undefined> {
   const query = qs.stringify(
     {
       populate: "*",
@@ -124,12 +123,23 @@ const getData = cache(async (slug: string): Promise<Blog | undefined> => {
       encodeValuesOnly: true,
     }
   )
-  const res = await axiosBlog.get<ResBlog>(`/blogs?${query}`)
 
-  if (res.data.data.length === 0) return undefined
+  const res = await fetch(`${process.env.BLOG_API}/blogs?${query}`, {
+    cache: "force-cache",
+    headers: { Authorization: "Bearer " + process.env.BLOG_TOKEN },
+  })
 
-  return res.data.data[0]
-})
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data")
+  }
+
+  const data: ResBlog = await res.json()
+
+  if (data.data.length === 0) return undefined
+
+  return data.data[0]
+}
 
 export async function generateMetadata({
   params,

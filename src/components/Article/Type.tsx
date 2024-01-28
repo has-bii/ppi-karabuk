@@ -1,43 +1,16 @@
-import { axiosBlog } from "@/lib/axiosBlog"
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
-import { useQuery } from "react-query"
+"use client"
+
+import { TypeData } from "@/types/article"
+import { useEffect, useRef, useState } from "react"
 
 type Props = {
-  setType: Dispatch<SetStateAction<string>>
-  type: string
-}
-
-interface TypeData {
-  id: number
-  attributes: {
-    name: string
-  }
-}
-
-interface Meta {
-  pagination: {
-    page: number
-    pageSize: number
-    pageCount: number
-    total: number
-  }
-}
-
-interface ResData {
   data: TypeData[]
-  meta: Meta
+  type: string | null
+  setType: React.Dispatch<React.SetStateAction<string | null>>
 }
 
-export default function Type({ setType, type }: Props) {
+export default function Type({ data, type, setType }: Props) {
   const [select, setSelect] = useState<boolean>(false)
-  const { data, isLoading, isError } = useQuery(
-    "types",
-    (): Promise<TypeData[]> =>
-      axiosBlog
-        .get<ResData>("/types")
-        .then((res) => res.data.data)
-        .catch((error) => error)
-  )
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -48,46 +21,36 @@ export default function Type({ setType, type }: Props) {
       }
     }
 
-    document.addEventListener("click", handleOutsideClick)
+    if (select) document.addEventListener("click", handleOutsideClick)
 
     return () => {
-      document.removeEventListener("click", handleOutsideClick)
+      if (select) document.removeEventListener("click", handleOutsideClick)
     }
-  }, [ref])
-
-  if (isLoading)
-    return (
-      <div className="bg-neutral-400 text-neutral-600 px-4 py-2 w-full lg:w-fit text-center">
-        Loading...
-      </div>
-    )
-  if (isError)
-    return (
-      <div className="bg-neutral-400 text-neutral-600 px-4 py-2 w-full lg:w-fit text-center">
-        Error
-      </div>
-    )
+  }, [ref, select])
 
   if (data)
     return (
       <div
-        ref={ref}
         className="bg-black text-white px-4 py-2 relative hover:cursor-pointer capitalize w-full lg:w-fit text-center"
         onClick={() => {
-          setSelect(true)
+          setSelect(!select)
         }}
       >
-        <span>{type || "Type"}</span>
+        <span>{type ? type : "Type"}</span>
         {select && (
-          <div className="absolute top-14 left-1/2 -translate-x-1/2 border-2 border-black bg-white z-20 text-black flex flex-col divide-y divide-neutral-200 max-h-44 overflow-x-hidden overflow-y-auto">
+          <div
+            ref={ref}
+            className="absolute top-14 left-1/2 -translate-x-1/2 border-2 border-black bg-white z-20 text-black flex flex-col divide-y divide-neutral-200 max-h-44 overflow-x-hidden overflow-y-auto"
+          >
             {data.map((item, index) => (
               <div
                 key={index}
                 className={`px-4 py-2 font-semibold whitespace-nowrap ${
-                  item.attributes.name === type ? "bg-sky-100" : ""
+                  type === item.attributes.name ? "bg-sky-100" : ""
                 }`}
                 onClick={() => {
-                  if (type === item.attributes.name) setType("")
+                  setSelect(false)
+                  if (type === item.attributes.name) setType(null)
                   else setType(item.attributes.name)
                 }}
               >

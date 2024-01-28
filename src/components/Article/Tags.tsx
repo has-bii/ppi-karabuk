@@ -1,43 +1,16 @@
-import { axiosBlog } from "@/lib/axiosBlog"
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
-import { useQuery } from "react-query"
+"use client"
+
+import { TypeData } from "@/types/article"
+import React, { useEffect, useRef, useState } from "react"
 
 type Props = {
-  setTags: Dispatch<SetStateAction<string[]>>
+  data: TypeData[]
   tags: string[]
+  setTags: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-interface TagsData {
-  id: number
-  attributes: {
-    name: string
-  }
-}
-
-interface Meta {
-  pagination: {
-    page: number
-    pageSize: number
-    pageCount: number
-    total: number
-  }
-}
-
-interface ResData {
-  data: TagsData[]
-  meta: Meta
-}
-
-export default function Tags({ setTags, tags }: Props) {
+export default function Tags({ data, tags, setTags }: Props) {
   const [select, setSelect] = useState<boolean>(false)
-  const { data, isLoading, isError } = useQuery(
-    "tags",
-    (): Promise<TagsData[]> =>
-      axiosBlog
-        .get<ResData>("/tags")
-        .then((res) => res.data.data)
-        .catch((error) => error)
-  )
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -48,25 +21,12 @@ export default function Tags({ setTags, tags }: Props) {
       }
     }
 
-    document.addEventListener("click", handleOutsideClick)
+    if (select) document.addEventListener("click", handleOutsideClick)
 
     return () => {
-      document.removeEventListener("click", handleOutsideClick)
+      if (select) document.removeEventListener("click", handleOutsideClick)
     }
-  }, [ref])
-
-  if (isLoading)
-    return (
-      <div className="bg-neutral-400 text-neutral-600 px-4 py-2 w-full lg:w-fit text-center">
-        Loading...
-      </div>
-    )
-  if (isError)
-    return (
-      <div className="bg-neutral-400 text-neutral-600 px-4 py-2 w-full lg:w-fit text-center">
-        Error
-      </div>
-    )
+  }, [ref, select])
 
   if (data)
     return (

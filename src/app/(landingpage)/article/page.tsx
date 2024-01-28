@@ -1,192 +1,204 @@
-"use client"
-
-import { axiosBlog } from "@/lib/axiosBlog"
-import { ILatestNews } from "@/types"
+import PopularNews from "@/components/Article/PopularNews"
+import { ILatestNews, NewsDataAttributes } from "@/types"
 import getDate from "@/utils/api/getDate"
-import { faCircleNotch, faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 import qs from "qs"
-import { useSearchParams } from "next/navigation"
-import Category from "@/components/Article/Category"
-import Type from "@/components/Article/Type"
-import Tags from "@/components/Article/Tags"
-import PopularNews from "@/components/Article/PopularNews"
+import QueryingArticles from "@/components/Article/QueryingArticles"
+import { ICategory, ITag, ITitle, IType, Query } from "@/types/article"
 
-export const dynamic = "force-dynamic"
-export const dynamicParams = true
-
-interface Query {
-  populate: "*"
-  pagination: {
-    pageSize: number
-    page: number
-  }
-  filters: {
-    $and?: (ITitle | ICategory | ITag | IType)[]
-  }
+type TypeParams = {
+  pTags: string[]
+  pType: string | null
+  pCategory: string | null
+  pTitle: string | null
 }
 
-interface ITitle {
-  title: {
-    $containsi: string
-  }
-}
-
-interface IType {
-  type: {
+interface TypeData {
+  id: number
+  attributes: {
     name: string
   }
 }
 
-interface ICategory {
-  category: {
-    name: string
-  }
-}
+// Fetching functions
+async function fetchTypesData(): Promise<TypeData[]> {
+  try {
+    const res = await fetch(`${process.env.BLOG_API}/types`, {
+      next: { revalidate: 3600 },
+      headers: {
+        Authorization: "Bearer " + process.env.BLOG_TOKEN,
+      },
+    })
 
-interface ITag {
-  tags: {
-    name: {
-      $in: string[]
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data")
     }
+
+    const data: { data: TypeData[] } = await res.json()
+
+    return data.data
+  } catch (error) {
+    return []
   }
+}
+
+async function fetchCategoriesData(): Promise<TypeData[]> {
+  try {
+    const res = await fetch(`${process.env.BLOG_API}/categories`, {
+      next: { revalidate: 3600 },
+      headers: {
+        Authorization: "Bearer " + process.env.BLOG_TOKEN,
+      },
+    })
+
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data")
+    }
+
+    const data: { data: TypeData[] } = await res.json()
+
+    return data.data
+  } catch (error) {
+    return []
+  }
+}
+
+async function fetchTagsData(): Promise<TypeData[]> {
+  try {
+    const res = await fetch(`${process.env.BLOG_API}/tags`, {
+      next: { revalidate: 3600 },
+      headers: {
+        Authorization: "Bearer " + process.env.BLOG_TOKEN,
+      },
+    })
+
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data")
+    }
+
+    const data: { data: TypeData[] } = await res.json()
+
+    return data.data
+  } catch (error) {
+    return []
+  }
+}
+
+async function fetchNews({
+  pCategory,
+  pTags,
+  pType,
+  pTitle,
+}: TypeParams): Promise<NewsDataAttributes[]> {
+  try {
+    const query: Query = {
+      populate: "*",
+      pagination: {
+        pageSize: 10,
+        page: 1,
+      },
+      filters: {
+        $and: [],
+      },
+    }
+
+    addQuery(query, { pCategory, pTags, pType, pTitle })
+
+    const res = await fetch(
+      `${process.env.BLOG_API}/blogs?${qs.stringify(query, { encodeValuesOnly: true })}`,
+      {
+        cache: "no-cache",
+        headers: {
+          Authorization: "Bearer " + process.env.BLOG_TOKEN,
+        },
+      }
+    )
+
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data")
+    }
+
+    const data: ILatestNews = await res.json()
+
+    return data.data
+  } catch (error) {
+    return []
+  }
+}
+
+// Utils
+function getParams(searchParams: { [key: string]: string | string[] | undefined }): TypeParams {
+  const t = searchParams["tag"] ?? []
+  const ty = searchParams["type"] ?? []
+  const c = searchParams["category"] ?? []
+  const tl = searchParams["title"] ?? []
+
+  const pTags: string[] = typeof t === "string" ? [t] : t
+  const pType: string | null = typeof ty === "string" ? ty : ty.length === 0 ? null : ty[0]
+  const pCategory: string | null = typeof c === "string" ? c : c.length === 0 ? null : c[0]
+  const pTitle: string | null = typeof tl === "string" ? tl : tl.length === 0 ? null : tl[0]
+
+  return { pTags, pType, pCategory, pTitle }
+}
+
+function addQuery(query: Query, { pType, pCategory, pTags, pTitle }: TypeParams) {
+  const and: (ITitle | ICategory | ITag | IType)[] = []
+
+  if (pTitle) and.push({ title: { $containsi: pTitle } })
+
+  if (pType) and.push({ type: { name: pType } })
+
+  if (pCategory) and.push({ category: { name: pCategory } })
+
+  if (pTags.length > 0) and.push({ tags: { name: { $in: pTags } } })
+
+  if (and.length > 0) query.filters.$and = and
 }
 
 // Main Component
 
-export default function Page() {
-  const params = useSearchParams()
-  const [data, setData] = useState<ILatestNews | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [m, setM] = useState<boolean>(true)
-  const [TO, setTO] = useState<NodeJS.Timeout | null>(null)
-  const [title, setTitle] = useState<string>(params.get("title") || "")
-  const [category, setCategory] = useState<string>(params.get("category") || "")
-  const [tags, setTags] = useState<string[]>(params.getAll("tags") || [])
-  const [type, setType] = useState<string>(params.get("type") || "")
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  const { pCategory, pTags, pType, pTitle } = getParams(searchParams)
 
-  async function fetchData() {
-    try {
-      setLoading(true)
-
-      const query: Query = {
-        populate: "*",
-        pagination: {
-          pageSize: 10,
-          page: 1,
-        },
-        filters: {
-          $and: [],
-        },
-      }
-
-      addQuery(query)
-
-      const res = await axiosBlog.get<ILatestNews>(
-        "/blogs?" + qs.stringify(query, { encodeValuesOnly: true })
-      )
-
-      if (res.data) setData(res.data)
-    } catch (error) {
-      console.error("Failed to get Articles!")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    if (TO !== null) clearTimeout(TO)
-
-    if (m) {
-      fetchData()
-      setM(false)
-    } else
-      setTO(
-        setTimeout(() => {
-          fetchData()
-        }, 1500)
-      )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, category, tags, type])
-
-  function addQuery(query: Query) {
-    const and: (ITitle | ICategory | ITag | IType)[] = []
-
-    if (title) and.push({ title: { $containsi: title } })
-
-    if (type) and.push({ type: { name: type } })
-
-    if (category) and.push({ category: { name: category } })
-
-    if (tags.length > 0) and.push({ tags: { name: { $in: tags } } })
-
-    if (and.length > 0) query.filters.$and = and
-  }
+  const data = await fetchNews({ pCategory, pTags, pType, pTitle })
+  const dataTypes = await fetchTypesData()
+  const dataCategories = await fetchCategoriesData()
+  const dataTags = await fetchTagsData()
 
   return (
     <section className="container spacing">
       <h1>Pojok Tulisan</h1>
       <div className="flex flex-col lg:flex-row gap-16">
         <div className="w-full lg:w-3/4">
-          <div className="flex flex-col lg:flex-row gap-2 w-full">
-            <div className="inline-flex w-full gap-4 justify-between bg-white border-2 border-[#000] px-4 py-2">
-              <input
-                type="text"
-                placeholder="Cari tulisan"
-                className="w-full"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") fetchData()
-                }}
-              />
-              <button onClick={() => fetchData()}>
-                {loading ? (
-                  <FontAwesomeIcon icon={faCircleNotch} size="xl" className="animate-spin" />
-                ) : (
-                  <FontAwesomeIcon icon={faSearch} size="xl" />
-                )}
-              </button>
-            </div>
-            <div className="inline-flex gap-2">
-              <Type type={type} setType={setType} />
-              <Category category={category} setCategory={setCategory} />
-              <Tags tags={tags} setTags={setTags} />
-            </div>
-          </div>
-
-          {/* Tags */}
-          {tags.length > 0 && (
-            <div className="w-fit flex-wrap inline-flex items-center gap-1 pt-2">
-              <div className="font-bold text-black uppercase h-fit">tags :</div>
-              {tags.map((item, index) => (
-                <div
-                  key={index}
-                  className="px-2 py-1 bg-neutral-300 text-neutral-600 text-sm hover:cursor-pointer inline-flex gap-1 items-center"
-                  onClick={() => setTags(tags.filter((value) => value !== item))}
-                >
-                  #{item}
-                  <FontAwesomeIcon icon={faCircleXmark} size="1x" className="text-neutral-400" />
-                </div>
-              ))}
-            </div>
-          )}
-          {/* Tags end */}
+          {/* Filtering articles start */}
+          <QueryingArticles
+            dataCategories={dataCategories}
+            dataTypes={dataTypes}
+            dataTags={dataTags}
+            pCategory={pCategory}
+            pTags={pTags}
+            pType={pType}
+            pTitle={pTitle}
+          />
+          {/* Filtering articles end */}
 
           {/* Main */}
-
           <div className="flex flex-col mt-4 divide-y">
-            {loading ? (
-              <LoadingNews />
-            ) : data?.data.length === 0 ? (
+            {data.length === 0 ? (
               <div className="w-full h-28 flex justify-center items-center">
                 There is no article.
               </div>
             ) : (
-              data?.data.map((item, index) => (
+              data.map((item, index) => (
                 <div key={index} className="flex flex-col lg:flex-row gap-4 py-4">
                   <Link
                     href={"/article/" + item.attributes.slug}
@@ -220,18 +232,21 @@ export default function Page() {
                     </p>
                     <p className="text-neutral-400 font-light text-sm mt-auto">
                       {`by `}
-                      <span className="font-semibold text-black">
+                      <Link
+                        href={`https://www.instagram.com/${item.attributes.author.data.attributes.username}/`}
+                        target="_blank"
+                        className="font-semibold text-black"
+                      >
                         {item.attributes.author.data.attributes.firstname +
                           " " +
                           item.attributes.author.data.attributes.lastname}
-                      </span>
+                      </Link>
                     </p>
                   </div>
                 </div>
               ))
             )}
           </div>
-
           {/* Main end */}
         </div>
         <div className="w-full lg:w-1/4">
@@ -243,23 +258,4 @@ export default function Page() {
       </div>
     </section>
   )
-}
-
-function LoadingNews() {
-  const data = Array.from(Array(3))
-
-  return data.map((e, index) => (
-    <div key={index} className="flex flex-col lg:flex-row gap-4 py-4 animate-pulse">
-      <div className="aspect-video h-48 bg-neutral-200"></div>
-      <div className="flex w-full gap-1 flex-col">
-        <div className="h-4 w-1/2 bg-neutral-200"></div>
-        <div className="w-full h-8 bg-neutral-200"></div>
-        <div className="h-6 w-full bg-neutral-200"></div>
-        <div className="h-6 w-full bg-neutral-200"></div>
-        <div className="h-6 w-full bg-neutral-200"></div>
-        <div className="h-6 w-full bg-neutral-200"></div>
-        <div className="mt-auto h-3 w-1/5 bg-neutral-200"></div>
-      </div>
-    </div>
-  ))
 }
