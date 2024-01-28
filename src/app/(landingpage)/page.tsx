@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   title: "Home | PPI Karabuk",
 }
 
-export default function Home() {
+export const dynamic = "force-dynamic"
+export const revalidate = 3600
+
+export default async function Home() {
   return (
     <>
       {/* Hero Start */}
