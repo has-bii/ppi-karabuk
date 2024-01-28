@@ -12,7 +12,7 @@ export default function RenderContent({ contents }: Props) {
     if (item.type === "heading")
       return (
         <p key={index} className={`heading-${item.level}`}>
-          <RenderChildren child={item.children} />
+          <RenderChildren child={item.children} index={index} />
         </p>
       )
 
@@ -20,7 +20,7 @@ export default function RenderContent({ contents }: Props) {
     if (item.type === "paragraph")
       return (
         <p key={index} className="mb-4">
-          <RenderChildren child={item.children} />
+          <RenderChildren child={item.children} index={index} />
         </p>
       )
 
@@ -33,7 +33,7 @@ export default function RenderContent({ contents }: Props) {
               if (child.type === "list-item")
                 return (
                   <li key={childKey}>
-                    <RenderChildren child={child.children} />
+                    <RenderChildren child={child.children} index={index} />
                   </li>
                 )
             })}
@@ -46,7 +46,7 @@ export default function RenderContent({ contents }: Props) {
               if (child.type === "list-item")
                 return (
                   <li key={childKey}>
-                    <RenderChildren child={child.children} />
+                    <RenderChildren child={child.children} index={index} />
                   </li>
                 )
             })}
@@ -70,18 +70,27 @@ export default function RenderContent({ contents }: Props) {
     if (item.type === "quote")
       return (
         <p key={index} className="mb-4 quote">
-          <RenderChildren child={item.children} />
+          <RenderChildren child={item.children} index={index} />
         </p>
       )
   })
 }
 
-function RenderChildren({ child }: { child: childrenType[] }) {
-  return child.map((i) => {
-    if (i.type === "text") return <span className={getClassName(i)}>{i.text}</span>
+function RenderChildren({ child, index }: { index: number; child: childrenType[] }) {
+  return child.map((i, indexText) => {
+    if (i.type === "text")
+      return (
+        <span key={index + "_" + indexText} className={getClassName(i)}>
+          {i.text}
+        </span>
+      )
     if (i.type === "link")
       return i.children.map((childLink, indexLink) => (
-        <Link href={i.url} key={indexLink} className={`text-sky-400 ${getClassName(childLink)}`}>
+        <Link
+          href={i.url}
+          key={index + "_" + indexLink}
+          className={`text-sky-400 ${getClassName(childLink)}`}
+        >
           {childLink.text}
         </Link>
       ))
