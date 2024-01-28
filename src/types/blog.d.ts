@@ -20,7 +20,7 @@ export interface Blog {
     createdAt: string
     updatedAt: string
     publishedAt: string
-    visited: string
+    visited: string | null
     hero: {
       data: {
         id: number
