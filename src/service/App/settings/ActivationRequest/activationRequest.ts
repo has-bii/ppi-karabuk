@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma"
 import generateFileName from "@/utils/api/generateFileName"
 import { getUser } from "@/utils/auth/getUser"
-import { writeFileSync } from "fs"
+import { existsSync, mkdirSync, writeFileSync } from "fs"
 
 type Response = {
   status: "success" | "error"
@@ -25,6 +25,8 @@ export default async function activationRequest(formData: FormData): Promise<Res
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
+
+    if (!existsSync("public/activation-request")) mkdirSync("public/activation-request")
 
     const path = "/activation-request/" + generateFileName(file.name)
 

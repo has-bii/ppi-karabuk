@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma"
 import generateFileName from "@/utils/api/generateFileName"
 import { getUser } from "@/utils/auth/getUser"
-import { existsSync, unlinkSync, writeFileSync } from "fs"
+import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "fs"
 
 export type UpdateImageProfileResponse = {
   status: "success" | "error"
@@ -25,7 +25,9 @@ export default async function updateImageProfile(
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    const path = "/images/profiles/" + generateFileName(file.name)
+    if (!existsSync("public/profiles")) mkdirSync("public/profiles")
+
+    const path = "/profiles/" + generateFileName(file.name)
 
     writeFileSync("public" + path, buffer)
 
