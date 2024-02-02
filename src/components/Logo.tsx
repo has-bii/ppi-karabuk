@@ -1,6 +1,6 @@
 import Image from "next/image"
-import logoppi from "@/images/logo/icon.png"
-import logoppiwhite from "@/images/logo/logo_white.png"
+import logoppi from "@/assets/icon.png"
+import logoppiwhite from "@/assets/logo_white.png"
 import Link from "next/link"
 
 type Props = {

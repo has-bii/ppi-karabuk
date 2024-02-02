@@ -7,13 +7,18 @@ import { useRef } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import CarouselDot from "../Carousel/CarouselDot"
+import hero from "@/assets/images/home/hero.jpg"
+import hero2 from "@/assets/images/home/hero2.jpg"
+import hero3 from "@/assets/images/home/hero3.jpg"
+import hero4 from "@/assets/images/home/hero4.jpg"
+import hero5 from "@/assets/images/home/hero5.jpg"
 
 const images = [
-  { src: "/images/home/hero.jpg", alt: "Welcoming Maba 2022" },
-  { src: "/images/home/hero2.jpg", alt: "Welcoming Maba 2022" },
-  { src: "/images/home/hero3.jpg", alt: "Welcoming Maba 2022" },
-  { src: "/images/home/hero4.jpg", alt: "Welcoming Maba 2022" },
-  { src: "/images/home/hero5.jpg", alt: "Welcoming Maba 2022" },
+  { src: hero, alt: "Welcoming Maba 2022" },
+  { src: hero2, alt: "Welcoming Maba 2022" },
+  { src: hero3, alt: "Welcoming Maba 2022" },
+  { src: hero4, alt: "Welcoming Maba 2022" },
+  { src: hero5, alt: "Welcoming Maba 2022" },
 ]
 
 const items = images.map((item, index) => (
