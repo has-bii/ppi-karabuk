@@ -45,7 +45,7 @@ model User {
 
   // Relations
   tokens         Token[]
-  verifyRequests VerifyRequest[]
+  verifyRequests ActivationRequest[]
 
   @@unique([email, studentId, kimlikId])
   @@map("users")
@@ -65,15 +65,23 @@ model Token {
   @@map("tokens")
 }
 
-model VerifyRequest {
-  id     BigInt @id @default(autoincrement())
-  userId String
-  img    String
+enum ActivationRequestStatus {
+  PENDING
+  REJECTED
+  APPROVED
+}
+
+model ActivationRequest {
+  id        BigInt                  @id @default(autoincrement())
+  userId    String
+  img       String
+  status    ActivationRequestStatus @default(PENDING)
+  createdAt DateTime                @default(now()) @db.Timestamptz()
 
   // Relation
   user User @relation(fields: [userId], references: [id])
 
-  @@map("verify_requests")
+  @@map("activation_requests")
 }
 
 model Nav {

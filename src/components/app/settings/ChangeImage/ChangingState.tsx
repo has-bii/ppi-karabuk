@@ -1,9 +1,7 @@
 import updateImageProfile from "@/service/App/settings/updateImageProfile"
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react"
 import { useToast } from "@/context/ToastContext"
-import dummy from "@/images/dummy-pp.png"
 import Image from "next/image"
-import imageHelper from "@/utils/imageHelper"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons"
 

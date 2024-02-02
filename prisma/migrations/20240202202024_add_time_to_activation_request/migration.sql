@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "activation_requests" ADD COLUMN     "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP;
