@@ -11,6 +11,7 @@ import sendEmailVerification from "@/service/App/settings/sendEmailVerification"
 import updateUserData from "@/service/App/settings/updateUserData"
 import SettingsPageWrapper from "@/components/app/settings/SettingsPageWrapper"
 import ChangeImage from "@/components/app/settings/ChangeImage/ChangeImage"
+import Link from "next/link"
 
 export default function Profile() {
   const [data, setData] = useState<UserData | null>(null)
@@ -139,12 +140,12 @@ export default function Profile() {
                   {data.isVerified === null ? (
                     <>
                       <span className="text-lg capitalize">inactive</span>
-                      <a
-                        href="/app/settings?q=ACTIVATE"
+                      <Link
+                        href="/app/settings/activate"
                         className="bg-white px-2 py-1 border rounded-full text-sm hover:bg-black hover:text-white"
                       >
                         activate
-                      </a>
+                      </Link>
                     </>
                   ) : (
                     <span className="text-lg capitalize">active</span>
