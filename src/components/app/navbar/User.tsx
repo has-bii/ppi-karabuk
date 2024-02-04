@@ -9,7 +9,7 @@ import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
 import { UserProps } from "@/types/user"
 import logout from "@/utils/auth/serverActions/logout"
-import imageHelper from "@/utils/imageHelper"
+import getFileServiceURL from "@/utils/getFileServiceURL"
 
 export default function User({ user }: { user: UserProps }) {
   const [show, setShow] = useState<boolean>(false)
@@ -48,7 +48,7 @@ export default function User({ user }: { user: UserProps }) {
         onClick={() => setShow(!show)}
       >
         <Image
-          src={user.img ? imageHelper(user.img) : dummy}
+          src={user.img ? getFileServiceURL(user.img) : dummy}
           alt=""
           fill
           sizes="10vw"
