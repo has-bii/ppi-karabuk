@@ -12,6 +12,8 @@ import updateUserData from "@/service/App/settings/updateUserData"
 import SettingsPageWrapper from "@/components/app/settings/SettingsPageWrapper"
 import ChangeImage from "@/components/app/settings/ChangeImage/ChangeImage"
 import Link from "next/link"
+import { get } from "http"
+import getFileServiceURL from "@/utils/getFileServiceURL"
 
 export default function Profile() {
   const [data, setData] = useState<UserData | null>(null)
@@ -85,15 +87,7 @@ export default function Profile() {
             <div className="flex flex-col w-full lg:w-fit gap-2 items-center">
               <div className="relative overflow-hidden rounded-md aspect-square w-full lg:w-48 bg-black">
                 <Image
-                  src={
-                    data.img
-                      ? `${
-                          process.env.NODE_ENV === "production"
-                            ? (process.env.NEXT_PUBLIC_IMG_PROVIDER_URL as string) + data.img
-                            : data.img
-                        }`
-                      : dummy
-                  }
+                  src={data.img ? getFileServiceURL(data.img) : dummy}
                   fill
                   className="object-cover"
                   sizes="30vw"
