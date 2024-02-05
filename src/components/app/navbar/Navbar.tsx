@@ -14,6 +14,7 @@ type Props = {
 export default async function Navbar({ user }: Props) {
   const navs: Nav[] = await fetchData(user.role)
 
+  // Fetch Data
   async function fetchData(role: Role[]): Promise<Nav[]> {
     const navs = await prisma.nav.findMany({
       where: { isActive: true, role: { in: role }, navlistId: { equals: null } },
