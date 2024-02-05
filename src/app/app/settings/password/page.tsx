@@ -6,11 +6,12 @@ import { useToast } from "@/context/ToastContext"
 import ChangePassword from "@/service/App/settings/ChangePassword"
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function Page() {
   const [loading, setLoading] = useState<boolean>(false)
   const [currentPass, setCurrentPass] = useState<string>("")
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [pass2, setPass2] = useState<string>("")
   const [val2, setVal2] = useState<string>("")
   const [pass, setPass] = useState<string>("")
@@ -30,7 +31,6 @@ export default function Page() {
   }, [pass, pass2])
 
   async function submitHandler(formData: FormData) {
-    setLoading(true)
     const res = await ChangePassword(formData)
     pushToast(res.message, res.status)
     setLoading(false)
@@ -64,25 +64,30 @@ export default function Page() {
               label="confirm password"
               validation={val2}
             />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-black rounded-md text-white ml-auto capitalize disabled:bg-neutral-200 disabled:text-neutral-600 inline-flex gap-2 items-center"
-              disabled={
-                currentPass.length === 0 ||
-                val.length > 0 ||
-                val2.length > 0 ||
-                pass.length === 0 ||
-                pass2.length === 0
-              }
-            >
-              <span>save change</span>
-              {loading && <FontAwesomeIcon icon={faCircleNotch} className="animate-spin" />}
-            </button>
+            <button ref={buttonRef} type="submit" className="hidden"></button>
           </form>
         </div>
 
         {/* Save button */}
-        <div className="w-full flex"></div>
+        <div className="w-full flex">
+          <button
+            className="px-4 py-2 bg-black rounded-md text-white ml-auto capitalize mt-4 disabled:bg-neutral-200 disabled:text-neutral-600 inline-flex gap-2 items-center"
+            disabled={
+              currentPass.length === 0 ||
+              val.length > 0 ||
+              val2.length > 0 ||
+              pass.length === 0 ||
+              pass2.length === 0
+            }
+            onClick={() => {
+              setLoading(true)
+              buttonRef.current?.click()
+            }}
+          >
+            <span>save change</span>
+            {loading && <FontAwesomeIcon icon={faCircleNotch} className="animate-spin" />}
+          </button>
+        </div>
       </section>
     </SettingsPageWrapper>
   )
