@@ -43,7 +43,7 @@ export default function Page() {
           <h6 className="text-xl text-neutral-800 font-semibold capitalize mb-4">
             Change Password
           </h6>
-          <form action={submitHandler} className="w-1/2 flex flex-col gap-4">
+          <form action={submitHandler} className="w-full lg:w-1/2 flex flex-col gap-4">
             <PasswordInput
               id="current-password"
               value={currentPass}
