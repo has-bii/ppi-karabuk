@@ -6,6 +6,11 @@ import Link from "next/link"
 import qs from "qs"
 import QueryingArticles from "@/components/Article/QueryingArticles"
 import { ICategory, ITag, ITitle, IType, Query } from "@/types/article"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Article | PPI Karabuk",
+}
 
 type TypeParams = {
   pTags: string[]
@@ -161,7 +166,6 @@ function addQuery(query: Query, { pType, pCategory, pTags, pTitle }: TypeParams)
 }
 
 // Main Component
-
 export default async function Page({
   searchParams,
 }: {
