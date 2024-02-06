@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma"
 import generateFileName from "@/utils/api/generateFileName"
-import { getUser } from "@/utils/auth/getUser"
+import { changeSession, getSession } from "@/utils/auth/session"
 import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "fs"
 
 export type UpdateImageProfileResponse = {
@@ -14,7 +14,7 @@ export default async function updateImageProfile(
   formData: FormData
 ): Promise<UpdateImageProfileResponse> {
   try {
-    const user = await getUser()
+    const user = await getSession()
 
     if (!user) return { status: "error", message: "User doesn't exist!" }
 
@@ -31,9 +31,11 @@ export default async function updateImageProfile(
 
     writeFileSync("public" + path, buffer)
 
-    if (user.img && existsSync("public" + user.img)) unlinkSync("public" + user.img)
+    if (user.image && existsSync("public" + user.image)) unlinkSync("public" + user.image)
 
-    await prisma.user.update({ where: { id: user.id }, data: { img: path } })
+    const updated = await prisma.user.update({ where: { id: user.id }, data: { image: path } })
+
+    changeSession(user, "image", updated.image)
 
     return { status: "success", message: "Profile image has been updated" }
   } catch (error) {

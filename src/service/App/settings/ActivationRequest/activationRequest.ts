@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma"
 import generateFileName from "@/utils/api/generateFileName"
-import { getUser } from "@/utils/auth/getUser"
+import { getSession } from "@/utils/auth/session"
 import { existsSync, mkdirSync, writeFileSync } from "fs"
 
 type Response = {
@@ -12,7 +12,7 @@ type Response = {
 
 export default async function activationRequest(formData: FormData): Promise<Response> {
   try {
-    const user = await getUser()
+    const user = await getSession()
 
     if (!user) return { status: "error", message: "User doesn't exist!" }
 
@@ -32,7 +32,7 @@ export default async function activationRequest(formData: FormData): Promise<Res
 
     writeFileSync("public" + path, buffer)
 
-    await prisma.activationRequest.create({ data: { userId: user.id, img: path } })
+    await prisma.activationRequest.create({ data: { userId: user.id, file: path } })
 
     return { message: "Activation request has been sent", status: "success" }
   } catch (error) {

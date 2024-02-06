@@ -50,6 +50,7 @@ const Input: React.FC<InputProps> = ({
         </label>
         <input
           id={state.label}
+          name={state.label}
           type={ChangeType(type, show)}
           className="w-full text-gray-500"
           onFocus={handleFocus}

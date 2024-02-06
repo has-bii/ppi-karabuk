@@ -1,6 +1,7 @@
 "use server"
 
 import prisma from "@/lib/prisma"
+import { changeSession, getSession } from "@/utils/auth/session"
 import { Prisma } from "@prisma/client"
 
 type Args = {
@@ -11,28 +12,36 @@ type Args = {
   kimlikID: string
 }
 
+type Response = { status: "success" | "error"; message: string }
+
 export default async function updateUserData({
   id,
   email,
   kimlikID,
   name,
   studentID,
-}: Args): Promise<{ status: "success" | "error"; message: string }> {
+}: Args): Promise<Response> {
   try {
-    const user = await prisma.user.findUnique({ where: { id: id } })
+    const session = await getSession()
+
+    if (!session) return { status: "error", message: "User doesn't exist!" }
+
+    const user = await prisma.user.findUnique({ where: { id: session.id } })
 
     if (!user) return { status: "error", message: "User doesn't exist!" }
 
-    await prisma.user.update({
-      where: { id: user.id },
+    const updated = await prisma.user.update({
+      where: { id: session.id },
       data: {
         email: email.toLowerCase(),
         name: name.toLowerCase(),
         kimlikId: kimlikID,
         studentId: studentID,
-        emailVerified: email.toLowerCase() === user.email ? user.emailVerified : null,
+        emailVerified: email.toLowerCase() === session.email ? user.emailVerified : null,
       },
     })
+
+    if (session.name !== name) await changeSession(session, "name", name)
 
     return { status: "success", message: "User data has been updated" }
   } catch (e) {

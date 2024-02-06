@@ -1,11 +1,7 @@
-import { Role } from "@prisma/client"
-
-type UserProps = {
+export type UserSession = {
   id: string
   name: string
   email: string
   role: Role[]
   image: string | null
 }
-
-export { UserProps }

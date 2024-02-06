@@ -1,8 +1,8 @@
 "use server"
 
 import prisma from "@/lib/prisma"
-import { getUser } from "@/utils/auth/getUser"
-import { existsSync, unlinkSync, writeFileSync } from "fs"
+import { changeSession, getSession } from "@/utils/auth/session"
+import { existsSync, unlinkSync } from "fs"
 
 export type UpdateImageProfileResponse = {
   status: "success" | "error"
@@ -11,13 +11,15 @@ export type UpdateImageProfileResponse = {
 
 export default async function removeProfileImage(): Promise<UpdateImageProfileResponse> {
   try {
-    const user = await getUser()
+    const user = await getSession()
 
     if (!user) return { status: "error", message: "User doesn't exist!" }
 
-    if (user.img && existsSync("public" + user.img)) unlinkSync("public" + user.img)
+    if (user.image && existsSync("public" + user.image)) unlinkSync("public" + user.image)
 
-    await prisma.user.update({ where: { id: user.id }, data: { img: null } })
+    const updated = await prisma.user.update({ where: { id: user.id }, data: { image: null } })
+
+    changeSession(user, "image", updated.image)
 
     return { status: "success", message: "Profile image has been removed" }
   } catch (error) {

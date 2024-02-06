@@ -1,13 +1,13 @@
 "use client"
 
-import { FormEvent, useEffect, useState } from "react"
-import Input from "./Input"
-import { useToast } from "@/context/ToastContext"
-import { AuthInput, AuthResetErrorResponse, AuthResponse } from "@/types/auth"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
-import axios from "axios"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import resetPassword from "@/service/auth/resetPassword"
+import { useToast } from "@/context/ToastContext"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { AuthInput } from "@/types/auth"
+import Input from "./Input"
 
 export default function ResetPassword({ token }: { token: string }) {
   const [loading, setLoading] = useState<boolean>(false)
@@ -24,32 +24,14 @@ export default function ResetPassword({ token }: { token: string }) {
     validation: { status: null, text: "" },
   })
 
-  async function submitHandler(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  async function submitHandler(formData: FormData) {
     setLoading(true)
 
-    await axios
-      .post<AuthResponse>("/api/auth/reset", {
-        password: password.value,
-        token: token,
-      })
-      .then((res) => {
-        if (res.data.status === "success") {
-          pushToast(res.data.message, "success")
-          router.push("/auth")
-        }
-      })
-      .catch(({ response }) => {
-        const { data }: { data: AuthResponse<AuthResetErrorResponse> } = response
+    const res = await resetPassword(formData)
 
-        if (data.status === "error") {
-          pushToast(data.message, "error")
-        }
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    pushToast(res.message, res.status)
+
+    if (res.status === "success") router.push("/auth")
   }
 
   useEffect(() => {
@@ -80,9 +62,10 @@ export default function ResetPassword({ token }: { token: string }) {
   }, [confirm.value, password.value])
 
   return (
-    <form onSubmit={submitHandler} className="auth-card">
+    <form action={submitHandler} className="auth-card">
       <p className="header">Forgot password?</p>
       <p className="description mb-4">No worries, we&apos;ll send you reset code.</p>
+      <input type="text" name="token" value={token} className="hidden" readOnly />
       <Input state={password} type="password" setState={setPassword} required />
       <Input state={confirm} type="password" setState={setConfirm} required />
       <button

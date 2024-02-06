@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faRightFromBracket, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
-import logout from "@/utils/auth/serverActions/logout"
 import { NavType } from "./NavType"
+import { logout } from "@/utils/auth/auth"
 
 type Props = {
   navs: NavType[]

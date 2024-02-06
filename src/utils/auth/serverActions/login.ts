@@ -1,20 +1,19 @@
 "use server"
 
 import { AuthLoginErrorResponse, AuthResponse } from "@/types/auth"
-import findUserRecord from "@/utils/auth/findUserRecord"
-import getSecretKey from "@/utils/api/getSecretKey"
-import { cookies } from "next/headers"
-import prisma from "@/lib/prisma"
-import jwt from "jsonwebtoken"
+import findUserRecord from "../findUserRecord"
 import bcrypt from "bcrypt"
+import { encrypt } from "../auth"
+import { cookies } from "next/headers"
 
-export default async function login({
-  email,
-  password,
-}: {
+type Props = {
   email: string
   password: string
-}): Promise<AuthResponse<AuthLoginErrorResponse>> {
+}
+
+type Response = AuthResponse<AuthLoginErrorResponse>
+
+export default async function login({ email, password }: Props): Promise<Response> {
   try {
     // Find User Record
     const user = await findUserRecord(email.toLowerCase())
@@ -36,28 +35,22 @@ export default async function login({
         error: { password: "Invalid password!" },
       }
 
-    const token = jwt.sign({ id: user.id, name: user.name }, await getSecretKey(), {
-      algorithm: "HS256",
+    const session = await encrypt({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      image: user.image,
     })
 
-    // Create Token
-    await prisma.token.create({
-      data: {
-        userId: user.id,
-        type: "AUTH",
-        value: token,
-        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      },
-    })
-
-    cookies().set("ppik_user", token, {
+    cookies().set("session", session, {
       sameSite: "strict",
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 60 * 60 * 1000),
       secure: true,
       httpOnly: true,
     })
 
-    return { status: "success", message: "Logged successfully" }
+    return { status: "success", message: "Logged in successfully" }
   } catch (error) {
     console.log("Internal server error. Failed to Login: ", error)
     return { message: "Internal server error", status: "error", error: {} }

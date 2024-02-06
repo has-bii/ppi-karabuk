@@ -1,14 +1,13 @@
 "use server"
 
 import { AuthRegisterErrorResponse, AuthResponse } from "@/types/auth"
-import getSecretKey from "@/utils/api/getSecretKey"
 import { cookies } from "next/headers"
 import { randomUUID } from "crypto"
 import prisma from "@/lib/prisma"
-import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import sendEmail from "@/lib/sendEmail"
 import verificationEmailTemplate from "@/template/verificationEmailTemplate"
+import { encrypt } from "../auth"
 
 type RegisterPayload = {
   name: string
@@ -18,13 +17,15 @@ type RegisterPayload = {
   password: string
 }
 
+type Response = AuthResponse<AuthRegisterErrorResponse>
+
 export default async function register({
   name,
   email,
   kimlikID,
   password,
   studentID,
-}: RegisterPayload): Promise<AuthResponse<AuthRegisterErrorResponse>> {
+}: RegisterPayload): Promise<Response> {
   try {
     const user = await prisma.user.create({
       data: {
@@ -36,9 +37,7 @@ export default async function register({
       },
     })
 
-    const token = jwt.sign({ id: user.id, name: user.name }, await getSecretKey(), {
-      algorithm: "HS256",
-    })
+    const token = await encrypt({ id: user.id, name: user.name })
 
     // Create Token
     await prisma.token.create({

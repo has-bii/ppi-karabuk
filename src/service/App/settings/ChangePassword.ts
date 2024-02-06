@@ -1,10 +1,8 @@
 "use server"
 
-import getSecretKey from "@/utils/api/getSecretKey"
-import { cookies } from "next/headers"
 import prisma from "@/lib/prisma"
-import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import { getSession } from "@/utils/auth/session"
 
 type Response = {
   status: "success" | "error"
@@ -16,21 +14,12 @@ export default async function ChangePassword(formData: FormData): Promise<Respon
     const currentPass = formData.get("current-password") as string
     const newPass = formData.get("new-password") as string
 
-    const token = cookies().get("ppik_user")?.value
+    const session = await getSession()
 
-    if (!token) throw new Error("")
-
-    // Verifying token
-    const jwtPayload: any | null = jwt.verify(token, await getSecretKey(), (err, decoded) => {
-      if (err) return null
-
-      return decoded
-    })
-
-    if (!jwtPayload) throw new Error("")
+    if (!session) return { status: "error", message: "You must login first!" }
 
     const user = await prisma.user.findUnique({
-      where: { id: jwtPayload.id },
+      where: { id: session.id },
     })
 
     if (!user) return { status: "error", message: "User doesn't exist!" }

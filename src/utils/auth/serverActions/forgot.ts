@@ -2,10 +2,9 @@
 
 import { AuthForgotErrorResponse, AuthResponse } from "@/types/auth"
 import prisma from "@/lib/prisma"
-import jwt from "jsonwebtoken"
 import sendEmail from "@/lib/sendEmail"
 import resetPasswordTemplate from "@/template/resetPasswordTemplate"
-import getSecretKey from "@/utils/api/getSecretKey"
+import { encrypt } from "../auth"
 
 export default async function forgot({
   email,
@@ -40,9 +39,7 @@ export default async function forgot({
       }
 
     // Generate Token
-    const token = jwt.sign({ id: checkEmail.id, name: checkEmail.name }, await getSecretKey(), {
-      algorithm: "HS256",
-    })
+    const token = await encrypt({ id: checkEmail.id, name: checkEmail.name })
 
     // Create Token to DB
     await prisma.token.create({

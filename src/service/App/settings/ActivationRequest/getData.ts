@@ -1,17 +1,17 @@
 "use server"
 
 import prisma from "@/lib/prisma"
-import { getUser } from "@/utils/auth/getUser"
+import { getSession } from "@/utils/auth/session"
 
 export default async function getData() {
   try {
-    const user = await getUser()
+    const session = await getSession()
 
-    if (!user) return []
+    if (!session) return []
 
     const data = await prisma.activationRequest.findMany({
-      where: { userId: user.id },
-      select: { id: true, img: true, status: true, createdAt: true },
+      where: { userId: session.id },
+      select: { id: true, file: true, status: true, createdAt: true },
     })
 
     return data

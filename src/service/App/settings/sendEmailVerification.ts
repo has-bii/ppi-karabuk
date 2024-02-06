@@ -32,7 +32,7 @@ export default async function sendEmailVerification(id: string, email: string): 
 
     if (checkToken !== null)
       return {
-        message: "Reset code has been already sent. Please try after 5 minutes.",
+        message: "Verification request has been already sent. Please try after 5 minutes.",
         status: "error",
       }
 
@@ -49,9 +49,9 @@ export default async function sendEmailVerification(id: string, email: string): 
 
     sendEmail(email, "Verification Email", verificationEmailTemplate(token.value), "EMAIL")
 
-    return { status: "success", message: "Verification email has been sent" }
+    return { status: "success", message: "Verification request has been sent" }
   } catch (error) {
-    console.log("Failed to send verification email: ", error)
+    console.log("Failed to send verification email request: ", error)
     return { status: "error", message: "Internal server error!" }
   }
 }

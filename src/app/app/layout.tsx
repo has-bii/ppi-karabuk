@@ -1,8 +1,8 @@
 import Navbar from "@/components/app/navbar/Navbar"
-import { getUser } from "@/utils/auth/getUser"
 import { redirect } from "next/navigation"
 import { UserProps } from "@/types/user"
 import type { Metadata } from "next"
+import { getSession } from "@/utils/auth/session"
 
 export const metadata: Metadata = {
   title: "App | PPI Karabuk",
@@ -13,7 +13,7 @@ export const fetchCache = "default-no-store"
 export const revalidate = 0
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const user: UserProps | null = await getUser()
+  const user: UserProps | null = await getSession()
 
   if (!user) {
     redirect("/error/logout")

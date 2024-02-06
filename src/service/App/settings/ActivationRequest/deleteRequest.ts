@@ -1,7 +1,7 @@
 "use server"
 
 import prisma from "@/lib/prisma"
-import { getUser } from "@/utils/auth/getUser"
+import { getSession } from "@/utils/auth/session"
 import { existsSync, unlinkSync } from "fs"
 
 type Response = {
@@ -11,15 +11,17 @@ type Response = {
 
 export default async function deleteRequest(id: bigint): Promise<Response> {
   try {
-    const user = await getUser()
+    const session = await getSession()
 
-    if (!user) return { status: "error", message: "User doesn't exist!" }
+    if (!session) return { status: "error", message: "User doesn't exist!" }
 
-    const data = await prisma.activationRequest.findUnique({ where: { id: id, userId: user.id } })
+    const data = await prisma.activationRequest.findUnique({
+      where: { id: id, userId: session.id },
+    })
 
     if (!data) return { status: "error", message: "Data doesn't exist!" }
 
-    if (existsSync("public" + data.img)) unlinkSync("public" + data.img)
+    if (existsSync("public" + data.file)) unlinkSync("public" + data.file)
 
     await prisma.activationRequest.delete({ where: { id: id } })
 

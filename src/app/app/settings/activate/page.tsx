@@ -14,7 +14,7 @@ import getFileServiceURL from "@/utils/getFileServiceURL"
 
 type Data = {
   id: bigint
-  img: string
+  file: string
   createdAt: Date
   status: $Enums.ActivationRequestStatus
 }[]
@@ -203,7 +203,7 @@ export default function Page() {
                       <button
                         className="bg-black px-2 py-1 rounded-md text-white"
                         onClick={() => {
-                          window.open(getFileServiceURL(item.img), "_blank")
+                          window.open(getFileServiceURL(item.file), "_blank")
                         }}
                       >
                         Open file

@@ -2,10 +2,10 @@
 
 import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
-import { AuthForgotErrorResponse, AuthInput, AuthResponse } from "@/types/auth"
+import { AuthInput } from "@/types/auth"
+import forgot from "@/utils/auth/serverActions/forgot"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "axios"
 import Link from "next/link"
 import { FormEvent, useEffect, useState } from "react"
 
@@ -19,50 +19,25 @@ export default function Forgot() {
     validation: { status: null, text: "" },
   })
 
-  function checkEmailRegex(email: string) {
-    const regex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-    return regex.test(email)
-  }
-
   async function submitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     setLoading(true)
 
-    await axios
-      .post<AuthResponse>("/api/auth/forgot", {
-        email: email.value,
-      })
-      .then((res) => {
-        if (res.data.status === "success") {
-          pushToast(res.data.message, "success")
-        }
-      })
-      .catch(({ response }) => {
-        const { data }: { data: AuthResponse<AuthForgotErrorResponse> } = response
+    const res = await forgot({ email: email.value })
 
-        if (data.status === "error") {
-          pushToast(data.message, "error")
+    pushToast(res.message, res.status)
 
-          if (data.error.email)
-            setEmail((prev) => ({
-              ...prev,
-              validation: { status: "error", text: data.message },
-            }))
-        }
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    if (res.status === "error")
+      setEmail({ ...email, validation: { status: "error", text: res.message } })
+
+    setLoading(false)
   }
 
   useEffect(() => {
-    if (email.value)
-      if (checkEmailRegex(email.value)) {
-        setEmail((prev) => ({ ...prev, validation: { status: "ok", text: "" } }))
-      } else {
-        setEmail((prev) => ({ ...prev, validation: { status: "error", text: "Invalid email!" } }))
-      }
+    if (email.validation.status === "error")
+      setEmail({ ...email, validation: { status: null, text: "" } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email.value])
 
   return (
