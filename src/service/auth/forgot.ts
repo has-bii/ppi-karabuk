@@ -4,7 +4,7 @@ import { AuthForgotErrorResponse, AuthResponse } from "@/types/auth"
 import prisma from "@/lib/prisma"
 import sendEmail from "@/lib/sendEmail"
 import resetPasswordTemplate from "@/template/resetPasswordTemplate"
-import { encrypt } from "../auth"
+import { encrypt } from "./auth"
 
 export default async function forgot({
   email,

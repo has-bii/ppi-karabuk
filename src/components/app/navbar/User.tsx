@@ -9,7 +9,7 @@ import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
 import { UserProps } from "@/types/user"
 import getFileServiceURL from "@/utils/getFileServiceURL"
-import { logout } from "@/utils/auth/auth"
+import { logout } from "@/service/auth/auth"
 
 export default function User({ user }: { user: UserProps }) {
   const [show, setShow] = useState<boolean>(false)

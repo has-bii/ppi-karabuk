@@ -1,7 +1,7 @@
 "use client"
 
 import { Blog } from "@/types/blog"
-import getDate from "@/utils/api/getDate"
+import getDate from "@/utils/getDate"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect } from "react"

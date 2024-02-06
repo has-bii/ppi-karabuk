@@ -1,5 +1,5 @@
 import { cookies } from "next/headers"
-import { decrypt, encrypt } from "./auth"
+import { decrypt, encrypt } from "../../service/auth/auth"
 import { NextRequest, NextResponse } from "next/server"
 import { UserSession } from "@/types/session"
 

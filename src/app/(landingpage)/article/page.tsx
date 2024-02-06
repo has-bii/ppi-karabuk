@@ -1,6 +1,6 @@
 import PopularNews from "@/components/Article/PopularNews"
 import { ILatestNews, NewsDataAttributes } from "@/types"
-import getDate from "@/utils/api/getDate"
+import getDate from "@/utils/getDate"
 import Image from "next/image"
 import Link from "next/link"
 import qs from "qs"

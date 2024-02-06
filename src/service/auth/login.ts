@@ -1,9 +1,9 @@
 "use server"
 
 import { AuthLoginErrorResponse, AuthResponse } from "@/types/auth"
-import findUserRecord from "../findUserRecord"
+import findUserRecord from "../../utils/auth/findUserRecord"
 import bcrypt from "bcrypt"
-import { encrypt } from "../auth"
+import { encrypt } from "./auth"
 import { cookies } from "next/headers"
 
 type Props = {

@@ -8,7 +8,7 @@ import { faBars, faRightFromBracket, faXmark } from "@fortawesome/free-solid-svg
 import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
 import { NavType } from "./NavType"
-import { logout } from "@/utils/auth/auth"
+import { logout } from "@/service/auth/auth"
 
 type Props = {
   navs: NavType[]

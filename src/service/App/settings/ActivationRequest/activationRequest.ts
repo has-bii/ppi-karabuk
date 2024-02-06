@@ -1,7 +1,7 @@
 "use server"
 
 import prisma from "@/lib/prisma"
-import generateFileName from "@/utils/api/generateFileName"
+import generateFileName from "@/utils/generateFileName"
 import { getSession } from "@/utils/auth/session"
 import { existsSync, mkdirSync, writeFileSync } from "fs"
 

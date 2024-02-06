@@ -7,7 +7,7 @@ import prisma from "@/lib/prisma"
 import bcrypt from "bcrypt"
 import sendEmail from "@/lib/sendEmail"
 import verificationEmailTemplate from "@/template/verificationEmailTemplate"
-import { encrypt } from "../auth"
+import { encrypt } from "./auth"
 
 type RegisterPayload = {
   name: string

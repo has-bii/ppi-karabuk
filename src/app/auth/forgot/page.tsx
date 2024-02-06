@@ -3,7 +3,7 @@
 import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
 import { AuthInput } from "@/types/auth"
-import forgot from "@/utils/auth/serverActions/forgot"
+import forgot from "@/service/auth/forgot"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Link from "next/link"
