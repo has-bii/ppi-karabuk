@@ -17,13 +17,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body
-        className={
-          inter.className +
-          " scrollbar-thin scrollbar-track-black/20 scrollbar-thumb-black/70 active:scrollbar-thumb-black"
-        }
-      >
+    <html lang="en" className="scrollbar-apply">
+      <body className={inter.className}>
         <ReactQueryProvider>
           <ToastProvider>{children}</ToastProvider>
         </ReactQueryProvider>
