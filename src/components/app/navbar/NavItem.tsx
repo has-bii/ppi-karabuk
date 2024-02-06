@@ -1,12 +1,12 @@
 "use client"
 
+import { Nav } from "@/types/nav"
 import { Role } from "@prisma/client"
 import { usePathname, useRouter } from "next/navigation"
 import React, { Dispatch, SetStateAction } from "react"
-import { NavType } from "./NavType"
 
 type Props = {
-  nav: NavType
+  nav: Nav
 } & {
   setShow: Dispatch<SetStateAction<boolean>>
   userRole: Role[]
@@ -17,6 +17,8 @@ export default function NavItem({ setShow, nav, userRole }: Props) {
   const router = useRouter()
 
   function checkPath(pathName: string, url: string | null): boolean {
+    if (pathName.replace("/app", "").length === 0 && url?.length === 0) return true
+
     const path = pathName.replace("/app", "").split("/").slice(1)
 
     if (url) {

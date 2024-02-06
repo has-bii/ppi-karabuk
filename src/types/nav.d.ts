@@ -1,30 +1,25 @@
-type NavResponse =
+import { Role } from "@prisma/client"
+
+export type Nav = {
+  id: number
+  name: string
+  role: Role | ""
+  isActive: boolean
+} & (
   | {
-      message: string
-      status: "ok"
-      data: ({
-        navitems: {
-          id: number
-          name: string
-          role: $Enums.Role
-          type: $Enums.NavListType
-          isActive: boolean
-          url: string | null
-          navlistId: number | null
-        }[]
-      } & {
+      type: "ITEM"
+      url: string
+    }
+  | {
+      type: "DROPDOWN"
+      url: string
+      navItems: {
         id: number
         name: string
-        role: $Enums.Role
-        type: $Enums.NavListType
+        role: Role
         isActive: boolean
-        url: string | null
-        navlistId: number | null
-      })[]
+        type: "ITEM"
+        url: string
+      }[]
     }
-  | {
-      status: "error"
-      message: string
-    }
-
-export { NavResponse }
+)

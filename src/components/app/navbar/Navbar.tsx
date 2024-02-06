@@ -1,10 +1,10 @@
-import { Nav, Role } from "@prisma/client"
+import { Role } from "@prisma/client"
 import Logo from "../../Logo"
 import NavListApp from "./NavListApp"
 import User from "./User"
 import prisma from "@/lib/prisma"
 import { UserProps } from "@/types/user"
-import { NavType } from "./NavType"
+import { Nav } from "@/types/nav"
 
 export const fetchCache = "force-no-store"
 
@@ -26,14 +26,14 @@ export default async function Navbar({ user }: Props) {
   )
 }
 
-// Fetch Data
-async function fetchData(role: Role[]) {
+// Fetch Nav data
+async function fetchData(role: Role[]): Promise<Nav[]> {
   const navs = await prisma.nav.findMany({
     where: { isActive: true, role: { in: role }, navlistId: { equals: null } },
     include: { navitems: { where: { isActive: true } } },
   })
 
-  const mapped: NavType[] = navs.map((nav) => {
+  const mapped: Nav[] = navs.map((nav) => {
     const temp: any = {
       id: nav.id,
       isActive: nav.isActive,

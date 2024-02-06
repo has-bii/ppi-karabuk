@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faRightFromBracket, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
-import { NavType } from "./NavType"
 import { logout } from "@/service/auth/auth"
+import { Nav } from "@/types/nav"
 
 type Props = {
-  navs: NavType[]
+  navs: Nav[]
   userRole: Role[]
 }
 
@@ -76,18 +76,8 @@ export default function NavListApp({ navs, userRole }: Props) {
             role: "",
             isActive: true,
             name: "Admin",
-            url: "/admin",
-            type: "DROPDOWN",
-            navItems: [
-              {
-                id: 96,
-                name: "Activation",
-                isActive: true,
-                role: "ADMIN",
-                type: "ITEM",
-                url: "/admin/activate",
-              },
-            ],
+            url: "/admin/activate",
+            type: "ITEM",
           }}
           setShow={setShow}
           userRole={userRole}
