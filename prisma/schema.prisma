@@ -38,7 +38,7 @@ model User {
   isVerified    DateTime? @db.Timestamptz()
   emailVerified DateTime? @db.Timestamptz()
   password      String
-  img           String?   @db.VarChar(255)
+  image         String?   @db.VarChar(255)
 
   createdAt DateTime @default(now()) @db.Timestamptz()
   updatedAt DateTime @updatedAt @db.Timestamptz()
@@ -74,7 +74,7 @@ enum ActivationRequestStatus {
 model ActivationRequest {
   id        BigInt                  @id @default(autoincrement())
   userId    String
-  img       String
+  file      String
   status    ActivationRequestStatus @default(PENDING)
   createdAt DateTime                @default(now()) @db.Timestamptz()
 
