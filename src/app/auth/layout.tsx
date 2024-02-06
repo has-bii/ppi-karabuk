@@ -3,7 +3,7 @@ import { Metadata } from "next"
 import { ReactNode } from "react"
 
 export const metadata: Metadata = {
-  title: "AUTH | PPI Karabuk",
+  title: "Auth | PPI Karabuk",
 }
 
 export const dynamic = "force-dynamic"
