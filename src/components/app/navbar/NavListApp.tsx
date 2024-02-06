@@ -73,7 +73,7 @@ export default function NavListApp({ navs, userRole }: Props) {
         <NavItem
           nav={{
             id: 97,
-            role: "",
+            role: "ADMIN",
             isActive: true,
             name: "Admin",
             url: "/admin/activate",
