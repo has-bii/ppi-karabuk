@@ -2,18 +2,20 @@
 
 import { useState } from "react"
 import NavItem from "./NavItem"
-import { Nav } from "@prisma/client"
+import { Role } from "@prisma/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faRightFromBracket, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
 import logout from "@/utils/auth/serverActions/logout"
+import { NavType } from "./NavType"
 
 type Props = {
-  navs: Nav[]
+  navs: NavType[]
+  userRole: Role[]
 }
 
-export default function NavListApp({ navs }: Props) {
+export default function NavListApp({ navs, userRole }: Props) {
   const [show, setShow] = useState<boolean>(false)
   const { pushToast } = useToast()
   const router = useRouter()
@@ -51,16 +53,48 @@ export default function NavListApp({ navs }: Props) {
           </h1>
         </div>
 
-        <NavItem name="Dashboard" url="" type="ITEM" setShow={setShow} />
-        <NavItem name="Settings" url="/settings/profile" type="ITEM" setShow={setShow} />
-        {navs.map((nav, i) => (
-          <NavItem
-            key={i}
-            url={nav.url as string}
-            name={nav.name}
-            type={nav.type}
-            setShow={setShow}
-          />
+        <NavItem
+          nav={{ id: 99, role: "", isActive: true, name: "Dashboard", type: "ITEM", url: "" }}
+          setShow={setShow}
+          userRole={userRole}
+        />
+        <NavItem
+          nav={{
+            id: 98,
+            role: "",
+            isActive: true,
+            name: "Settings",
+            type: "ITEM",
+            url: "/settings/profile",
+          }}
+          setShow={setShow}
+          userRole={userRole}
+        />
+        <NavItem
+          nav={{
+            id: 97,
+            role: "",
+            isActive: true,
+            name: "Admin",
+            url: "/admin",
+            type: "DROPDOWN",
+            navItems: [
+              {
+                id: 96,
+                name: "Activation",
+                isActive: true,
+                role: "ADMIN",
+                type: "ITEM",
+                url: "/admin/activate",
+              },
+            ],
+          }}
+          setShow={setShow}
+          userRole={userRole}
+        />
+
+        {navs.map((nav) => (
+          <NavItem key={nav.id} nav={nav} userRole={userRole} setShow={setShow} />
         ))}
       </div>
     </section>

@@ -4,6 +4,7 @@ import NavListApp from "./NavListApp"
 import User from "./User"
 import prisma from "@/lib/prisma"
 import { UserProps } from "@/types/user"
+import { NavType } from "./NavType"
 
 export const fetchCache = "force-no-store"
 
@@ -12,16 +13,34 @@ type Props = {
 }
 
 export default async function Navbar({ user }: Props) {
-  const navs: Nav[] = await fetchData(user.role)
+  const navs = await fetchData(user.role)
 
   // Fetch Data
-  async function fetchData(role: Role[]): Promise<Nav[]> {
+  async function fetchData(role: Role[]) {
     const navs = await prisma.nav.findMany({
       where: { isActive: true, role: { in: role }, navlistId: { equals: null } },
       include: { navitems: { where: { isActive: true } } },
     })
 
-    return navs
+    const mapped: NavType[] = navs.map((nav) => {
+      const temp: any = {
+        id: nav.id,
+        isActive: nav.isActive,
+        role: nav.role,
+        type: nav.type,
+      }
+
+      if (nav.type === "DROPDOWN") {
+        temp.navlistId = nav.navlistId as number
+        temp.navitems = nav.navitems
+      }
+
+      temp.url = nav.url
+
+      return temp
+    })
+
+    return mapped
   }
 
   return (
@@ -29,7 +48,7 @@ export default async function Navbar({ user }: Props) {
       <div className="hidden lg:block">
         <Logo />
       </div>
-      <NavListApp navs={navs} />
+      <NavListApp navs={navs} userRole={user.role} />
       <User user={user} />
     </nav>
   )
