@@ -90,6 +90,12 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-apply {
+    @apply scrollbar-thin scrollbar-track-black/20 scrollbar-thumb-black/70 active:scrollbar-thumb-black;
+  }
+}
+
 .spacing {
   @apply py-8 md:py-12 lg:py-16;
 }
@@ -154,4 +160,8 @@ nav.nav-container {
 }
 .quote {
   @apply bg-neutral-200 px-4 py-2;
+}
+
+.app-page {
+  @apply w-full text-neutral-800 overflow-y-auto scrollbar-thin scrollbar-track-rounded-lg scrollbar-thumb-rounded-md pb-8 lg:pb-0;
 }
