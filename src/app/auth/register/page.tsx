@@ -4,8 +4,6 @@ import Input from "@/components/Auth/Input"
 import { useToast } from "@/context/ToastContext"
 import { AuthInput } from "@/types/auth"
 import checkEmail from "@/service/auth/checkEmail"
-import checkKimlik from "@/service/auth/checkKimlik"
-import checkStudentID from "@/service/auth/checkStudentID"
 import register from "@/service/auth/register"
 import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -38,21 +36,11 @@ export default function Register() {
     value: "",
     validation: { status: null, text: "" },
   })
-  const [studentID, setStudentID] = useState<AuthInput>({
-    label: "Student ID",
-    value: "",
-    validation: { status: null, text: "" },
-  })
-  const [kimlikID, setKimlikID] = useState<AuthInput>({
-    label: "Kimlik ID",
-    value: "",
-    validation: { status: null, text: "" },
-  })
 
   async function submitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!checkStep(step, 3)) {
+    if (!checkStep(step, 2)) {
       setStep(step + 1)
       return
     }
@@ -62,8 +50,6 @@ export default function Register() {
     register({
       name: name.value,
       email: email.value,
-      studentID: studentID.value,
-      kimlikID: kimlikID.value,
       password: password.value,
     })
       .then((res) => {
@@ -74,7 +60,7 @@ export default function Register() {
         }
       })
       .catch((err) => {
-        pushToast("Internal server error", "danger")
+        pushToast("Internal server error", "error")
       })
       .finally(() => {
         setLoading(false)
@@ -82,8 +68,6 @@ export default function Register() {
   }
 
   function checkStep(step: number, n: number): boolean {
-    // if (step === n) return "block"
-
     return step === n
   }
 
@@ -97,26 +81,6 @@ export default function Register() {
 
     return regex.test(name)
   }
-
-  useEffect(() => {
-    if (studentID.value.length >= 10)
-      checkStudentID(studentID.value).then((res) => {
-        setStudentID((prev) => ({
-          ...prev,
-          validation: { status: res.status === "success" ? "ok" : "error", text: res.message },
-        }))
-      })
-  }, [studentID.value])
-
-  useEffect(() => {
-    if (kimlikID.value.length >= 11)
-      checkKimlik(kimlikID.value).then((res) => {
-        setKimlikID((prev) => ({
-          ...prev,
-          validation: { status: res.status === "success" ? "ok" : "error", text: res.message },
-        }))
-      })
-  }, [kimlikID.value])
 
   useEffect(() => {
     if (email.value)
@@ -175,10 +139,7 @@ export default function Register() {
   }, [password2.value, password.value])
 
   const buttonHandler = (): boolean => {
-    if (step === 1)
-      return studentID.validation.status !== "ok" || kimlikID.validation.status !== "ok"
-
-    if (step === 2) return name.validation.status !== "ok" || email.validation.status !== "ok"
+    if (step === 1) return name.validation.status !== "ok" || email.validation.status !== "ok"
 
     return password.validation.status !== "ok" || password2.validation.status !== "ok"
   }
@@ -188,11 +149,6 @@ export default function Register() {
       <p className="header pb-4">Register!</p>
 
       {checkStep(step, 1) ? (
-        <>
-          <Input state={studentID} type="text" setState={setStudentID} required />
-          <Input state={kimlikID} type="text" setState={setKimlikID} required />
-        </>
-      ) : checkStep(step, 2) ? (
         <>
           <Input state={name} type="text" setState={setName} required />
           <Input state={email} type="email" setState={setEmail} required />

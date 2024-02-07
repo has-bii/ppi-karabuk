@@ -12,8 +12,6 @@ import { encrypt } from "./auth"
 type RegisterPayload = {
   name: string
   email: string
-  studentID: string
-  kimlikID: string
   password: string
 }
 
@@ -22,17 +20,13 @@ type Response = AuthResponse<AuthRegisterErrorResponse>
 export default async function register({
   name,
   email,
-  kimlikID,
   password,
-  studentID,
 }: RegisterPayload): Promise<Response> {
   try {
     const user = await prisma.user.create({
       data: {
         name: name.toLowerCase(),
         email: email.toLowerCase(),
-        studentId: studentID,
-        kimlikId: kimlikID,
         password: bcrypt.hashSync(password, 12),
       },
     })
