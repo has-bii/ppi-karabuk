@@ -58,7 +58,7 @@ model Token {
   createdAt  DateTime  @default(now()) @db.Timestamptz()
 
   // Relation
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("tokens")
 }
@@ -77,7 +77,7 @@ model ActivationRequest {
   createdAt DateTime                @default(now()) @db.Timestamptz()
 
   // Relation
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("activation_requests")
 }
@@ -136,7 +136,7 @@ model DatabaseMahasiswa {
   fileIkamet      String        @db.VarChar(255)
 
   // Relation
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @db.Timestamptz()
   updatedAt DateTime @updatedAt @db.Timestamptz()
