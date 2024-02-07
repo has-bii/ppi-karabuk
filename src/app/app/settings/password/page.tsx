@@ -1,7 +1,6 @@
 "use client"
 
 import PageWrapper from "@/components/app/PageWrapper"
-import SettingsPageWrapper from "@/components/app/settings/SettingsPageWrapper"
 import PasswordInput from "@/components/app/settings/changePassword/PasswordInput"
 import { useToast } from "@/context/ToastContext"
 import ChangePassword from "@/service/App/settings/ChangePassword"
