@@ -11,6 +11,7 @@ import { $Enums } from "@prisma/client"
 import getData from "../../../../service/App/settings/ActivationRequest/getData"
 import deleteRequest from "@/service/App/settings/ActivationRequest/deleteRequest"
 import getFileServiceURL from "@/utils/getFileServiceURL"
+import RenderStatus from "@/components/app/ActivationRequest/RenderStatus"
 
 type Data = {
   id: bigint
@@ -174,7 +175,7 @@ export default function Page() {
           <table>
             <thead>
               <tr>
-                <th scope="col">ID</th>
+                <th scope="col">#</th>
                 <th scope="col">Status</th>
                 <th scope="col">File</th>
                 <th scope="col" className="whitespace-nowrap">
@@ -191,10 +192,10 @@ export default function Page() {
                   </td>
                 </tr>
               ) : data.length > 0 ? (
-                data.map((item) => (
+                data.map((item, index) => (
                   <tr key={item.id} className="bg-white border-b">
                     <td scope="row" className="">
-                      {item.id.toString()}
+                      {(index + 1).toString()}
                     </td>
                     <td>
                       <RenderStatus status={item.status} />
@@ -231,19 +232,5 @@ export default function Page() {
         </div>
       </section>
     </SettingsPageWrapper>
-  )
-}
-
-function RenderStatus({ status }: { status: $Enums.ActivationRequestStatus }) {
-  function state(status: $Enums.ActivationRequestStatus): string | undefined {
-    if (status === "APPROVED") return "text-green-400 bg-green-50 border-green-400"
-    if (status === "PENDING") return "text-yellow-400 bg-yellow-50 border-yellow-400"
-    if (status === "REJECTED") return "text-red-400 bg-red-50 border-red-400"
-  }
-
-  return (
-    <span className={`rounded-full border text-sm px-3 py-1 tracking-wide ${state(status)}`}>
-      {status}
-    </span>
   )
 }
