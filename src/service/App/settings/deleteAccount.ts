@@ -5,6 +5,7 @@ import { logout } from "@/service/auth/auth"
 import { Response } from "@/types/response"
 import prisma from "@/lib/prisma"
 import bcrypt from "bcrypt"
+import { existsSync, unlinkSync } from "fs"
 
 export default async function deleteAccount(formData: FormData): Promise<Response> {
   try {
@@ -23,9 +24,19 @@ export default async function deleteAccount(formData: FormData): Promise<Respons
     if (!bcrypt.compareSync(password.toString(), user.password))
       return { status: "error", message: "Password invalid!" }
 
+    const activationRequest = await prisma.activationRequest.findMany({
+      where: { userId: user.id },
+    })
+
+    activationRequest.forEach((item) => {
+      if (existsSync("public" + item.file)) unlinkSync("public" + item.file)
+    })
+
     await prisma.user.delete({ where: { id: session.id } })
 
     await logout()
+
+    if (existsSync("public" + user.image)) unlinkSync("public" + user.image)
 
     return { status: "success", message: "Account has been deleted" }
   } catch (error) {
