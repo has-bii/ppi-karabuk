@@ -5,6 +5,7 @@ export type TToastContext = {
 }
 
 export type ToastData = {
+  id: string
   message: string
   status: ToastStatus
 }

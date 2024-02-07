@@ -5,6 +5,7 @@ import ToastIcon from "@/components/ToastIcon"
 type ToastStatus = "danger" | "error" | "normal" | "success"
 
 type ToastData = {
+  id: string
   message: string
   status: ToastStatus
 }
