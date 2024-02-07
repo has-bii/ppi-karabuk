@@ -3,7 +3,7 @@
 import { SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 
-const secretKey = "secret"
+const secretKey = process.env.SECRET_KEY || "secret"
 const key = new TextEncoder().encode(secretKey)
 
 export async function encrypt(payload: any) {
