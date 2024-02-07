@@ -66,6 +66,7 @@ export default async function Page() {
 
   return (
     <PageWrapper url="/admin" navSideItems={navSide}>
+      <p className="text-2xl text-black font-bold text-left mb-4">Activation Requests</p>
       <TableActivationRequest DATA={data} updateStatus={updateStatus} />
     </PageWrapper>
   )
