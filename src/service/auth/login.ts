@@ -1,10 +1,10 @@
 "use server"
 
 import { AuthLoginErrorResponse, AuthResponse } from "@/types/auth"
-import findUserRecord from "../../utils/auth/findUserRecord"
 import bcrypt from "bcrypt"
 import { encrypt } from "./auth"
 import { cookies } from "next/headers"
+import prisma from "@/lib/prisma"
 
 type Props = {
   email: string
@@ -16,7 +16,7 @@ type Response = AuthResponse<AuthLoginErrorResponse>
 export default async function login({ email, password }: Props): Promise<Response> {
   try {
     // Find User Record
-    const user = await findUserRecord(email.toLowerCase())
+    const user = await prisma.user.findUnique({ where: { email: email.toLowerCase() } })
 
     if (!user)
       return {

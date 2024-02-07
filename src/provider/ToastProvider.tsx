@@ -19,7 +19,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
       setTo(setTimeout(() => setToasts(toasts.slice(1, toasts.length)), 2000))
     }
-  }, [])
+  }, [to, toasts])
 
   useEffect(() => {
     changeHandler()
