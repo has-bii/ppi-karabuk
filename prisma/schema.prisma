@@ -32,8 +32,6 @@ model User {
   id            String    @id @default(uuid())
   name          String    @db.VarChar(255)
   email         String    @unique @db.VarChar(255)
-  studentId     String    @unique @db.VarChar(10)
-  kimlikId      String    @unique @db.VarChar(11)
   role          Role[]    @default([USER])
   isVerified    DateTime? @db.Timestamptz()
   emailVerified DateTime? @db.Timestamptz()
@@ -48,7 +46,6 @@ model User {
   verifyRequests    ActivationRequest[]
   databaseMahasiswa DatabaseMahasiswa[]
 
-  @@unique([email, studentId, kimlikId])
   @@map("users")
 }
 
@@ -131,9 +128,11 @@ model DatabaseMahasiswa {
   department      String        @db.VarChar(255)
   strata          Pendidikan
   tahunKedatangan String        @db.VarChar(4)
+  studentId       String        @unique @db.VarChar(10)
   fileOgrenci     String        @db.VarChar(255)
-  noPaspor        String        @db.VarChar(255)
+  passportId      String        @unique @db.VarChar(255)
   filePaspor      String        @db.VarChar(255)
+  ikametId        String        @unique @db.VarChar(11)
   fileIkamet      String        @db.VarChar(255)
 
   // Relation
