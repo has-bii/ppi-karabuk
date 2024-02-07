@@ -145,51 +145,55 @@ export default function TableActivationRequest({ DATA, updateStatus }: Props) {
             </tr>
           )}
 
-          <tr>
-            <td colSpan={6}>
-              <div className="w-full flex items-center justify-between">
-                <div>
-                  <span className="whitespace-nowrap">Show rows per page</span>
-                  <select
-                    className="border rounded-md ml-2 p-1"
-                    onChange={(e) =>
-                      setPagination((prev) => ({ ...prev, row: parseInt(e.target.value) }))
-                    }
-                    defaultValue={pagination.row}
-                  >
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                  </select>
-                </div>
-
-                {/* Pagination */}
-                <div className="inline-flex gap-6">
-                  <div className="text-neutral-400">
-                    <span className="text-neutral-700 font-semibold">{`${
-                      pagination.start + 1
-                    }-${checkPagination()}`}</span>
-                    {` of ${data.length}`}
+          {data.length > 0 ? (
+            <tr>
+              <td colSpan={6}>
+                <div className="w-full flex items-center justify-between">
+                  <div>
+                    <span className="whitespace-nowrap">Show rows per page</span>
+                    <select
+                      className="border rounded-md ml-2 p-1"
+                      onChange={(e) =>
+                        setPagination((prev) => ({ ...prev, row: parseInt(e.target.value) }))
+                      }
+                      defaultValue={pagination.row}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="25">25</option>
+                    </select>
                   </div>
-                  <button
-                    className="text-neutral-700 disabled:text-neutral-400"
-                    onClick={() => prevPagination()}
-                    disabled={checkPrev()}
-                  >
-                    <FontAwesomeIcon icon={faAngleLeft} />
-                  </button>
-                  <button
-                    className="text-neutral-700 disabled:text-neutral-400"
-                    onClick={() => nextPagination()}
-                    disabled={checkNext()}
-                  >
-                    <FontAwesomeIcon icon={faAngleRight} />
-                  </button>
+
+                  {/* Pagination */}
+                  <div className="inline-flex gap-6">
+                    <div className="text-neutral-400">
+                      <span className="text-neutral-700 font-semibold">{`${
+                        pagination.start + 1
+                      }-${checkPagination()}`}</span>
+                      {` of ${data.length}`}
+                    </div>
+                    <button
+                      className="text-neutral-700 disabled:text-neutral-400"
+                      onClick={() => prevPagination()}
+                      disabled={checkPrev()}
+                    >
+                      <FontAwesomeIcon icon={faAngleLeft} />
+                    </button>
+                    <button
+                      className="text-neutral-700 disabled:text-neutral-400"
+                      onClick={() => nextPagination()}
+                      disabled={checkNext()}
+                    >
+                      <FontAwesomeIcon icon={faAngleRight} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          ) : (
+            ""
+          )}
         </tbody>
       </table>
     </div>
