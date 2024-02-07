@@ -34,11 +34,8 @@ export default function Profile({ userData }: { userData: UserData }) {
     if (form) {
       setUpdateLoading(true)
       updateUserData({
-        id: form.id,
         name: form.name,
         email: form.email,
-        kimlikID: form.kimlikId,
-        studentID: form.studentId,
       })
         .then((res) => {
           pushToast(res.message, res.status)
@@ -180,30 +177,6 @@ export default function Profile({ userData }: { userData: UserData }) {
                 ) : (
                   ""
                 )}
-              </div>
-              <div>
-                <label htmlFor="studentid" className="capitalize text-neutral-400">
-                  Student ID
-                </label>
-                <input
-                  type="text"
-                  id="studentid"
-                  className="block text-lg lowercase border rounded-md px-3 py-1.5 mt-1 w-full"
-                  value={form.studentId}
-                  onChange={(e) => setForm({ ...form, studentId: e.target.value })}
-                />
-              </div>
-              <div>
-                <label htmlFor="kimlikid" className="capitalize text-neutral-400">
-                  Kimlik ID
-                </label>
-                <input
-                  type="text"
-                  id="kimlikid"
-                  className="block text-lg lowercase w-full border rounded-md px-3 py-1.5 mt-1"
-                  value={form.kimlikId}
-                  onChange={(e) => setForm({ ...form, kimlikId: e.target.value })}
-                />
               </div>
             </div>
           </div>

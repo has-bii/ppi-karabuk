@@ -5,22 +5,13 @@ import { changeSession, getSession } from "@/utils/auth/session"
 import { Prisma } from "@prisma/client"
 
 type Args = {
-  id: string
   name: string
   email: string
-  studentID: string
-  kimlikID: string
 }
 
 type Response = { status: "success" | "error"; message: string }
 
-export default async function updateUserData({
-  id,
-  email,
-  kimlikID,
-  name,
-  studentID,
-}: Args): Promise<Response> {
+export default async function updateUserData({ email, name }: Args): Promise<Response> {
   try {
     const session = await getSession()
 
@@ -30,13 +21,11 @@ export default async function updateUserData({
 
     if (!user) return { status: "error", message: "User doesn't exist!" }
 
-    const updated = await prisma.user.update({
+    await prisma.user.update({
       where: { id: session.id },
       data: {
         email: email.toLowerCase(),
         name: name.toLowerCase(),
-        kimlikId: kimlikID,
-        studentId: studentID,
         emailVerified: email.toLowerCase() === session.email ? user.emailVerified : null,
       },
     })

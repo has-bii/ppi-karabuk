@@ -8,8 +8,6 @@ export type UserData = {
   id: string
   name: string
   email: string
-  studentId: string
-  kimlikId: string
   role: Role[]
   isVerified: Date | null
   emailVerified: Date | null
@@ -38,8 +36,6 @@ export default async function getUserData(): Promise<Response> {
         name: true,
         email: true,
         role: true,
-        studentId: true,
-        kimlikId: true,
         isVerified: true,
         emailVerified: true,
         image: true,
