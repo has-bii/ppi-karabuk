@@ -7,10 +7,18 @@ type Props = {
   label: string
   validation?: string
   value: string
+  placeholder: string
   setValue: (value: SetStateAction<string>) => void
 }
 
-export default function PasswordInput({ id, setValue, value, label, validation }: Props) {
+export default function PasswordInput({
+  id,
+  setValue,
+  value,
+  label,
+  validation,
+  placeholder,
+}: Props) {
   const [show, setShow] = useState<boolean>(false)
 
   return (
@@ -24,7 +32,7 @@ export default function PasswordInput({ id, setValue, value, label, validation }
           id={id}
           name={id}
           className="block text-lg w-full placeholder:text-neutral-200"
-          placeholder="Enter your current password"
+          placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           required

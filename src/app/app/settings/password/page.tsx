@@ -47,6 +47,7 @@ export default function Page() {
             value={currentPass}
             setValue={setCurrentPass}
             label="current password"
+            placeholder="Enter current password"
           />
           <PasswordInput
             id="new-password"
@@ -54,6 +55,7 @@ export default function Page() {
             setValue={setPass}
             label="new password"
             validation={val}
+            placeholder="Enter new password"
           />
           <PasswordInput
             id="confirm-password"
@@ -61,6 +63,7 @@ export default function Page() {
             setValue={setPass2}
             label="confirm password"
             validation={val2}
+            placeholder="Enter confirm password"
           />
           <button ref={buttonRef} type="submit" className="hidden"></button>
         </form>
