@@ -117,11 +117,16 @@ export default function Page() {
                 Menggunakan <span className="font-semibold">Ogrenci Belgesi</span>.
               </li>
               <li>
-                Berkas dapat diambil dari <span className="font-semibold">sistem OBS</span> ataupun
-                dari <span className="font-semibold">Ogrenci Isleri</span>.
+                Berkas dapat diambil dari{" "}
+                <span className="font-semibold">sistem OBS, E-Devlet</span> atau{" "}
+                <span className="font-semibold">Ogrenci Isleri</span>.
               </li>
               <li>
                 Maksimal berumur <span className="font-semibold">1 minggu</span>.
+              </li>
+              <li>
+                Hanya dapat mengirim permintaan aktivasi{" "}
+                <span className="font-semibold">satu bulan sekali</span>.
               </li>
             </ul>
           </div>
