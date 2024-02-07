@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma"
 import generateFileName from "@/utils/generateFileName"
 import { getSession } from "@/utils/auth/session"
 import { existsSync, mkdirSync, writeFileSync } from "fs"
+import getDate from "@/utils/getDate"
 
 type Response = {
   status: "success" | "error"
@@ -15,6 +16,22 @@ export default async function activationRequest(formData: FormData): Promise<Res
     const user = await getSession()
 
     if (!user) return { status: "error", message: "User doesn't exist!" }
+
+    const activationRequest = await prisma.activationRequest.findFirst({
+      where: {
+        userId: user.id,
+        status: "PENDING",
+        createdAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+      },
+    })
+
+    if (activationRequest)
+      return {
+        status: "error",
+        message:
+          "Can send new request after " +
+          getDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toString()),
+      }
 
     const file = formData.get("file-input") as File
 
