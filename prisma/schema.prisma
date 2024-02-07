@@ -44,8 +44,9 @@ model User {
   updatedAt DateTime @updatedAt @db.Timestamptz()
 
   // Relations
-  tokens         Token[]
-  verifyRequests ActivationRequest[]
+  tokens            Token[]
+  verifyRequests    ActivationRequest[]
+  databaseMahasiswa DatabaseMahasiswa[]
 
   @@unique([email, studentId, kimlikId])
   @@map("users")
@@ -98,4 +99,48 @@ model Nav {
   navitems Nav[] @relation("NavlistNavitems")
 
   @@map("nav_lists")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum TempatTinggal {
+  APPARTEMENT
+  DORMITORY
+}
+
+enum Pendidikan {
+  TOMER
+  S1
+  S2
+  S3
+}
+
+model DatabaseMahasiswa {
+  id              String        @id @default(uuid())
+  userId          String
+  TTL             DateTime      @db.Date
+  wa              String        @db.VarChar(255)
+  telp            String        @db.VarChar(255)
+  domisili        String        @db.VarChar(255)
+  gender          Gender
+  tempatTinggal   TempatTinggal
+  university      String        @db.VarChar(255)
+  department      String        @db.VarChar(255)
+  strata          Pendidikan
+  tahunKedatangan String        @db.VarChar(4)
+  fileOgrenci     String        @db.VarChar(255)
+  noPaspor        String        @db.VarChar(255)
+  filePaspor      String        @db.VarChar(255)
+  fileIkamet      String        @db.VarChar(255)
+
+  // Relation
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @db.Timestamptz()
+  updatedAt DateTime @updatedAt @db.Timestamptz()
+
+  @@map("DatabaseMahasiswa")
 }
