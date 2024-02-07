@@ -27,7 +27,15 @@ async function updateStatus({ requestId, userId, status }: VerifyParams): Promis
     await checkRoleAndSession()
 
     if (status === "APPROVED") {
-      await prisma.user.update({ where: { id: userId }, data: { isActive: true } })
+      const user = await prisma.user.findUnique({ where: { id: userId } })
+
+      if (!user) return { status: "error", message: "User doesn't exist!" }
+
+      if (!user.role.includes("STUDENT")) user.role.push("STUDENT")
+
+      if (user.role.includes("USER")) user.role.splice(user.role.indexOf("USER"), 1)
+
+      await prisma.user.update({ where: { id: userId }, data: { isActive: true, role: user.role } })
 
       await prisma.activationRequest.update({
         where: { id: requestId },
