@@ -4,11 +4,6 @@ services:
     container_name: PPI-Karabuk
     image: hasbii/ppi-karabuk:latest
     restart: always
-    ports:
-      - 84:3000
-    volumes:
-      - ./data/key:/app/key
-      - ./public/images/profiles:/app/public/images/profiles
     env_file: .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
@@ -16,7 +11,19 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       NEXT_PUBLIC_BLOG_TOKEN: ${NEXT_PUBLIC_BLOG_TOKEN}
       NEXT_PUBLIC_BLOG_API: ${NEXT_PUBLIC_BLOG_API}
-      NODE_ENV: production
+      UPDATE_BLOG_TOKEN: ${UPDATE_BLOG_TOKEN}
+      BASE_URL: ${BASE_URL}
+      NODE_ENV: ${NODE_ENV}
+      EMAIL_EMAIL: ${EMAIL_EMAIL}
+      EMAIL_PASS: ${EMAIL_PASS}
+      NEXT_PUBLIC_IMG_PROVIDER_URL: ${NEXT_PUBLIC_IMG_PROVIDER_URL}
+      BLOG_API: ${BLOG_API}
+      BLOG_TOKEN: ${BLOG_TOKEN}
+      SECRET_KEY: ${SECRET_KEY}
+    ports:
+      - 3030:3000
+    volumes:
+      - ./public:/app/public
     networks:
       - db-network
 
