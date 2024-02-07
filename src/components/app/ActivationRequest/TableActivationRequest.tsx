@@ -75,7 +75,7 @@ export default function TableActivationRequest({ DATA, updateStatus }: Props) {
   }, [pagination.end, data.length])
 
   const checkNext = useCallback((): boolean => {
-    return pagination.end > data.length
+    return pagination.end >= data.length
   }, [pagination.end, data.length])
 
   const checkPrev = useCallback((): boolean => {
