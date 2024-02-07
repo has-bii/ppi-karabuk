@@ -1,7 +1,7 @@
 export type UserSession = {
   id: string
   name: string
-  email: string
+  isActive: boolean
   role: Role[]
   image: string | null
 }

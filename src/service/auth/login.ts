@@ -38,9 +38,9 @@ export default async function login({ email, password }: Props): Promise<Respons
     const session = await encrypt({
       id: user.id,
       name: user.name,
-      email: user.email,
       role: user.role,
       image: user.image,
+      isActive: user.isActive,
     })
 
     cookies().set("session", session, {
