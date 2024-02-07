@@ -3,13 +3,13 @@ import Logo from "../../Logo"
 import NavListApp from "./NavListApp"
 import User from "./User"
 import prisma from "@/lib/prisma"
-import { UserProps } from "@/types/user"
 import { Nav } from "@/types/nav"
+import { UserSession } from "@/types/session"
 
 export const fetchCache = "force-no-store"
 
 type Props = {
-  user: UserProps
+  user: UserSession
 }
 
 export default async function Navbar({ user }: Props) {

@@ -7,11 +7,11 @@ import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useRef, useState } from "react"
 import { useToast } from "@/context/ToastContext"
 import { useRouter } from "next/navigation"
-import { UserProps } from "@/types/user"
 import getFileServiceURL from "@/utils/getFileServiceURL"
 import { logout } from "@/service/auth/auth"
+import { UserSession } from "@/types/session"
 
-export default function User({ user }: { user: UserProps }) {
+export default function User({ user }: { user: UserSession }) {
   const [show, setShow] = useState<boolean>(false)
   const { pushToast } = useToast()
   const router = useRouter()
