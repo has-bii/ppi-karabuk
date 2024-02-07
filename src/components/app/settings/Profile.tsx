@@ -104,7 +104,7 @@ export default function Profile({ userData }: { userData: UserData }) {
               <div>
                 <span className="capitalize text-neutral-400">status</span>
                 <div className="w-full inline-flex gap-4">
-                  {data.isVerified === null ? (
+                  {data.isActive ? (
                     <>
                       <span className="text-lg capitalize">inactive</span>
                       <Link

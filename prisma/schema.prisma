@@ -33,7 +33,7 @@ model User {
   name          String    @db.VarChar(255)
   email         String    @unique @db.VarChar(255)
   role          Role[]    @default([USER])
-  isVerified    DateTime? @db.Timestamptz()
+  isActive      Boolean   @default(false)
   emailVerified DateTime? @db.Timestamptz()
   password      String
   image         String?   @db.VarChar(255)

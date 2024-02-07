@@ -27,7 +27,7 @@ async function updateStatus({ requestId, userId, status }: VerifyParams): Promis
     await checkRoleAndSession()
 
     if (status === "APPROVED") {
-      await prisma.user.update({ where: { id: userId }, data: { isVerified: new Date() } })
+      await prisma.user.update({ where: { id: userId }, data: { isActive: true } })
 
       await prisma.activationRequest.update({
         where: { id: requestId },
@@ -42,7 +42,7 @@ async function updateStatus({ requestId, userId, status }: VerifyParams): Promis
       data: { status: "REJECTED" },
     })
 
-    await prisma.user.update({ where: { id: userId }, data: { isVerified: null } })
+    await prisma.user.update({ where: { id: userId }, data: { isActive: false } })
 
     return { status: "success", message: "Rejected request successfully" }
   } catch (error) {

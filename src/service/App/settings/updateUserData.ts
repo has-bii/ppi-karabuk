@@ -26,7 +26,7 @@ export default async function updateUserData({ email, name }: Args): Promise<Res
       data: {
         email: email.toLowerCase(),
         name: name.toLowerCase(),
-        emailVerified: email.toLowerCase() === session.email ? user.emailVerified : null,
+        emailVerified: email.toLowerCase() === user.email ? user.emailVerified : null,
       },
     })
 

@@ -9,7 +9,7 @@ export type UserData = {
   name: string
   email: string
   role: Role[]
-  isVerified: Date | null
+  isActive: boolean
   emailVerified: Date | null
   image: string | null
 }
@@ -36,7 +36,7 @@ export default async function getUserData(): Promise<Response> {
         name: true,
         email: true,
         role: true,
-        isVerified: true,
+        isActive: true,
         emailVerified: true,
         image: true,
       },
