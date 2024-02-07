@@ -31,22 +31,28 @@ export default function Profile({ userData }: { userData: UserData }) {
 
   // Update Record
   function updateData() {
-    if (form) {
-      setUpdateLoading(true)
-      updateUserData({
-        name: form.name,
-        email: form.email,
-      })
-        .then((res) => {
-          pushToast(res.message, res.status)
+    setUpdateLoading(true)
+    updateUserData({
+      name: form.name,
+      email: form.email,
+    })
+      .then((res) => {
+        pushToast(res.message, res.status)
 
-          if (res.status === "success") setData(form)
-        })
-        .catch(() => {
-          pushToast("Internal server error", "error")
-        })
-        .finally(() => setUpdateLoading(false))
-    }
+        if (res.status === "success") {
+          let temp: UserData = JSON.parse(JSON.stringify(form))
+
+          if (data.email !== form.email) {
+            temp.emailVerified = null
+          }
+          setData(temp)
+          setForm(temp)
+        }
+      })
+      .catch(() => {
+        pushToast("Internal server error", "error")
+      })
+      .finally(() => setUpdateLoading(false))
   }
 
   return (
@@ -134,7 +140,7 @@ export default function Profile({ userData }: { userData: UserData }) {
 
           {/* Details */}
           <div className="border p-4 lg:p-8 rounded-lg mt-4 lg:mt-8">
-            <h6 className="text-xl text-neutral-800 font-semibold capitalize mb-4">details</h6>
+            <h6 className="text-xl text-neutral-800 font-semibold capitalize mb-4">edit profile</h6>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
               <div>
                 <label htmlFor="name" className="capitalize text-neutral-400">
