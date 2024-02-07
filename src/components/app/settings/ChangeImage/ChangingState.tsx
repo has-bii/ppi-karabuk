@@ -1,4 +1,4 @@
-import updateImageProfile from "@/service/App/settings/updateImageProfile"
+import updateImageProfile from "@/service/App/settings/profile/updateImageProfile"
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react"
 import { useToast } from "@/context/ToastContext"
 import Image from "next/image"

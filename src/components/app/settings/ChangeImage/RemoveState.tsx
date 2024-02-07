@@ -1,6 +1,6 @@
 "use client"
 
-import removeProfileImage from "@/service/App/settings/removeProfileImage"
+import removeProfileImage from "@/service/App/settings/profile/removeProfileImage"
 import { Dispatch, SetStateAction, useState } from "react"
 import { useToast } from "@/context/ToastContext"
 import dummy from "@/images/dummy-pp.png"

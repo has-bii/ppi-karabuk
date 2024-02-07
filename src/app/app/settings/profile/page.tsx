@@ -1,5 +1,5 @@
 import Profile from "@/components/app/settings/Profile"
-import getUserData from "@/service/App/settings/getUserData"
+import getUserData from "@/service/App/settings/profile/getUserData"
 
 import { logout } from "@/service/auth/auth"
 import { redirect } from "next/navigation"
