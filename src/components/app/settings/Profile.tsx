@@ -114,7 +114,7 @@ export default function Profile({ userData }: { userData: UserData }) {
                         href="/app/settings/activate"
                         className="bg-white px-2 py-1 border rounded-full text-sm hover:bg-black hover:text-white"
                       >
-                        activate
+                        Send Request
                       </Link>
                     </>
                   ) : (
