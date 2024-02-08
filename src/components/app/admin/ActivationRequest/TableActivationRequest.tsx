@@ -1,20 +1,16 @@
 "use client"
 
 import { ActivationRequestStatus } from "@prisma/client"
-import { useCallback, useEffect, useState } from "react"
+import { useState } from "react"
 import RenderStatus from "./RenderStatus"
 import getFileServiceURL from "@/utils/getFileServiceURL"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faAngleLeft,
-  faAngleRight,
-  faCircleCheck,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons"
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons"
 import { useToast } from "@/context/ToastContext"
 import { VerifyParams } from "@/types/activationrequest"
 import { Response } from "@/types/response"
 import { Pagination } from "@/types/table"
+import TablePagination from "../../TablePagination"
 
 type Props = {
   DATA: {
@@ -54,38 +50,6 @@ export default function TableActivationRequest({ DATA, updateStatus }: Props) {
     }
   }
 
-  function prevPagination() {
-    const check = pagination.start - pagination.row < 0
-
-    setPagination((prev) => ({
-      ...prev,
-      start: check ? 0 : prev.start - prev.row,
-      end: check ? prev.row : prev.end - prev.row,
-    }))
-  }
-
-  function nextPagination() {
-    setPagination((prev) => ({ ...prev, start: prev.start + prev.row, end: prev.end + prev.row }))
-  }
-
-  const checkPagination = useCallback((): number => {
-    if (pagination.end > data.length) return data.length
-
-    return pagination.end
-  }, [pagination.end, data.length])
-
-  const checkNext = useCallback((): boolean => {
-    return pagination.end >= data.length
-  }, [pagination.end, data.length])
-
-  const checkPrev = useCallback((): boolean => {
-    return pagination.start === 0
-  }, [pagination.start])
-
-  useEffect(() => {
-    setPagination((prev) => ({ ...prev, start: prev.start, end: prev.start + prev.row }))
-  }, [pagination.row])
-
   return (
     <div className="table rounded-lg border overflow-hidden">
       <table>
@@ -103,9 +67,7 @@ export default function TableActivationRequest({ DATA, updateStatus }: Props) {
           {data.length > 0 ? (
             data.slice(pagination.start, pagination.end).map((item, index) => (
               <tr key={item.id} className="bg-white border-b">
-                <td scope="row" className="">
-                  {(index + 1).toString()}
-                </td>
+                <td scope="row">{(pagination.start + index + 1).toString()}</td>
                 <td className="whitespace-nowrap capitalize">{item.user.name}</td>
                 <td>
                   <RenderStatus status={item.status} />
@@ -145,55 +107,7 @@ export default function TableActivationRequest({ DATA, updateStatus }: Props) {
             </tr>
           )}
 
-          {data.length > 0 ? (
-            <tr>
-              <td colSpan={6}>
-                <div className="w-full flex items-center justify-between">
-                  <div>
-                    <span className="whitespace-nowrap">Show rows per page</span>
-                    <select
-                      className="border rounded-md ml-2 p-1"
-                      onChange={(e) =>
-                        setPagination((prev) => ({ ...prev, row: parseInt(e.target.value) }))
-                      }
-                      defaultValue={pagination.row}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                      <option value="25">25</option>
-                    </select>
-                  </div>
-
-                  {/* Pagination */}
-                  <div className="inline-flex gap-6">
-                    <div className="text-neutral-400">
-                      <span className="text-neutral-700 font-semibold">{`${
-                        pagination.start + 1
-                      }-${checkPagination()}`}</span>
-                      {` of ${data.length}`}
-                    </div>
-                    <button
-                      className="text-neutral-700 disabled:text-neutral-400"
-                      onClick={() => prevPagination()}
-                      disabled={checkPrev()}
-                    >
-                      <FontAwesomeIcon icon={faAngleLeft} />
-                    </button>
-                    <button
-                      className="text-neutral-700 disabled:text-neutral-400"
-                      onClick={() => nextPagination()}
-                      disabled={checkNext()}
-                    >
-                      <FontAwesomeIcon icon={faAngleRight} />
-                    </button>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          ) : (
-            ""
-          )}
+          <TablePagination data={data} pagination={pagination} setPagination={setPagination} />
         </tbody>
       </table>
     </div>

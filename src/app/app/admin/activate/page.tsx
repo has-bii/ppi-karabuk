@@ -1,7 +1,7 @@
 import PageWrapper from "@/components/app/PageWrapper"
 import { navSide } from "../navSide"
 import prisma from "@/lib/prisma"
-import TableActivationRequest from "@/components/app/ActivationRequest/TableActivationRequest"
+import TableActivationRequest from "@/components/app/admin/ActivationRequest/TableActivationRequest"
 import { getSession } from "@/utils/auth/session"
 import { redirect } from "next/navigation"
 import { Response } from "@/types/response"
