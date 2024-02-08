@@ -14,7 +14,7 @@ ENV NEXT_PUBLIC_IMG_PROVIDER_URL=${NEXT_PUBLIC_IMG_PROVIDER_URL}
 COPY package*.json ./
 RUN npm install 
 COPY . .
-RUN npx prisma generate
+RUN npm run prisma-generate
 RUN npm run build
 
 FROM node:18-alpine
