@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname, useRouter } from "next/navigation"
-import React, { ReactNode } from "react"
+import React, { ReactNode, useEffect } from "react"
 
 type Props = {
   children: ReactNode
@@ -18,6 +18,11 @@ export default function PageWrapper({ children, navSideItems, url }: Props) {
   const pathname = usePathname()
   const router = useRouter()
 
+  useEffect(() => {
+    const activeNavSide = document.getElementById("nav-side-active")
+    activeNavSide?.scrollIntoView()
+  }, [])
+
   return (
     <div className="h-full w-full flex z-0 scrollbar-thin">
       <div className="container bg-white p-8 lg:rounded-xl border lg:my-14 lg:drop-shadow z-0 scrollbar-thin">
@@ -26,8 +31,18 @@ export default function PageWrapper({ children, navSideItems, url }: Props) {
             <ul className="pr-8 flex flex-row lg:flex-col gap-2 mb-4 overflow-x-auto scrollbar-none snap-x">
               {/* NavItem */}
               {navSideItems.map((item, index) => (
-                <li key={index} className="snap-start w-fit lg:w-full">
+                <li
+                  key={index}
+                  className={`w-fit lg:w-full ${
+                    index === 0
+                      ? "snap-start"
+                      : index === navSideItems.length - 1
+                      ? "snap-end"
+                      : "snap-center"
+                  }`}
+                >
                   <div
+                    id={pathname.includes(item.url) ? "nav-side-active" : undefined}
                     className={`capitalize w-full whitespace-nowrap rounded-md px-3 py-1.5 hover:cursor-pointer text-neutral-800 ${
                       pathname.includes(item.url) ? "bg-neutral-100" : ""
                     }`}
