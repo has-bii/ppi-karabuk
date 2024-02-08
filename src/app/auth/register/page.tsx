@@ -9,7 +9,7 @@ import { faArrowRightToBracket, faCircleNotch } from "@fortawesome/free-solid-sv
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useCallback, useEffect, useState } from "react"
 
 export default function Register() {
   const router = useRouter()
@@ -67,20 +67,20 @@ export default function Register() {
       })
   }
 
-  function checkStep(step: number, n: number): boolean {
+  const checkStep = useCallback((step: number, n: number): boolean => {
     return step === n
-  }
+  }, [])
 
-  function checkEmailRegex(email: string) {
+  const checkEmailRegex = useCallback((email: string) => {
     const regex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
     return regex.test(email)
-  }
+  }, [])
 
-  function checkNameRegex(name: string) {
+  const checkNameRegex = useCallback((name: string) => {
     const regex: RegExp = /^[a-zA-Z\s]+$/
 
     return regex.test(name)
-  }
+  }, [])
 
   useEffect(() => {
     if (email.value)
@@ -95,21 +95,23 @@ export default function Register() {
       } else {
         setEmail((prev) => ({ ...prev, validation: { status: "error", text: "Invalid email!" } }))
       }
-  }, [email.value])
+  }, [email.value, checkEmailRegex])
 
   useEffect(() => {
-    if (name.value.length >= 6)
-      if (checkNameRegex(name.value)) {
-        setName((prev) => ({ ...prev, validation: { status: "ok", text: "Name is available" } }))
-      } else {
-        setName((prev) => ({
-          ...prev,
-          validation: { status: "error", text: "Only alphabets are allowed!" },
-        }))
-      }
-    else
-      setName((prev) => ({ ...prev, validation: { status: "error", text: "Min 6 characters!" } }))
-  }, [name.value])
+    if (name.value) {
+      if (name.value.length >= 6)
+        if (checkNameRegex(name.value)) {
+          setName((prev) => ({ ...prev, validation: { status: "ok", text: "Name is available" } }))
+        } else {
+          setName((prev) => ({
+            ...prev,
+            validation: { status: "error", text: "Only alphabets are allowed!" },
+          }))
+        }
+      else
+        setName((prev) => ({ ...prev, validation: { status: "error", text: "Min 6 characters!" } }))
+    }
+  }, [name.value, checkNameRegex])
 
   useEffect(() => {
     if (password.value.length < 8) {
@@ -172,7 +174,7 @@ export default function Register() {
           icon={loading ? faCircleNotch : faArrowRightToBracket}
           className={loading ? "animate-spin" : ""}
         />
-        {checkStep(step, 3) ? "Register" : "Next"}
+        {checkStep(step, 2) ? "Register" : "Next"}
       </button>
       <p className="text-sm text-center text-slate-600 mt-2">
         Already have an account?&nbsp;
