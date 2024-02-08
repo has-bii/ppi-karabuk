@@ -43,7 +43,7 @@ export default async function register({
       },
     })
 
-    cookies().set("ppik_user", token, {
+    cookies().set("session", token, {
       sameSite: "strict",
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       secure: true,
