@@ -6,7 +6,7 @@ import getDate from "@/utils/getDate"
 import { useState } from "react"
 import Image from "next/image"
 import dummyPP from "@/images/dummy-pp.png"
-import UserRole from "./UserRole"
+import UserRole from "../../UserRole"
 import UserStatus from "./UserStatus"
 import { useToast } from "@/context/ToastContext"
 import { Pagination } from "@/types/table"
@@ -66,10 +66,10 @@ export default function UserRolesManagement({ DATA }: Props) {
                 </td>
                 <td className="whitespace-nowrap capitalize">{item.name}</td>
                 <td className="whitespace-nowrap uppercase">
-                  <UserRole role={item.role} />
+                  <UserRole role={item.role} size="sm" />
                 </td>
                 <td className="whitespace-nowrap capitalize">
-                  <UserStatus isActive={item.isActive} />
+                  <UserStatus isActive={item.isActive} size="sm" />
                 </td>
                 <td className="whitespace-nowrap capitalize">
                   {getDate(item.createdAt.toString())}

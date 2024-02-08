@@ -14,6 +14,7 @@ import getFileServiceURL from "@/utils/getFileServiceURL"
 import { UserData } from "@/service/App/settings/profile/getUserData"
 import PageWrapper from "../PageWrapper"
 import { navSide } from "@/app/app/settings/navSideSettings"
+import UserRole from "../UserRole"
 
 export default function Profile({ userData }: { userData: UserData }) {
   const [data, setData] = useState<UserData>(userData)
@@ -128,12 +129,9 @@ export default function Profile({ userData }: { userData: UserData }) {
             {/* Roles */}
             <div>
               <span className="capitalize text-neutral-400">role</span>
-              <input
-                type="text"
-                className="block text-lg capitalize"
-                value={data.role.join(", ").toLowerCase()}
-                readOnly
-              />
+              <div className="block mt-1">
+                <UserRole role={data.role} size="sm" />
+              </div>
             </div>
           </div>
         </div>
