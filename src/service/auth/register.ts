@@ -31,21 +31,17 @@ export default async function register({
       },
     })
 
-    const token = await encrypt({ id: user.id, name: user.name })
-
-    // Create Token
-    await prisma.token.create({
-      data: {
-        userId: user.id,
-        type: "AUTH",
-        value: token,
-        expireDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      },
+    const session = await encrypt({
+      id: user.id,
+      name: user.name,
+      role: user.role,
+      image: user.image,
+      isActive: user.isActive,
     })
 
-    cookies().set("session", token, {
+    cookies().set("session", session, {
       sameSite: "strict",
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 60 * 60 * 1000),
       secure: true,
       httpOnly: true,
     })
