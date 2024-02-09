@@ -117,7 +117,7 @@ enum Pendidikan {
 
 model DatabaseMahasiswa {
   id              String        @id @default(uuid())
-  userId          String
+  userId          String        @unique
   TTL             DateTime      @db.Date
   wa              String        @db.VarChar(255)
   telp            String        @db.VarChar(255)
