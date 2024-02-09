@@ -131,7 +131,7 @@ model DatabaseMahasiswa {
   studentId       String        @unique @db.VarChar(10)
   fileOgrenci     String        @db.VarChar(255)
   passportId      String        @unique @db.VarChar(255)
-  filePaspor      String        @db.VarChar(255)
+  filePassport    String        @db.VarChar(255)
   ikametId        String        @unique @db.VarChar(11)
   fileIkamet      String        @db.VarChar(255)
 
