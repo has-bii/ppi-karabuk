@@ -7,7 +7,7 @@ import ChangePassword from "@/service/App/settings/ChangePassword"
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react"
-import { navSide } from "../navSideSettings"
+import navSideSettings from "../navSideSettings"
 
 export default function Page() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -38,7 +38,7 @@ export default function Page() {
   }
 
   return (
-    <PageWrapper url="/settings" navSideItems={navSide}>
+    <PageWrapper url="/settings" navSideItems={navSideSettings}>
       <div className="border p-4 lg:p-8 rounded-lg">
         <h6 className="text-xl text-neutral-800 font-semibold capitalize mb-4">Change Password</h6>
         <form action={submitHandler} className="w-full lg:w-1/2 flex flex-col gap-4">

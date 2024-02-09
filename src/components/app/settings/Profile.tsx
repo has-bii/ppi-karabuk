@@ -13,8 +13,8 @@ import Link from "next/link"
 import getFileServiceURL from "@/utils/getFileServiceURL"
 import { UserData } from "@/service/App/settings/profile/getUserData"
 import PageWrapper from "../PageWrapper"
-import { navSide } from "@/app/app/settings/navSideSettings"
 import UserRole from "../UserRole"
+import navSideSettings from "@/app/app/settings/navSideSettings"
 
 export default function Profile({ userData }: { userData: UserData }) {
   const [data, setData] = useState<UserData>(userData)
@@ -61,7 +61,7 @@ export default function Profile({ userData }: { userData: UserData }) {
     <>
       <ChangeImage userImage={data.image} modal={modal} setModal={setModal} />
 
-      <PageWrapper url="/settings" navSideItems={navSide}>
+      <PageWrapper url="/settings" navSideItems={navSideSettings}>
         <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-8 p-4 lg:p-8 border rounded-lg">
           {/* Image */}
           <div className="flex flex-col w-full lg:w-fit gap-2 items-center">

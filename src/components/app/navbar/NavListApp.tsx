@@ -82,6 +82,18 @@ export default function NavListApp({ navs, userRole }: Props) {
           setShow={setShow}
           userRole={userRole}
         />
+        <NavItem
+          nav={{
+            id: 96,
+            role: "STUDENT",
+            isActive: true,
+            name: "Student",
+            url: "/student/details",
+            type: "ITEM",
+          }}
+          setShow={setShow}
+          userRole={userRole}
+        />
 
         {navs.map((nav) => (
           <NavItem key={nav.id} nav={nav} userRole={userRole} setShow={setShow} />

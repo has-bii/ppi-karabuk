@@ -1,7 +1,7 @@
 "use client"
 
 import PageWrapper from "@/components/app/PageWrapper"
-import { navSide } from "../navSideSettings"
+import navSideSettings from "../navSideSettings"
 import { useRef } from "react"
 import { useToast } from "@/context/ToastContext"
 import deleteAccount from "@/service/App/settings/deleteAccount"
@@ -30,7 +30,7 @@ export default function Page() {
   }
 
   return (
-    <PageWrapper url="/settings" navSideItems={navSide}>
+    <PageWrapper url="/settings" navSideItems={navSideSettings}>
       <div className="rounded-lg p-4 lg:p-8 border">
         <p className="text-2xl text-red-400 font-semibold mb-2">Delete Account</p>
         <p className="text-neutral-400">Are you sure want to delete this account?</p>

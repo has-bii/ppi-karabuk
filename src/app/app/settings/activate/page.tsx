@@ -12,7 +12,7 @@ import deleteRequest from "@/service/App/settings/ActivationRequest/deleteReques
 import getFileServiceURL from "@/utils/getFileServiceURL"
 import RenderStatus from "@/components/app/admin/ActivationRequest/RenderStatus"
 import PageWrapper from "@/components/app/PageWrapper"
-import { navSide } from "../navSideSettings"
+import navSideSettings from "../navSideSettings"
 
 type Data = {
   id: bigint
@@ -102,7 +102,7 @@ export default function Page() {
   }, [])
 
   return (
-    <PageWrapper url="/settings" navSideItems={navSide}>
+    <PageWrapper url="/settings" navSideItems={navSideSettings}>
       <div className="border p-4 lg:p-8 rounded-lg">
         {/* Upload section */}
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-4 mb-8">

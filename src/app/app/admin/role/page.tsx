@@ -1,7 +1,7 @@
 import PageWrapper from "@/components/app/PageWrapper"
-import { navSide } from "../navSide"
 import prisma from "@/lib/prisma"
 import UserRolesManagement from "@/components/app/admin/RolesManagement/UserRolesManagement"
+import navSideAdmin from "../navSideAdmin"
 
 async function fetchData() {
   try {
@@ -27,7 +27,7 @@ export default async function Page() {
   const data = await fetchData()
 
   return (
-    <PageWrapper url="/admin" navSideItems={navSide}>
+    <PageWrapper url="/admin" navSideItems={navSideAdmin}>
       <p className="text-2xl text-black font-bold text-left mb-4">User Roles Management</p>
       <UserRolesManagement DATA={data} />
     </PageWrapper>

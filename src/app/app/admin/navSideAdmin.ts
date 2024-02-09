@@ -1,8 +1,8 @@
 import { NavSideItems } from "@/components/app/PageWrapper"
 
-const navSide: NavSideItems[] = [
+const navSideAdmin: NavSideItems[] = [
   { url: "/activate", text: "Activation Requests" },
   { url: "/role", text: "Role Management" },
 ]
 
-export { navSide }
+export default navSideAdmin
