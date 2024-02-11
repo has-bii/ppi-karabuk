@@ -5,6 +5,7 @@
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
 /* Track */
@@ -96,7 +97,7 @@
         @apply text-xs text-gray-700 uppercase bg-gray-50;
 
         th {
-          @apply px-6 py-3;
+          @apply px-6 py-3 whitespace-nowrap;
         }
       }
 
@@ -104,7 +105,7 @@
         @apply bg-white border-b;
 
         td {
-          @apply px-6 py-3;
+          @apply px-6 py-3 whitespace-nowrap;
         }
       }
     }
