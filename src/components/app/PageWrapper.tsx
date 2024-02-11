@@ -19,8 +19,10 @@ export default function PageWrapper({ children, navSideItems, url }: Props) {
   const router = useRouter()
 
   useEffect(() => {
-    const activeNavSide = document.getElementById("nav-side-active")
-    activeNavSide?.scrollIntoView()
+    if (window.screen.width < 1024) {
+      const activeNavSide = document.getElementById("nav-side-active")
+      activeNavSide?.scrollIntoView({ behavior: "smooth" })
+    }
   }, [])
 
   return (
