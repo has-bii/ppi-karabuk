@@ -12,6 +12,7 @@ export default async function getData() {
     const data = await prisma.activationRequest.findMany({
       where: { userId: session.id },
       select: { id: true, file: true, status: true, createdAt: true },
+      orderBy: { createdAt: "desc" },
     })
 
     return data
