@@ -176,6 +176,14 @@
       }
     }
   }
+
+  form.form-database {
+    @apply hidden flex-col gap-4;
+
+    &.active {
+      @apply flex;
+    }
+  }
 }
 
 @layer utilities {
