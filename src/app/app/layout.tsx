@@ -5,7 +5,7 @@ import { getSession } from "@/utils/auth/session"
 import { UserSession } from "@/types/session"
 
 export const metadata: Metadata = {
-  title: "App | PPI Karabuk",
+  title: "Dashboard | PPI Karabuk",
 }
 
 export const dynamic = "force-dynamic"
