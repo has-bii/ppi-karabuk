@@ -6,11 +6,10 @@ import getDate from "@/utils/getDate"
 import { useState } from "react"
 import Image from "next/image"
 import dummyPP from "@/images/dummy-pp.png"
-import UserRole from "../../UserRole"
+import UserRole from "../UserRole"
 import UserStatus from "./UserStatus"
-import { useToast } from "@/context/ToastContext"
 import { Pagination } from "@/types/table"
-import TablePagination from "../../TablePagination"
+import TablePagination from "../TablePagination"
 import ChangeRole from "./ChangeRole"
 
 type Props = {
@@ -27,7 +26,6 @@ type Props = {
 export default function UserRolesManagement({ DATA }: Props) {
   const [data, setData] = useState<Props["DATA"]>(DATA)
   const [pagination, setPagination] = useState<Pagination>({ start: 0, end: 10, row: 10 })
-  const { pushToast } = useToast()
 
   return (
     <div className="table rounded-lg border overflow-hidden">
