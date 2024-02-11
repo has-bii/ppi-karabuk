@@ -4,7 +4,7 @@ import { getSession } from "@/utils/auth/session"
 import prisma from "@/lib/prisma"
 import { UserSession } from "@/types/session"
 // import FillDatabase from "@/components/app/student/database/FillDatabase"
-import checkRoleAndSession from "@/utils/checkRoleAndSession"
+import checkRoleGetSession from "@/utils/checkRoleGetSession"
 import Form from "./form"
 
 // Fetch Data
@@ -21,7 +21,7 @@ async function getData() {
 }
 
 export default async function Page() {
-  const session = await checkRoleAndSession("STUDENT")
+  const session = await checkRoleGetSession("STUDENT")
   const data = await getData()
 
   return (

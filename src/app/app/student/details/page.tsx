@@ -1,9 +1,9 @@
 import PageWrapper from "@/components/app/PageWrapper"
 import navSideStudent from "../navSideStudent"
-import checkRoleAndSession from "@/utils/checkRoleAndSession"
+import checkRoleGetSession from "@/utils/checkRoleGetSession"
 
 export default async function Page() {
-  const session = await checkRoleAndSession("STUDENT")
+  const session = await checkRoleGetSession("STUDENT")
 
   return (
     <PageWrapper url="/student" navSideItems={navSideStudent}>

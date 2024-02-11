@@ -24,7 +24,7 @@ async function fetchData() {
 async function updateStatus({ requestId, userId, status }: VerifyParams): Promise<Response> {
   "use server"
   try {
-    await checkRoleAndSession()
+    await checkRoleGetSession()
 
     if (status === "APPROVED") {
       const user = await prisma.user.findUnique({ where: { id: userId } })
@@ -60,7 +60,7 @@ async function updateStatus({ requestId, userId, status }: VerifyParams): Promis
   }
 }
 
-async function checkRoleAndSession() {
+async function checkRoleGetSession() {
   const session = await getSession()
 
   if (!session) redirect("/auth")

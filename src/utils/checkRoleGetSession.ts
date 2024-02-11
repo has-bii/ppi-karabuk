@@ -3,7 +3,7 @@ import { getSession } from "./auth/session"
 import { logout } from "@/service/auth/auth"
 import { redirect } from "next/navigation"
 
-export default async function checkRoleAndSession(role: Role) {
+export default async function checkRoleGetSession(role: Role) {
   const session = await getSession()
 
   if (!session) {
