@@ -2,8 +2,6 @@ import PageWrapper from "@/components/app/PageWrapper"
 import navSideAdmin from "../navSideAdmin"
 import prisma from "@/lib/prisma"
 import TableActivationRequest from "@/components/app/admin/ActivationRequest/TableActivationRequest"
-import { getSession } from "@/utils/auth/session"
-import { redirect } from "next/navigation"
 import { Response } from "@/types/response"
 import { VerifyParams } from "@/types/activationrequest"
 
@@ -24,8 +22,6 @@ async function fetchData() {
 async function updateStatus({ requestId, userId, status }: VerifyParams): Promise<Response> {
   "use server"
   try {
-    await checkRoleGetSession()
-
     if (status === "APPROVED") {
       const user = await prisma.user.findUnique({ where: { id: userId } })
 
@@ -58,14 +54,6 @@ async function updateStatus({ requestId, userId, status }: VerifyParams): Promis
 
     return { status: "error", message: "Internal server error!" }
   }
-}
-
-async function checkRoleGetSession() {
-  const session = await getSession()
-
-  if (!session) redirect("/auth")
-
-  if (!session.role.includes("ADMIN")) redirect("/app")
 }
 
 // Main function

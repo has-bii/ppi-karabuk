@@ -7,11 +7,11 @@ type Props = {
 }
 
 export const metadata: Metadata = {
-  title: "Admin | PPI Karabuk",
+  title: "Student | PPI Karabuk",
 }
 
-export default async function AdminLayout({ children }: Props) {
-  await checkRoleGetSession("ADMIN")
+export default async function StudentLayout({ children }: Props) {
+  await checkRoleGetSession("STUDENT")
 
   return <>{children}</>
 }

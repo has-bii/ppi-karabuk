@@ -6,12 +6,12 @@ import { redirect } from "next/navigation"
 export default async function checkRoleGetSession(role: Role) {
   const session = await getSession()
 
-  if (!session) {
+  if (session === null) {
     await logout()
     redirect("/auth")
   }
 
-  if (!session?.role.includes(role)) redirect("/app")
+  if (!session.role.includes(role)) redirect("/app")
 
   return session
 }

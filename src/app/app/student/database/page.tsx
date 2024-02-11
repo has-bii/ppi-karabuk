@@ -1,10 +1,8 @@
 import PageWrapper from "@/components/app/PageWrapper"
-import navSideStudent from "../navSideStudent"
 import { getSession } from "@/utils/auth/session"
-import prisma from "@/lib/prisma"
+import navSideStudent from "../navSideStudent"
 import { UserSession } from "@/types/session"
-// import FillDatabase from "@/components/app/student/database/FillDatabase"
-import checkRoleGetSession from "@/utils/checkRoleGetSession"
+import prisma from "@/lib/prisma"
 import Form from "./form"
 
 // Fetch Data
@@ -21,7 +19,6 @@ async function getData() {
 }
 
 export default async function Page() {
-  const session = await checkRoleGetSession("STUDENT")
   const data = await getData()
 
   return (

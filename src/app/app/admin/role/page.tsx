@@ -1,7 +1,7 @@
 import PageWrapper from "@/components/app/PageWrapper"
 import prisma from "@/lib/prisma"
-import UserRolesManagement from "@/components/app/admin/RolesManagement/UserRolesManagement"
 import navSideAdmin from "../navSideAdmin"
+import UserRolesManagement from "@/components/app/RolesManagement/UserRolesManagement"
 
 async function fetchData() {
   try {
