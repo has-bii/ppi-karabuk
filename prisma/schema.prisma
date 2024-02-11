@@ -118,7 +118,8 @@ enum Pendidikan {
 model DatabaseMahasiswa {
   id              String        @id @default(uuid())
   userId          String        @unique
-  TTL             DateTime      @db.Date
+  birthPlace      String        @db.VarChar(255)
+  birthDate       DateTime      @db.Date
   wa              String        @db.VarChar(255)
   telp            String        @db.VarChar(255)
   domisili        String        @db.VarChar(255)
@@ -141,5 +142,5 @@ model DatabaseMahasiswa {
   createdAt DateTime @default(now()) @db.Timestamptz()
   updatedAt DateTime @updatedAt @db.Timestamptz()
 
-  @@map("DatabaseMahasiswa")
+  @@map("mahasiswa_databases")
 }
