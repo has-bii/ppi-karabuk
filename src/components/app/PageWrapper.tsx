@@ -26,8 +26,8 @@ export default function PageWrapper({ children, navSideItems, url }: Props) {
   }, [])
 
   return (
-    <div className="h-full w-full flex z-0 scrollbar-thin">
-      <div className="container bg-white p-8 lg:rounded-xl border lg:my-14 lg:drop-shadow z-0 scrollbar-thin">
+    <div className="w-full h-full flex z-0 scrollbar-thin">
+      <div className="container md:my-8 lg:my-14 bg-white p-8 md:rounded-xl border md:drop-shadow z-0 scrollbar-thin">
         <section className="flex flex-col lg:flex-row h-fit lg:h-full static scrollbar-thin">
           <aside className="lg:w-fit w-full h-full">
             <ul className="pr-8 flex flex-row lg:flex-col gap-2 mb-4 overflow-x-auto scrollbar-none snap-x">

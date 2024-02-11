@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 @layer base {
   h1 {
     @apply font-extrabold text-black text-center text-4xl md:text-5xl lg:text-6xl mb-4 md:mb-8 lg:mb-12;
@@ -24,6 +44,7 @@
   }
 }
 
+/* Components start */
 @layer components {
   .toast-container {
     @apply fixed px-4 lg:px-0 top-4 lg:top-6 right-4 z-50 flex flex-col gap-2;
@@ -184,12 +205,13 @@
       @apply flex;
     }
   }
+
+  /* Page Wrapper */
 }
 
+/* Components end */
+
 @layer utilities {
-  .scrollbar-apply {
-    @apply scrollbar-thin scrollbar-track-black/20 scrollbar-thumb-black/70 active:scrollbar-thumb-black;
-  }
 }
 
 .spacing {
@@ -259,5 +281,5 @@ nav.nav-container {
 }
 
 .app-page {
-  @apply w-full text-neutral-800 overflow-y-auto scrollbar-thin scrollbar-track-rounded-lg scrollbar-thumb-rounded-md pb-8 lg:pb-0;
+  @apply w-full text-neutral-800 overflow-y-auto pb-8 lg:pb-0;
 }

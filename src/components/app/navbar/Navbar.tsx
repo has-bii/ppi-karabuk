@@ -16,7 +16,7 @@ export default async function Navbar({ user }: Props) {
   const navs = await fetchData(user.role)
 
   return (
-    <nav className="w-full flex flex-row items-center gap-14 px-4 py-4 lg:px-8 lg:py-4 border-b bg-white drop-shadow z-20">
+    <nav className="fixed top-0 left-0 w-full flex flex-row items-center gap-14 px-4 py-4 lg:px-8 lg:py-4 border-b bg-white drop-shadow z-20">
       <div className="hidden lg:block">
         <Logo />
       </div>
