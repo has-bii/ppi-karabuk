@@ -10,7 +10,7 @@ import getDate from "@/utils/getDate"
 import getFileServiceURL from "@/utils/getFileServiceURL"
 import { $Enums } from "@prisma/client"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 type Props = {
   dataProp:
@@ -48,16 +48,23 @@ type Props = {
 }
 
 export default function TableMahasiswaDatabase({ dataProp }: Props) {
-  const [data, SetData] = useState<Props["dataProp"]>(dataProp)
+  const [data, setData] = useState<Props["dataProp"]>(dataProp)
   const { pushToast } = useToast()
 
   useEffect(() => {
     if (!dataProp) pushToast("Failed to fetch Data!", "error")
   }, [dataProp, pushToast])
 
+  const filterByName = useCallback(
+    (name: string) => {
+      setData(dataProp.filter((item) => item.user.name.includes(name)))
+    },
+    [dataProp]
+  )
+
   return (
     <>
-      <SearchByName dataProp={dataProp} setData={SetData} />
+      <SearchByName dataProp={dataProp} setData={setData} func={filterByName} />
       <TableComponent
         columns={[
           "student",
