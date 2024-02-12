@@ -1,7 +1,7 @@
 import PageWrapper from "@/components/app/PageWrapper"
 import prisma from "@/lib/prisma"
 import navSideAdmin from "../navSideAdmin"
-import UserRolesManagement from "@/components/app/RolesManagement/UserRolesManagement"
+import Table from "./table"
 
 async function fetchData() {
   try {
@@ -13,6 +13,7 @@ async function fetchData() {
         image: true,
         isActive: true,
         createdAt: true,
+        email: true,
       },
     })
 
@@ -29,7 +30,7 @@ export default async function Page() {
   return (
     <PageWrapper url="/admin" navSideItems={navSideAdmin}>
       <p className="text-2xl text-black font-bold text-left mb-6">User Roles Management</p>
-      <UserRolesManagement DATA={data} />
+      <Table Data={data} />
     </PageWrapper>
   )
 }

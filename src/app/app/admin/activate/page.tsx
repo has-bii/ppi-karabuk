@@ -1,9 +1,9 @@
 import PageWrapper from "@/components/app/PageWrapper"
 import navSideAdmin from "../navSideAdmin"
 import prisma from "@/lib/prisma"
-import TableActivationRequest from "@/components/app/admin/ActivationRequest/TableActivationRequest"
 import { Response } from "@/types/response"
 import { VerifyParams } from "@/types/activationrequest"
+import Table from "./table"
 
 // Fetch Data
 async function fetchData() {
@@ -63,7 +63,7 @@ export default async function Page() {
   return (
     <PageWrapper url="/admin" navSideItems={navSideAdmin}>
       <p className="text-2xl text-black font-bold text-left mb-6">Activation Requests</p>
-      <TableActivationRequest DATA={data} updateStatus={updateStatus} />
+      <Table DATA={data} updateStatus={updateStatus} />
     </PageWrapper>
   )
 }

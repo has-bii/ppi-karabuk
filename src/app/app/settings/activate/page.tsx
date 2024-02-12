@@ -10,7 +10,7 @@ import { $Enums } from "@prisma/client"
 import getData from "../../../../service/App/settings/ActivationRequest/getData"
 import deleteRequest from "@/service/App/settings/ActivationRequest/deleteRequest"
 import getFileServiceURL from "@/utils/getFileServiceURL"
-import RenderStatus from "@/components/app/admin/ActivationRequest/RenderStatus"
+import RenderStatus from "@/components/app/RenderStatus"
 import PageWrapper from "@/components/app/PageWrapper"
 import navSideSettings from "../navSideSettings"
 

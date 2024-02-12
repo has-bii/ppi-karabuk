@@ -1,7 +1,6 @@
 "use client"
 
 import departments from "@/json/departements.json"
-import FormFile from "@/components/app/student/database/FormFile"
 import SubmitButton from "./SubmitButton"
 import { onAction } from "./action"
 import { useFormState } from "react-dom"
@@ -11,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { $Enums } from "@prisma/client"
 import getBirthDate from "@/utils/getBirthDate"
 import getFileServiceURL from "@/utils/getFileServiceURL"
+import FormFile from "./FormFile"
 
 type Props = {
   data: {

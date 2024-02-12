@@ -102,13 +102,18 @@
       }
 
       tbody > tr {
-        @apply bg-white border-b;
+        @apply bg-white;
 
         td {
           @apply px-6 py-3 whitespace-nowrap;
         }
       }
     }
+  }
+
+  th,
+  td {
+    @apply px-6 py-3 whitespace-nowrap;
   }
 
   .badge {

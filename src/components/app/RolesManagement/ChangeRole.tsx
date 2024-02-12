@@ -15,9 +15,10 @@ type Props = {
 type Data = {
   id: string
   name: string
-  image: string | null
+  email: string
   role: $Enums.Role[]
   isActive: boolean
+  image: string | null
   createdAt: Date
 }
 
@@ -60,14 +61,14 @@ export default function ChangeRole({ id, role, setData }: Props) {
         <FontAwesomeIcon icon={faUserPen} />
       </div>
 
-      <div className="p-3 bg-white border border-black rounded-lg absolute top-1/2 -translate-y-1/2 right-0 hidden group-hover:block w-full">
-        <form action={submitHandler}>
+      <div className="p-3 bg-white border border-black rounded-lg absolute top-1/2 -translate-y-1/2 right-0 hidden group-hover:block w-fit">
+        <form action={submitHandler} className="flex flex-row gap-2 items-center justify-center">
           <input type="text" name="input-id" id="id" value={id} readOnly className="hidden" />
           <label className="block">
             <input
               type="checkbox"
               name="input-student"
-              className="mr-2"
+              className="mr-1"
               checked={checkRole(editRole, "STUDENT")}
               onChange={() => changeHandler(editRole, "STUDENT")}
             />
@@ -77,7 +78,7 @@ export default function ChangeRole({ id, role, setData }: Props) {
             <input
               type="checkbox"
               name="input-user"
-              className="mr-2"
+              className="mr-1"
               checked={checkRole(editRole, "USER")}
               onChange={() => changeHandler(editRole, "USER")}
             />
@@ -87,7 +88,7 @@ export default function ChangeRole({ id, role, setData }: Props) {
             <input
               type="checkbox"
               name="input-admin"
-              className="mr-2"
+              className="mr-1"
               checked={checkRole(editRole, "ADMIN")}
               onChange={() => changeHandler(editRole, "ADMIN")}
             />
@@ -106,7 +107,7 @@ function SubmitButton() {
   return (
     <button
       type="submit"
-      className="bg-blue-400 px-3 py-1 text-sm rounded text-white w-full mt-2 inline-flex gap-2 items-center justify-center"
+      className="bg-blue-400 px-3 py-1 text-sm rounded text-white w-full inline-flex gap-2 items-center justify-center"
       disabled={pending}
     >
       Apply
