@@ -176,64 +176,66 @@ export default function Page() {
 
       {/* Table */}
 
-      <div className="table mt-4 rounded-md border overflow-hidden">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Status</th>
-              <th scope="col">File</th>
-              <th scope="col" className="whitespace-nowrap">
-                Submit Time
-              </th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr className="bg-white border-b">
-                <td colSpan={5}>
-                  <div className="bg-neutral-200 animate-pulse w-full h-6 rounded"></div>
-                </td>
+      <div className="max-w-full overflow-x-auto md:scrollbar-none md:hover:scrollbar-thin rounded-lg border mt-4">
+        <div className="table overflow-hidden">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Status</th>
+                <th scope="col">File</th>
+                <th scope="col" className="whitespace-nowrap">
+                  Submit Time
+                </th>
+                <th scope="col"></th>
               </tr>
-            ) : data.length > 0 ? (
-              data.map((item, index) => (
-                <tr key={item.id} className="bg-white border-b">
-                  <td scope="row" className="">
-                    {(index + 1).toString()}
-                  </td>
-                  <td>
-                    <RenderStatus status={item.status} />
-                  </td>
-                  <td>
-                    <button
-                      className="bg-black px-2 py-1 rounded-md text-white"
-                      onClick={() => {
-                        window.open(getFileServiceURL(item.file), "_blank")
-                      }}
-                    >
-                      Open file
-                    </button>
-                  </td>
-                  <td>{item.createdAt.toLocaleString()}</td>
-                  <td>
-                    <button
-                      className="inline-flex gap-2 items-center bg-red-400 px-2 py-1 text-white rounded-md"
-                      onClick={() => deleteData(item.id)}
-                    >
-                      Delete
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr className="bg-white border-b">
+                  <td colSpan={5}>
+                    <div className="bg-neutral-200 animate-pulse w-full h-6 rounded"></div>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr className="text-center">
-                <td colSpan={5}>There is no data</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : data.length > 0 ? (
+                data.map((item, index) => (
+                  <tr key={item.id} className="bg-white border-b">
+                    <td scope="row" className="">
+                      {(index + 1).toString()}
+                    </td>
+                    <td>
+                      <RenderStatus status={item.status} />
+                    </td>
+                    <td>
+                      <button
+                        className="bg-black px-2 py-1 rounded-md text-white"
+                        onClick={() => {
+                          window.open(getFileServiceURL(item.file), "_blank")
+                        }}
+                      >
+                        Open file
+                      </button>
+                    </td>
+                    <td>{item.createdAt.toLocaleString()}</td>
+                    <td>
+                      <button
+                        className="inline-flex gap-2 items-center bg-red-400 px-2 py-1 text-white rounded-md"
+                        onClick={() => deleteData(item.id)}
+                      >
+                        Delete
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="text-center">
+                  <td colSpan={5}>There is no data</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </PageWrapper>
   )
