@@ -10,7 +10,7 @@ export default function Nav() {
 
         <Navlist />
 
-        <Link href="/auth" className="button hidden lg:block">
+        <Link href="app.ppi-karabuk.com" className="button hidden lg:block">
           login
         </Link>
       </div>
